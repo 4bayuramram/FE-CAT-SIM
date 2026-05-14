@@ -1,0 +1,83 @@
+const paket1 = {
+  id: 1,
+  nama: "Paket 1 TWK",
+  questions: [
+    {
+      paket: 1,
+      kategori: "TWK",
+      nomor: 1,
+      soal: "Dasar negara Indonesia adalah ...",
+      pilihan: {
+        a: "UUD 1945",
+        b: "Pancasila",
+        c: "NKRI",
+        d: "Bhinneka Tunggal Ika",
+        e: "Tap MPR",
+      },
+      jawabanBenar: "b",
+      poin: 10,
+    },
+    {
+      paket: 1,
+      kategori: "TWK",
+      nomor: 2,
+      soal: "Lambang sila ke-3 Pancasila adalah ...",
+      pilihan: {
+        a: "Pohon Beringin",
+        b: "Bintang",
+        c: "Rantai",
+        d: "Kepala Banteng",
+        e: "Padi dan Kapas",
+      },
+      jawabanBenar: "a",
+      poin: 10,
+    },
+    {
+      paket: 1,
+      kategori: "TWK",
+      nomor: 3,
+      soal: "Semboyan bangsa Indonesia adalah ...",
+      pilihan: {
+        a: "Tut Wuri Handayani",
+        b: "Bhinneka Tunggal Ika",
+        c: "Garuda Pancasila",
+        d: "Merdeka atau Mati",
+        e: "NKRI Harga Mati",
+      },
+      jawabanBenar: "b",
+      poin: 10,
+    },
+    {
+      paket: 1,
+      kategori: "TWK",
+      nomor: 4,
+      soal: "Bentuk negara Indonesia adalah ...",
+      pilihan: {
+        a: "Kerajaan",
+        b: "Federasi",
+        c: "Kesatuan",
+        d: "Konfederasi",
+        e: "Dominion",
+      },
+      jawabanBenar: "c",
+      poin: 10,
+    },
+    {
+      paket: 1,
+      kategori: "TWK",
+      nomor: 5,
+      soal: "UUD 1945 pertama kali disahkan pada tanggal ...",
+      pilihan: {
+        a: "1 Juni 1945",
+        b: "17 Agustus 1945",
+        c: "18 Agustus 1945",
+        d: "20 Mei 1945",
+        e: "10 November 1945",
+      },
+      jawabanBenar: "c",
+      poin: 10,
+    },
+  ],
+};
+
+export default paket1;
