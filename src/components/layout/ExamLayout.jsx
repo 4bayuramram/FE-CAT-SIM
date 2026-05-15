@@ -1,7 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
-import Topbar from "./Topbar";
+import ExamTopbar from "./ExamTopbar";
+import TimerPanel from "./TimerPanel";
+
 import Sidebar from "./Sidebar";
 import BottomNav from "./Bottomnav";
 
@@ -16,9 +18,10 @@ export default function ExamLayout() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      <Topbar />
+      <ExamTopbar />
+      <TimerPanel /> {/* floating */}
 
-      <div className="flex pt-16">
+      <div className="flex pt-8">
         <Sidebar />
 
         <main className="flex-1 md:ml-72 p-3 pb-20 md:pb-4">
@@ -50,7 +53,6 @@ export default function ExamLayout() {
           </div>
         </main>
       </div>
-
       <BottomNav mobileView={mobileView} setMobileView={setMobileView} />
     </div>
   );
