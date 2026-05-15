@@ -50,12 +50,29 @@ export default function QuestionCard() {
   };
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl border shadow-sm font-sans leading-relaxed">
+    <div className="bg-white p-6 md:p-8 rounded-2xl border shadow-sm ">
+      {/* QUESTION HEADER */}
+      <div className="mb-6 border-b pb-4">
+        <div className="text-[18px] text-[#000] font-bold mb-2">
+          Soal {question.nomor} dari 110
+        </div>
+
+        <div className="text-lg font-bold text-[#00467f]">
+          {question.kategori}
+        </div>
+
+        <div className="text-sm text-slate-600 mt-1 capitalize">
+          Topic: {question.topic || "-"}
+        </div>
+      </div>
+
       {/* QUESTION */}
-      <p className="text-lg md:text-xl text-slate-800 mb-8">{question.soal}</p>
+      <p className="text-lg md:text-xl text-slate-800 mb-8 font-times leading-relaxed">
+        {question.soal}
+      </p>
 
       {/* CHOICES */}
-      <div className="space-y-3">
+      <div className="space-y-3 font-times leading-relaxed">
         {Object.entries(question.pilihan).map(([key, val]) => {
           const selected = isSelected(key);
 
