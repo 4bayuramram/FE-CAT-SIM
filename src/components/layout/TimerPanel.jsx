@@ -15,7 +15,7 @@ export default function TimerPanel() {
   const remainingMinutes = Math.floor(remaining / 1000 / 60);
 
   // warna berubah jika <= 15 menit
-  const barColor = remainingMinutes <= 15 ? "#ba1a1a" : "#00467f";
+  const barColor = remainingMinutes <= 10 ? "#ba1a1a" : "#00467f";
 
   const format = (ms) => {
     const total = Math.floor(ms / 1000);

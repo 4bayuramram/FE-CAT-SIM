@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setAnswer, setCurrentIndex } from "../../features/exam/examSlice";
 import { navigationEngine } from "../../engine/navigationEngine";
+import QuestionTable from "./QuestionTable";
+import QuestionSequence from "./QuestionSequence";
 
 export default function QuestionCard() {
   const dispatch = useDispatch();
@@ -33,7 +35,6 @@ export default function QuestionCard() {
       currentIndex,
       total: session.questions.length,
     });
-
     dispatch(setCurrentIndex(nextIndex));
   };
 
@@ -41,20 +42,52 @@ export default function QuestionCard() {
     const prevIndex = navigationEngine.prevIndex({
       currentIndex,
     });
-
     dispatch(setCurrentIndex(prevIndex));
   };
 
-  const isSelected = (key) => {
-    return answers?.[question.nomor] === key;
+  const isSelected = (key) => answers?.[question.nomor] === key;
+
+  const renderQuestionContent = () => {
+    // Soal teks biasa
+    if (!question.type) {
+      return (
+        <p
+          className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
+          style={{ lineHeight: "1.8" }}
+        >
+          {question.soal}
+        </p>
+      );
+    }
+
+    // Soal deret / sequence
+    if (question.type === "sequence") {
+      return <QuestionSequence data={question.soal} />;
+    }
+
+    // Soal tabel
+    if (question.type === "table") {
+      return <QuestionTable table={question.table} />;
+    }
+
+    // Soal tambahan pertanyaan jika ada
+    if (question.pertanyaan) {
+      return (
+        <p className="text-lg text-slate-800 font-times text-justify mt-4 mb-6">
+          {question.pertanyaan}
+        </p>
+      );
+    }
+
+    return null;
   };
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl border shadow-sm ">
-      {/* QUESTION HEADER */}
+    <div className="bg-white p-6 md:p-8 rounded-2xl border shadow-sm">
+      {/* HEADER */}
       <div className="mb-6 border-b pb-4">
-        <div className="text-[18px] text-[#000] font-bold mb-2">
-          Soal {question.nomor} dari 110
+        <div className="text-[18px] text-black font-bold mb-2">
+          Soal {question.nomor} dari {session.questions.length}
         </div>
 
         <div className="text-lg font-bold text-[#00467f]">
@@ -66,13 +99,11 @@ export default function QuestionCard() {
         </div>
       </div>
 
-      {/* QUESTION */}
-      <p className="text-lg md:text-xl text-slate-800 mb-8 font-times leading-relaxed">
-        {question.soal}
-      </p>
+      {/* CONTENT */}
+      {renderQuestionContent()}
 
       {/* CHOICES */}
-      <div className="space-y-3 font-times leading-relaxed">
+      <div className="space-y-3 font-times">
         {Object.entries(question.pilihan).map(([key, val]) => {
           const selected = isSelected(key);
 
@@ -83,7 +114,6 @@ export default function QuestionCard() {
               className={`
                 flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer
                 transition-all duration-200
-
                 ${
                   selected
                     ? "bg-blue-50 border-[#00467f]"
