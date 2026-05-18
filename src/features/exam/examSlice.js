@@ -25,7 +25,7 @@ const examSlice = createSlice({
   name: "exam",
   initialState,
   reducers: {
-    // rule of session
+    //memasukkan/mensinkronkan seluruh data session ujian ke Redux state
     setSession(state, action) {
       state.session = action.payload;
       state.currentIndex = action.payload.currentIndex;
@@ -34,6 +34,7 @@ const examSlice = createSlice({
       state.status = action.payload.status;
     },
 
+    //singkroniasai redux dengan sesi terbaru
     syncSession(state, action) {
       const session = action.payload;
       state.session = session;
@@ -41,7 +42,7 @@ const examSlice = createSlice({
       state.answers = session.answers;
       state.flagged = session.flagged;
     },
-    
+
     //rule of current index
     setCurrentIndex(state, action) {
       state.currentIndex = action.payload;
@@ -50,7 +51,7 @@ const examSlice = createSlice({
       }
     },
 
-    //rule of user answer
+    //menyimpan jawaban user ke state
     setAnswer(state, action) {
       const { questionNumber, answer } = action.payload;
 
@@ -61,7 +62,7 @@ const examSlice = createSlice({
       }
     },
 
-    // rule of mark question
+    // menandai dan cancel soal yang dianggap ragu
     toggleFlag(state, action) {
       const q = action.payload;
 
@@ -72,7 +73,7 @@ const examSlice = createSlice({
       }
     },
 
-    //rule of exam status
+    // mengubah status ujian dan memastikan Redux + session tetap sama.
     setStatus(state, action) {
       state.status = action.payload;
 
@@ -81,18 +82,20 @@ const examSlice = createSlice({
       }
     },
 
-    //rule of time remaining 
+    // menyimpan dan menampilkan sisa waktu ujian di UI.
     setRemainingTime(state, action) {
       state.remainingTime = action.payload;
     },
 
-    
+    //mengembalikan state ujian ke kondisi awal (reset total)
     resetExam() {
       return initialState;
     },
   },
 });
 
+
+//membuat fungsi Redux bisa digunakan di UI
 export const {
   setSession,
   syncSession,
@@ -105,3 +108,4 @@ export const {
 } = examSlice.actions;
 
 export default examSlice.reducer;
+//mengirim reducer agar Redux store bisa menggunakan state exam
