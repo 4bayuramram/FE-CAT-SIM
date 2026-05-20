@@ -3,14 +3,17 @@ import Home from "../pages/home/Home";
 import Navbar from "../components/home/Navbar";
 import FooterSection from "../components/home/FooterSection";
 
+
 export default function HomePage() {
   return (
     <>
-      {/* Global Navbar */}
+      {/*  Navbar */}
       <Navbar />
       <Routes>
-        <Route path="/home-cat" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        
       </Routes>
+      {/* footer  */}
       <FooterSection />
     </>
   );

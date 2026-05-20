@@ -1,31 +1,36 @@
-
 import { useState } from "react";
 
 const NAV_LINKS = [
   { label: "Home", href: "/home-cat", active: true },
-  { label: "paket", href: "/paket" },
-  { label: "pembahasan", href: "/pembahasan" },
+  { label: "Paket", href: "/paket" },
+  { label: "Pembahasan", href: "/pembahasan" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop h-16 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-[#12345b] shadow-sm font-serif text-white">
+      <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop h-24 flex items-center justify-between">
         {/* LEFT / LOGO */}
-        <div className="font-bold text-blue-600 text-xl">SIM-CAT</div>
+        <div className="flex items-center">
+          <img
+            src="/sim-cat.png"
+            alt="SIM-CAT"
+            className="h-16 w-auto object-contain"
+          />
+        </div>
 
         {/* DESKTOP MENU */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8 ml-auto">
           {NAV_LINKS.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className={`text-sm font-medium transition ${
+              className={`text-lg transition ${
                 item.active
-                  ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                  : "text-gray-600 hover:text-blue-600"
+                  ? "border-b-2 border-white pb-1"
+                  : "hover:text-gray-300"
               }`}
             >
               {item.label}
@@ -34,26 +39,26 @@ export default function Navbar() {
         </div>
 
         {/* RIGHT ACTIONS */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3 ml-8">
           <a
             href="/login"
-            className="px-4 py-2 text-blue-600 hover:bg-gray-100 rounded-lg text-sm"
+            className="text-white text-lg transition hover:text-gray-300"
           >
             Masuk
           </a>
 
           <a
             href="/register"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+            className="px-5 py-2 text-white border border-white bg-transparent hover:bg-white hover:text-[#12345b] rounded-lg text-lg transition"
           >
-            Daftar
+            Daftar Sekarang
           </a>
         </div>
 
         {/* MOBILE BUTTON */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+          className="md:hidden p-2 rounded-lg text-white hover:text-gray-300"
           aria-label="Toggle menu"
         >
           ☰
@@ -62,30 +67,30 @@ export default function Navbar() {
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="md:hidden border-t border-gray-200 bg-white">
+        <div className="md:hidden border-t border-white bg-[#12345b] font-serif text-white">
           <div className="px-4 py-3 flex flex-col gap-3">
             {NAV_LINKS.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 text-sm"
+                className="text-lg hover:text-gray-300"
                 onClick={() => setOpen(false)}
               >
                 {item.label}
               </a>
             ))}
 
-            <div className="flex flex-col gap-2 pt-2 border-t">
+            <div className="flex flex-col gap-2 pt-2 border-t border-white">
               <a
                 href="/login"
-                className="px-4 py-2 text-center text-blue-600 border rounded-lg"
+                className="px-4 py-2 text-center text-white border border-white rounded-lg text-lg hover:bg-white hover:text-[#12345b]"
               >
                 Masuk
               </a>
 
               <a
                 href="/register"
-                className="px-4 py-2 text-center bg-blue-600 text-white rounded-lg"
+                className="px-4 py-2 text-center text-white border border-white rounded-lg text-lg hover:bg-white hover:text-[#12345b]"
               >
                 Daftar Sekarang
               </a>

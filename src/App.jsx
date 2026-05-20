@@ -1,16 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import BasePage from "./routes/BasePage";
-import Home from "./routes/Home";
+import TestPage from "./routes/TestPage";
+import HomePage from "./routes/HomePage";
+import NotFound from "./pages/home/NotFound";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Route Home */}
-        <Route path="/*" element={<Home />} />
+        <Route path="/home" element={<HomePage />} />
+        {/* Route non ujian */}
+        <Route path="/*" element={<NotFound />} />
 
-        {/* Route lainnya */}
-        <Route path="/*" element={<BasePage />} />
+        {/* Route khusus ujian*/}
+        <Route path="/exam-page/*" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
   );
