@@ -6,6 +6,10 @@ export default {
     extend: {
       fontFamily: {
         times: ['"Times New Roman"', "serif"],
+
+        
+        merriweather: ["Merriweather", "serif"],
+        handgloves: ["Handgloves", "cursive"],
       },
     },
   },

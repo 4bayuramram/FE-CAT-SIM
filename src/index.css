@@ -7,3 +7,10 @@
     font-family: "Inter", sans-serif;
   }
 }
+
+@font-face {
+  font-family: "Handgloves";
+  src: url("/src/assets/fonts/Handgloves.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
