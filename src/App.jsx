@@ -7,7 +7,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/home/*" element={<HomePage />} />
         {/* Route non ujian */}
         <Route path="/*" element={<NotFound />} />
 

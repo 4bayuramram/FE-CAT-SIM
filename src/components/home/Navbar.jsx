@@ -1,13 +1,17 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/home-cat", active: true },
-  { label: "Paket", href: "/paket" },
-  { label: "Pembahasan", href: "/pembahasan" },
+  { label: "Home", href: "/home" },
+  { label: "Materi", href: "/home/materi" },
+  { label: "Simulasi", href: "/home/simulasi" },
+  { label: "Pembahasan", href: "/home/pembahasan" },
+  { label: "Try-Out", href: "/home/try-out" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation(); // hook untuk dapatkan path saat ini
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#12345b] shadow-sm font-serif text-white">
@@ -17,25 +21,28 @@ export default function Navbar() {
           <img
             src="/sim-cat.png"
             alt="SIM-CAT"
-            className="h-16 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
         </div>
 
         {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center gap-8 ml-auto">
-          {NAV_LINKS.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={`text-lg transition ${
-                item.active
-                  ? "border-b-2 border-white pb-1"
-                  : "hover:text-gray-300"
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((item) => {
+            const isActive = location.pathname === item.href; // cek halaman aktif
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`text-lg transition ${
+                  isActive
+                    ? "border-b-2 border-white pb-1"
+                    : "hover:text-gray-300"
+                }`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* RIGHT ACTIONS */}
@@ -69,16 +76,23 @@ export default function Navbar() {
       {open && (
         <div className="md:hidden border-t border-white bg-[#12345b] font-serif text-white">
           <div className="px-4 py-3 flex flex-col gap-3">
-            {NAV_LINKS.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-lg hover:text-gray-300"
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((item) => {
+              const isActive = location.pathname === item.href;
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`text-lg ${
+                    isActive
+                      ? "border-b-2 border-white pb-1"
+                      : "hover:text-gray-300"
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
 
             <div className="flex flex-col gap-2 pt-2 border-t border-white">
               <a
