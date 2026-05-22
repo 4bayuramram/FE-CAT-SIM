@@ -60,7 +60,7 @@ export default function BottomNav({ mobileView, setMobileView }) {
   ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#12345b] border-t z-50">
       <div className="flex justify-around items-center py-2">
         {menus.map((menu) => {
           const active = mobileView === menu.key;
@@ -71,13 +71,13 @@ export default function BottomNav({ mobileView, setMobileView }) {
               onClick={() => setMobileView(menu.key)}
               className="flex flex-col items-center justify-center w-full py-1"
             >
-              <div className={active ? "text-blue-600" : "text-slate-400"}>
+              <div className={active ? "text-white" : "text-slate-400"}>
                 {menu.icon}
               </div>
 
               <span
                 className={`text-[11px] mt-1 ${
-                  active ? "text-blue-600 font-semibold" : "text-slate-400"
+                  active ? "text-white font-semibold" : "text-slate-400"
                 }`}
               >
                 {menu.label}

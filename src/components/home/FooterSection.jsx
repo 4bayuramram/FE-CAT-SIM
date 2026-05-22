@@ -22,9 +22,8 @@ export default function FooterSection() {
 
             {/* DESCRIPTION */}
             <p className="text-gray-400 leading-relaxed text-sm sm:text-base max-w-md mx-auto lg:mx-0">
-              Platform simulasi CAT CPNS terbaik di Indonesia. Memberikan
-              pengalaman belajar yang modern, akurat, dan efektif untuk masa
-              depan Anda.
+              Platform yang membantu kamu belajar dan beradaptasi secara optimal
+              dengan ujian komputer SKD CPNS.
             </p>
 
             {/* SOCIAL ICONS */}

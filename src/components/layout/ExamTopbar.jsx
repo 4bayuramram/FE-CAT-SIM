@@ -11,7 +11,7 @@ export default function ExamTopbar() {
     return text
       .trim()
       .split(" ")
-      .slice(0, 3) // ambil maksimal 3 kata saja
+      .slice(0, 3)
       .map((word) => word[0])
       .join("")
       .toUpperCase();
@@ -19,27 +19,58 @@ export default function ExamTopbar() {
 
   // grouping per kategori
   const kategoriMap = session.questions.reduce((acc, q) => {
-    if (!acc[q.kategori]) acc[q.kategori] = { answered: 0, total: 0 };
+    if (!acc[q.kategori]) {
+      acc[q.kategori] = {
+        answered: 0,
+        total: 0,
+      };
+    }
+
     acc[q.kategori].total += 1;
 
-    if (answers[q.nomor]) acc[q.kategori].answered += 1;
+    if (answers[q.nomor]) {
+      acc[q.kategori].answered += 1;
+    }
 
     return acc;
   }, {});
 
   return (
-    <div className="flex justify-between p-4 bg-white border-b shadow-md sticky top-0 z-20 font-sans">
-      {/* TITLE */}
-      <div className="font-bold text-lg">Simulasi CAT {session.paketId}</div>
+    <>
+      {/* spacer */}
+      <div className="h-[72px]" />
 
-      {/* CATEGORY PROGRESS */}
-      <div className="flex gap-4">
-        {Object.entries(kategoriMap).map(([kategori, data]) => (
-          <div key={kategori} className="text-sm font-medium">
-            {getInitial(kategori)}: {data.answered}/{data.total}
-          </div>
-        ))}
+      {/* FIXED TOPBAR */}
+      <div
+        className="
+          fixed
+          top-0
+          left-0
+          right-0
+          z-50
+          flex
+          justify-between
+          items-center
+          text-white
+          p-4
+          bg-[#12345b]
+          border-b
+          shadow-none3
+          font-extrabold
+        "
+      >
+        {/* TITLE */}
+        <div className="font-bold text-lg">Paket {session.paketId}</div>
+
+        {/* CATEGORY PROGRESS */}
+        <div className="flex gap-4">
+          {Object.entries(kategoriMap).map(([kategori, data]) => (
+            <div key={kategori} className="text-sm font-medium">
+              {getInitial(kategori)}: {data.answered}/{data.total}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
