@@ -14,7 +14,7 @@ export const examEngine = {
       paketId,
       questions,
       duration,
-    });
+    }); 
 
     storageService.saveSession(session);
     return session;
