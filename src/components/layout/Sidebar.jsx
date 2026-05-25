@@ -12,9 +12,7 @@ export default function Sidebar() {
     >
       {/* HEADER */}
       <div className="p-4 border-b">
-        <h2 className="font-bold text-lg">Navigasi Ujian</h2>
-
-        <p className="text-sm text-slate-500">Pilih nomor soal</p>
+        <p className="text-sm text-slate-500">Panel Informasi Peserta dan Navigasi Soal</p>
       </div>
 
       {/* GRID */}

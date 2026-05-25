@@ -3,19 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { examEngine } from "../engine/examEngine";
-
 import { setSession, syncSession } from "../features/exam/examSlice";
 
 import QuestionCard from "../components/question/QuestionCard";
-import ReviewPanel from "../components/question/ReviewPanel";
-
 import useTimer from "../hooks/useTimer";
 
 export default function ExamPage() {
   const dispatch = useDispatch();
 
   const session = useSelector((state) => state.exam.session);
-
   const { paketId } = useParams();
 
   const [mode, setMode] = useState("exam");
@@ -44,19 +40,6 @@ export default function ExamPage() {
   };
 
   /**
-   * SUBMIT EXAM
-   */
-  const submitExam = () => {
-    if (!session) return;
-
-    const result = examEngine.submitSession(session);
-
-    console.log("FINAL RESULT:", result);
-
-    setMode("finished");
-  };
-
-  /**
    * EMPTY SESSION
    */
   if (!session) {
@@ -81,55 +64,11 @@ export default function ExamPage() {
   }
 
   /**
-   * FINISHED
-   */
-  if (mode === "finished") {
-    return (
-      <div className="min-h-[70vh] flex items-center justify-center">
-        <div className="bg-white rounded-2xl shadow p-8 w-full max-w-lg text-center">
-          <h1 className="text-3xl font-bold text-green-600 mb-4">
-            Ujian Selesai
-          </h1>
-
-          <p className="text-slate-600">Jawaban berhasil disubmit.</p>
-        </div>
-      </div>
-    );
-  }
-
-  /**
    * MAIN EXAM
    */
   return (
     <div className="w-full space-y-4">
       <QuestionCard />
-
-      {mode === "review" && <ReviewPanel onSubmit={submitExam} />}
-
-      <div className="bg-white rounded-2xl shadow-sm p-4 flex flex-col sm:flex-row gap-3 justify-end">
-        {mode !== "review" ? (
-          <button
-            onClick={() => setMode("review")}
-            className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold transition"
-          >
-            Review Jawaban
-          </button>
-        ) : (
-          <button
-            onClick={() => setMode("exam")}
-            className="w-full sm:w-auto bg-slate-500 hover:bg-slate-600 text-white px-6 py-3 rounded-xl font-semibold transition"
-          >
-            Kembali
-          </button>
-        )}
-
-        <button
-          onClick={submitExam}
-          className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold transition"
-        >
-          Submit Ujian
-        </button>
-      </div>
     </div>
   );
 }

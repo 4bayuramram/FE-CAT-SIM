@@ -1,75 +1,69 @@
+
 import { useSelector } from "react-redux";
 
-export default function ExamTopbar() {
+export default function ExamTopbarEngine() {
   const session = useSelector((state) => state.exam.session);
   const answers = useSelector((state) => state.exam.answers);
 
   if (!session) return null;
 
-  // ambil inisial kategori
-  const getInitial = (text = "") => {
-    return text
+  const isRunning = session.status === "running";
+  const isFinished = session.status === "finished";
+
+  const getInitial = (text = "") =>
+    text
       .trim()
       .split(" ")
       .slice(0, 3)
-      .map((word) => word[0])
+      .map((w) => w[0])
       .join("")
       .toUpperCase();
-  };
 
-  // grouping per kategori
   const kategoriMap = session.questions.reduce((acc, q) => {
-    if (!acc[q.kategori]) {
-      acc[q.kategori] = {
-        answered: 0,
-        total: 0,
-      };
-    }
+    if (!acc[q.kategori]) acc[q.kategori] = { answered: 0, total: 0 };
 
     acc[q.kategori].total += 1;
-
-    if (answers[q.nomor]) {
-      acc[q.kategori].answered += 1;
-    }
+    if (answers[q.nomor]) acc[q.kategori].answered += 1;
 
     return acc;
   }, {});
 
   return (
     <>
-      {/* spacer */}
-      <div className="h-[72px]" />
+      <div className="h-[96px] sm:h-[72px]" />
 
-      {/* FIXED TOPBAR */}
-      <div
-        className="
-          fixed
-          top-0
-          left-0
-          right-0
-          z-50
-          flex
-          justify-between
-          items-center
-          text-white
-          p-4
-          bg-[#12345b]
-          border-b
-          shadow-none3
-          font-extrabold
-        "
-      >
-        {/* TITLE */}
-        <div className="font-bold text-lg">Paket {session.paketId}</div>
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 text-white px-4 py-3 bg-[#12345b] border-b font-extrabold min-h-[72px]">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="font-bold text-base sm:text-lg">
+            Paket {session.paketId}
+          </div>
 
-        {/* CATEGORY PROGRESS */}
-        <div className="flex gap-4">
-          {Object.entries(kategoriMap).map(([kategori, data]) => (
-            <div key={kategori} className="text-sm font-medium">
-              {getInitial(kategori)}: {data.answered}/{data.total}
+          {isRunning && (
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-white text-xs uppercase font-bold animate-pulse hover:scale-105 transition-transform">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-400"></span>
+              </span>
+              sedang berlangsung
             </div>
-          ))}
+          )}
+
+          {isFinished && (
+            <div className="px-3 py-1 rounded-full bg-gray-500 text-xs uppercase font-bold">
+              Selesai
+            </div>
+          )}
         </div>
+
+        {isRunning && (
+          <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm font-medium">
+            {Object.entries(kategoriMap).map(([kategori, data]) => (
+              <div key={kategori} className="bg-white/10 px-2 py-1 rounded-md">
+                {getInitial(kategori)}: {data.answered}/{data.total}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

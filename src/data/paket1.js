@@ -17,7 +17,12 @@ const paket1 = {
               dengan pendapat sendiri`,
         e: "Memilih untuk meyakini berbagai macam agama dan kepercayaan",
       },
-      jawabanBenar: "a",
+      jawabanBenar: "c",
+      pembahasan: `
+      diskriminasi = melanggar hak asasi manusia (HAM), bersikap semena-mena = tidak adil & tidak manusiawi,ini paling langsung berhubungan dengan inti diskriminasi
+      A  korupsi & nepotisme (lebih ke penyalahgunaan jabatan), B  propaganda SARA (lebih ke penyebaran kebencian, bukan inti definisi diskriminasi yang ditanya),
+      D  soal musyawarah (nilai demokrasi, bukan diskriminasi), E  justru sikap toleransi, bukan pelanggaran
+      `,
       poin: 5,
     },
     {
@@ -34,6 +39,9 @@ const paket1 = {
         e: "Pancasila merupakan bagian dari perjuangan para pendiri bangsa",
       },
       jawabanBenar: "a",
+      pembahasan: `
+     pikir sendiri
+      `,
       poin: 5,
     },
     {

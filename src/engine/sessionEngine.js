@@ -1,4 +1,12 @@
 export const sessionEngine = {
+  // status constants
+  STATUS: {
+    READY: "ready",
+    RUNNING: "running",
+    FINISHED: "finished",
+  },
+
+  // buat session baru
   initSession({ sessionId, paketId, questions, duration }) {
     return {
       sessionId,
@@ -17,6 +25,7 @@ export const sessionEngine = {
     };
   },
 
+  // update jawaban
   updateAnswer(session, questionNumber, answer) {
     return {
       ...session,
@@ -27,6 +36,7 @@ export const sessionEngine = {
     };
   },
 
+  // toggle flag soal
   toggleFlag(session, questionNumber) {
     return {
       ...session,
@@ -37,10 +47,19 @@ export const sessionEngine = {
     };
   },
 
+  // pindah soal
   setCurrentIndex(session, index) {
     return {
       ...session,
       currentIndex: index,
+    };
+  },
+
+  // update status (NEW)
+  setStatus(session, status) {
+    return {
+      ...session,
+      status,
     };
   },
 };

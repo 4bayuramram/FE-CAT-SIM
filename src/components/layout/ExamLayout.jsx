@@ -20,11 +20,10 @@ export default function ExamLayout() {
     <div className="min-h-screen bg-slate-100">
       <ExamTopbar />
       <TimerPanel /> {/* floating */}
-
       <div className="flex pt-8">
         <Sidebar />
 
-        <main className="flex-1 md:ml-72 p-3 pb-20 md:pb-4">
+        <main className="flex-1 md:ml-72 p-3 mt-[-36px] pb-20 md:pb-4">
           {/* DESKTOP */}
           <div className="hidden md:block">
             <Outlet />
