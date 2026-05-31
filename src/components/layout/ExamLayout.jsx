@@ -38,7 +38,7 @@ export default function ExamLayout() {
 
             {/* NAVIGASI OVERLAY */}
             {mobileView === "navigasi" && (
-              <div className="fixed inset-0 bg-slate-100 z-50 p-4 overflow-auto">
+              <div className="fixed inset-0 bg-slate-100 z-50 p-4 overflow-auto pb-28">
                 <QuestionGrid onSelect={handleSelectQuestion} />
               </div>
             )}

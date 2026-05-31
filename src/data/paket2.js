@@ -1,3 +1,4 @@
+
 const paket2 = {
   id: 2,
   nama: "Paket 2 TIU",
@@ -76,6 +77,25 @@ const paket2 = {
       },
       jawabanBenar: "a",
       poin: 10,
+    },
+    {
+      paket: 2,
+      kategori: "TIU",
+      topic: "figural",
+      nomor: 7,
+      soal: "Perhatikan gambar berikut dan tentukan pola yang benar:",
+      image: "/assets/figural.png",
+
+      pilihan: {
+        a: "Pola A",
+        b: "Pola B",
+        c: "Pola C",
+        d: "Pola D",
+        e: "Pola E",
+      },
+
+      jawabanBenar: "a",
+      poin: 5,
     },
   ],
 };

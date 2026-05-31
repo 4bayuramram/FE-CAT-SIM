@@ -19,9 +19,7 @@ export default function QuestionGrid({ onSelect }) {
     onSelect?.();
   };
 
-  // =========================
   // RESULT CALC (FINISHED ONLY)
-  // =========================
   const getResultMark = (q) => {
     const userAnswer = answers?.[q.nomor];
 
@@ -52,9 +50,7 @@ export default function QuestionGrid({ onSelect }) {
   return (
     <div>
       <ParticipantCard />
-      {/* =========================
-          LEGEND (SEKARANG SELALU ADA)
-          ========================= */}
+     {/* legenda - tetap */}
       <div className="mb-4 space-y-2 border border-slate-200 rounded-2xl p-4 bg-white shadow-sm">
         {!isFinished ? (
           <>
@@ -73,9 +69,7 @@ export default function QuestionGrid({ onSelect }) {
         )}
       </div>
 
-      {/* =========================
-          TITLE MODE FINISHED
-          ========================= */}
+     {/* title - finished */}
       {isFinished && (
         <div className="mb-3 text-sm font-bold text-slate-700">
           Jawaban Peserta
@@ -181,9 +175,7 @@ export default function QuestionGrid({ onSelect }) {
   );
 }
 
-/* =========================
-   LEGEND
-   ========================= */
+//legenda
 function Legend({ color, label }) {
   return (
     <div className="flex items-center gap-3 text-sm">

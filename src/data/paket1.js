@@ -1,6 +1,6 @@
 const paket1 = {
   id: 1,
-  nama: "Paket 1 TWK",
+  nama: "Paket 1",
   questions: [
     {
       paket: 1,
@@ -106,7 +106,7 @@ const paket1 = {
         d: "17",
         e: "14",
       },
-      jawabanBenar: "",
+      jawabanBenar: "d",
       poin: 5,
     },
     {

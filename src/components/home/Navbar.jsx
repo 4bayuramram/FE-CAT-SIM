@@ -48,14 +48,14 @@ export default function Navbar() {
         {/* RIGHT ACTIONS */}
         <div className="hidden md:flex items-center gap-3 ml-8">
           <a
-            href="/login"
+            href="/cpn-z/login"
             className="text-white text-lg transition hover:text-gray-300"
           >
             Masuk
           </a>
 
           <a
-            href="/register"
+            href="cpn-z/daftar"
             className="px-5 py-2 text-white border border-white bg-transparent hover:bg-white hover:text-[#12345b] rounded-lg text-lg transition"
           >
             Daftar Sekarang

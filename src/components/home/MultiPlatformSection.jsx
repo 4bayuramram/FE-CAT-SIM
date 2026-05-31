@@ -74,7 +74,8 @@ export default function MultiPlatformSection() {
             {/* Image */}
             <div className="relative z-10 w-full max-w-sm sm:max-w-md lg:max-w-xl">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmk4n-PQaXNVPcIOuJXUedc7NgviGDFf0hePjNoJDJDlQ3RNG34mJoGZB1q4su7-1DBuDXlM_CX3IxyqiCXmn6wcNHCqnE-u9QUd7Zuit35TaL_E4lZCKShAPZUaT7ffjF5hr4VGtk2PyF9Kk5WBs3wl8UO3T-MkAx92-eTAB36Ry4qaZQMYskeBN6--K2k84uoe5QiQqNJDsIfJerdWnRuYEnGp3mNk3MhV2KZ_Suijjz8g9WYmw113gFbGLvgcdANw0DT2mSIWs"
+              src = "m.png"
+                // src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmk4n-PQaXNVPcIOuJXUedc7NgviGDFf0hePjNoJDJDlQ3RNG34mJoGZB1q4su7-1DBuDXlM_CX3IxyqiCXmn6wcNHCqnE-u9QUd7Zuit35TaL_E4lZCKShAPZUaT7ffjF5hr4VGtk2PyF9Kk5WBs3wl8UO3T-MkAx92-eTAB36Ry4qaZQMYskeBN6--K2k84uoe5QiQqNJDsIfJerdWnRuYEnGp3mNk3MhV2KZ_Suijjz8g9WYmw113gFbGLvgcdANw0DT2mSIWs"
                 alt="Multi Platform Access"
                 loading="lazy"
                 className="w-full rounded-3xl shadow-2xl object-cover"
