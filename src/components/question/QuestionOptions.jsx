@@ -10,10 +10,9 @@ export default function QuestionOptions({
   };
 
   return (
-    <div className="space-y-3 font-times">
+    <div className="space-y-3 font-times text-slate-800 leading-6">
       {Object.entries(question.pilihan).map(([key, val]) => {
         const selected = getSelected(key);
-
         const isObject = typeof val === "object";
 
         return (
@@ -42,10 +41,10 @@ export default function QuestionOptions({
             </div>
 
             {/* CONTENT */}
-            <div className="flex-1 text-[15px] text-slate-800 leading-6">
+            <div className="flex-1">
               <span className="font-semibold mr-2">{key.toUpperCase()}.</span>
 
-              {!isObject && val}
+              {!isObject && <span>{val}</span>}
 
               {isObject && (
                 <div className="space-y-2">

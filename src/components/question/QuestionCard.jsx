@@ -100,17 +100,19 @@ export default function QuestionCard() {
         </div>
       </div>
 
-      {/* SOAL */}
-      <QuestionRenderer question={question} />
+      {/* FONT WRAPPER (SOAL + OPSI SINKRON) */}
+      <div className="text-[18px] md:text-[19px] font-times leading-7 text-slate-800">
+        {/* SOAL */}
+        <QuestionRenderer question={question} />
 
-      {/* PILIHAN */}
-      <QuestionOptions
-        question={question}
-        answers={answers}
-        isFinished={isFinished}
-        onSelect={handleAnswer}
-      />
-
+        {/* PILIHAN */}
+        <QuestionOptions
+          question={question}
+          answers={answers}
+          isFinished={isFinished}
+          onSelect={handleAnswer}
+        />
+      </div>
       {/* NAV */}
       <div className="flex justify-between mt-8 pt-4 border-t">
         <button onClick={prev} className="px-4 py-2 border rounded-lg">

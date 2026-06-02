@@ -4,7 +4,7 @@ export default function QuestionTable({ table }) {
   return (
     <div className="my-6 flex justify-center">
       <div className="inline-block">
-        <table className="border border-slate-300 text-sm w-auto table-auto">
+        <table className="border border-slate-300 w-auto table-auto text-inherit">
           <thead>
             <tr className="bg-slate-100">
               {table.headers.map((h, i) => (

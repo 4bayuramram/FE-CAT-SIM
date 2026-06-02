@@ -2,102 +2,135 @@ const paket1 = {
   id: 1,
   nama: "Paket 1",
   questions: [
+    // no.1
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "pilar negara",
+      topic: "Dasar Negara",
       nomor: 1,
-      soal: ` Diskriminasi dianggap sebagai perilaku yang ditujukan untuk mencegah atau membatasi kelompok lain yang berusaha memiliki atau mendapatkan sesuatu yang dapat dilakukan dengan mengurangi, menying-kirkan, atau menaklukkan kelompok lain.Biasanya, diskriminasi dilakukan oleh sekelompok orang yang merasa dominan untuk melindungi kepentingan mereka sendiri. Diskriminasi merupakan salah satu tindakan yang melanggar butir-butir pengamalan dari sila Pancasila, selain diskriminasi, sikap lain yang juga menunjukkan pelanggaran dari Pancasila ini adalah ...
+      soal: `
+      Dalam rangka meningkatkan kualitas pelayanan publik, sebuah pemerintah daerah menerapkan program seleksi penerima bantuan sosial berbasis data terpadu. Namun, dalam pelaksanaannya ditemukan praktik di mana sebagian petugas sengaja mengabaikan hak kelompok masyarakat tertentu untuk memperoleh layanan yang sama hanya karena latar belakang suku dan kondisi sosial mereka. Tindakan tersebut bertentangan dengan nilai kemanusiaan yang adil dan beradab karena mengabaikan prinsip persamaan derajat setiap warga negara. Selain perilaku tersebut, tindakan lain yang juga mencerminkan pelanggaran terhadap nilai yang sama dalam Pancasila adalah ...	
       `,
       pilihan: {
-        a: "Maraknya praktik korupsi, kolusi, dan nepotisme yang merugikan masyarakat Indonesia ",
-        b: "Adanya propaganda berbau SARA",
-        c: "Tidak menghormati HAM orang lain dan bersikap semena-mena",
-        d: `  Mengabaikan musyawarah dan teguh
-              dengan pendapat sendiri`,
-        e: "Memilih untuk meyakini berbagai macam agama dan kepercayaan",
+        a: "Mengutamakan penggunaan produk dalam negeri sebagai bentuk dukungan terhadap perekonomian nasional  ",
+        b: "Membatasi kebebasan seseorang untuk menyampaikan pendapat melalui intimidasi dan perlakuan yang merendahkan martabatnya",
+        c: "Mengutamakan penyelesaian masalah melalui musyawarah untuk mencapai mufakat bersama",
+        d: `Mengikuti kegiatan gotong royong yang diselenggarakan oleh masyarakat di lingkungan tempat tinggal`,
+        e: "Menjaga persatuan dengan menghormati keberagaman budaya yang ada di berbagai daerah Indonesia",
       },
       jawabanBenar: "c",
       pembahasan: `
-      diskriminasi = melanggar hak asasi manusia (HAM), bersikap semena-mena = tidak adil & tidak manusiawi,ini paling langsung berhubungan dengan inti diskriminasi
-      A  korupsi & nepotisme (lebih ke penyalahgunaan jabatan), B  propaganda SARA (lebih ke penyebaran kebencian, bukan inti definisi diskriminasi yang ditanya),
-      D  soal musyawarah (nilai demokrasi, bukan diskriminasi), E  justru sikap toleransi, bukan pelanggaran
+      mohon maaf,pembahasan pada paket ini tidak tersedia 
       `,
       poin: 5,
     },
+    // no.2
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "pilar negara",
+      topic: "Dasar Negara",
       nomor: 2,
-      soal: "Pilar bagi suatu negara adalah sistem keyakinan atau filosofis yang berisi konsep, prinsip, dan nilai yang dianut oleh warga negara yang diyakini dapat digunakan sebagai dasar dalam kehidupan bermasyarakat, berbangsa dan bernegara. Indonesia memi-liki empat pilar kebangsaan salah satunya adalah Pancasila. Alasan Pancasila disebut sebagai pilar negara adalah ...",
+      soal: "	Dalam sebuah seminar kebangsaan, peserta diminta menjelaskan mengapa Pancasila termasuk salah satu pilar kebangsaan Indonesia. Berbagai pendapat muncul terkait kedudukan dan fungsi Pancasila dalam kehidupan berbangsa dan bernegaraAlasan yang paling tepat adalah ...",
       pilihan: {
-        a: "Pancasila memiliki prinsip dan nilai yang merupakan kristalisasi dari sistem keyakinan yang terdapat di seluruh wilayah Indonesia",
-        b: "Pancasila mengatur tentang ketatanegaraan Indonesia khususnya tentang bentuk negara dan sistem pemerintahan",
-        c: `Pancasila dijadikan sebagai sumber dari segala sumber hukum`,
-        d: `Pancasila merupakan simbol negara yang harus dilestarikan`,
-        e: "Pancasila merupakan bagian dari perjuangan para pendiri bangsa",
+        a: "Pancasila memuat nilai dan prinsip yang menjadi pedoman kehidupan bangsa Indonesia.",
+        b: "Pancasila mengatur bentuk negara dan sistem pemerintahan Indonesia.",
+        c: `Pancasila menjadi dasar penyusunan seluruh peraturan perundang-undangan`,
+        d: `Pancasila merupakan lambang persatuan yang mencerminkan identitas bangsa`,
+        e: "Pancasila lahir dari kesepakatan para pendiri bangsa saat kemerdekaan",
       },
       jawabanBenar: "a",
       pembahasan: `
-     pikir sendiri
+     mohon maaf,pembahasan pada paket ini tidak tersedia 
       `,
       poin: 5,
     },
+    // no.3
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "pilar negara",
+      topic: "Dasar Negara",
       nomor: 3,
-      soal: `Pada masa pergerakan kemerdekaan Indonesia. Para pejuang kemerdekaan baik dari kaum nasionalis, agama, tokoh daerah, kaum pemuda dan yang lainnya tetap bisa menunjukkan tekad yang sama untuk meraih kemerdekaan Indonesia meskipun dari latar belakang yang berbeda-beda. Hal tersebut dapat terjadi karena mereka sama-sama menanamkan nilai ...`,
+      soal: `Sebuah kabupaten yang dihuni oleh masyarakat dari berbagai suku dan agama berencana membangun pusat kegiatan masyarakat. Dalam musyawarah, setiap kelompok mengusulkan desain yang mencerminkan identitas budayanya masing-masing. Perdebatan berlangsung cukup panjang karena setiap kelompok ingin usulannya lebih diutamakan. Untuk mencegah konflik berkepanjangan, para tokoh masyarakat kemudian mengajak seluruh peserta mempertimbangkan kepentingan bersama di atas kepentingan kelompok.`,
       pilihan: {
-        a: "Agama",
+        a: "Toleransi ",
         b: "Kemanusiaan",
-        c: "Sosial",
-        d: "Hukum",
-        e: "Budaya",
+        c: "Nasionalisme",
+        d: "Kesetaraan",
+        e: "Keadilan soaial",
       },
-      jawabanBenar: "a",
+      jawabanBenar: "b",
+      pembahasan: `
+     mohon maaf,pembahasan pada paket ini tidak tersedia 
+      `,
       poin: 5,
     },
+    // no.4
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "pilar negara",
+      topic: "Dasar Negara",
       nomor: 4,
-      soal: " Majelis Ulama Indonesia menekankan pentingnya peran kaum laki-laki untuk peduli terhadap masalah pelecehan seksual dan menekankan semua pihak yang berada di ruang publik bertanggung jawab untuk menciptakan kondisi bebas pelecehan sek-sual. Kasus pelecehan seksual ini membuktikan bahwasanya sebagian warga negara Indonesia belum mengamalkan nilai-nilai Pancasila. Selain pelecehan seksual, kasus yang juga merupakan pelanggaran nilai Pancasila yang sama dan pernah terjadi di lingkungan masyarakat adalah... ",
+      soal: `
+      Di sebuah kota, pemerintah daerah mengadakan kampanye kesadaran warga untuk menegakkan etika bermasyarakat, termasuk menghormati hak-hak individu dan mencegah tindakan yang merugikan orang lain. Meski demikian, beberapa insiden seperti intimidasi terhadap kelompok minoritas dan penyebaran berita bohong di media sosial tetap terjadi. Kasus tersebut menunjukkan adanya pelanggaran terhadap nilai Pancasila. Selain intimidasi dan penyebaran informasi palsu, kasus mana yang juga merupakan pelanggaran nilai Pancasila serupa di masyarakat?	
+      `,
       pilihan: {
-        a: "Penistaan agama",
-        b: "Korupsi oleh pejabat negara",
-        c: "Terorisme dan radikalisme",
-        d: "Pelanggaran HAM",
-        e: "Tindakan bullying",
+        a: "Praktik diskriminasi terhadap pekerja migran	",
+        b: "Penyelewengan anggaran desa oleh oknum pejabat	",
+        c: "Pencemaran lingkungan akibat kegiatan industri",
+        d: "Konflik antarwarga karena sengketa tanah	",
+        e: "Pembajakan konten digital tanpa izin	",
       },
       jawabanBenar: "a",
+      pembahasan: `
+     mohon maaf,pembahasan pada paket ini tidak tersedia 
+      `,
       poin: 5,
     },
+    // no.5
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "pilar negara",
+      topic: "Dasar Negara",
       nomor: 5,
-      soal: `UUD 1945 telah mengalami beberapa kali amandemen sejak Proklamasi Kemerdekaan Indonesia. Hasil dari amandemen tersebut
-       telah mengubah beberapa pasal dalam kon-stitusi. Alasan dilakukannya amandemen terhadap UUD 1945 adalah...`,
+      soal: `
+      Di sebuah kota besar yang dihuni oleh berbagai kelompok etnis dan agama, terjadi perbedaan pendapat mengenai alokasi anggaran untuk kegiatan budaya masing-masing komunitas. Pemerintah daerah mengadakan musyawarah, menekankan bahwa keputusan harus tetap berlandaskan UUD 1945. Tujuan utama penekanan tersebut adalah agar setiap kebijakan tidak hanya sah secara hukum, tetapi juga menjaga kesatuan bangsa dan menghormati nilai-nilai kebangsaan. Nilai UUD 1945 yang paling mendasari sikap pemerintah daerah dalam kasus tersebut adalah …
+      `,
       pilihan: {
-        a: `Untuk menyesuaikan konstitusi dengan perkembangan zaman dan tuntutan masyarakat`,
-        b: `Memberikan hak-hak yang lebih luas kepada partai politik`,
-        c: "Membentuk lembaga-lembaga pemerintahan yang bertugas dalam memberikan pelayanan terhadap masyarakat",
-        d: "Membatasi kekuasaan MPR dan DPR",
-        e: " Memisahkan hak dari lembaga eksekutif dan yudikatif",
+        a: `Menjamin hak warga negara sambil tetap menguatkan persatuan dan kesatuan bangsa`,
+        b: `Memberikan kebebasan mutlak kepada setiap kelompok untuk mengelola anggaran sesuai kepentingannya`,
+        c: `Mengutamakan efisiensi pemerintahan dengan meniadakan konsultasi antar kelompok	`,
+        d: `Menetapkan bahwa hukum formal lebih penting daripada nilai-nilai kebangsaan dalam pengambilan keputusan`,
+        e: `Menjadikan peraturan daerah sebagai instrumen utama tanpa mempertimbangkan prinsip dasar UUD 1945`,
       },
       jawabanBenar: "a",
+      pembahasan: `
+     mohon maaf,pembahasan pada paket ini tidak tersedia 
+      `,
       poin: 5,
+    },
+    // no.6
+        {
+      "paket": 1,
+      "kategori": "Tes Wawasan Kebangsaan (TWK)",
+      "topic": "Dasar Negara",
+      "nomor": 6,
+      "soal": "Pada saat pelaksanaan pemilihan kepala daerah di sebuah provinsi, muncul ajakan di media sosial dari sebagian pihak untuk tidak menggunakan hak pilih dengan alasan ketidakpercayaan terhadap calon yang tersedia. Di sisi lain, pemerintah daerah bersama KPU setempat terus melakukan sosialisasi agar masyarakat tetap berpartisipasi secara aktif dan bertanggung jawab dalam proses demokrasi. Dalam sosialisasi tersebut ditegaskan bahwa partisipasi politik warga merupakan bagian dari penerapan nilai Pancasila dalam kehidupan bernegara. Contoh penerapan nilai Pancasila dalam aspek politik yang paling tepat adalah ...",
+      "pilihan": {
+        "a": "Menggunakan hak pilih dalam pemilu sebagai bentuk partisipasi dalam sistem demokrasi",
+        "b": "Mengikuti kegiatan gotong royong dalam pembangunan fasilitas lingkungan",
+        "c": "Menghadiri acara adat sebagai bentuk pelestarian budaya daerah",
+        "d": "Mengikuti pelatihan kerja untuk meningkatkan kesejahteraan ekonomi keluarga",
+        "e": "Menggunakan media sosial untuk menyampaikan kritik terhadap kebijakan pemerintah tanpa batasan tertentu"
+      },
+      "jawabanBenar": "a",
+      "pembahasan": "mohon maaf,pembahasan pada paket ini tidak tersedia",
+      "poin": 5
     },
     {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 6,
+      nomor: 7,
       soal: "-1, 1, 3, 8, 13, 15, ...",
       pilihan: {
         a: "13",
@@ -113,7 +146,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 7,
+      nomor: 8,
       soal: "2, 5, 9, 12, 16, 19, ...",
       pilihan: {
         a: "20",
@@ -129,7 +162,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 8,
+      nomor: 9,
       type: "sequence",
       soal: ["1/12", "3/24", "1/6", "5/24", "1/4", "7/24", "..."],
       pilihan: {
@@ -146,7 +179,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 9,
+      nomor: 10,
       type: "table",
       soal: `dengan jumlah penghasilan sebesar 5,6 juta/bulan toko pak basri membayar zakat sebesar 140.000  `,
       table: {
@@ -173,7 +206,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 10,
+      nomor: 11,
       type: "table",
       soal: `untuk membuat adonan bolu sebanyak 50 buah dibutuhkan gula 0,5 kg `,
       table: {
@@ -196,14 +229,13 @@ const paket1 = {
       jawabanBenar: "",
       poin: 5,
     },
-    // ===================== TKP PACKET 1 (UPDATED) =====================
 
     {
       paket: 1,
       mode: "TKP",
       kategori: "Tes Karakteristik Pribadi (TKP)",
       topic: "sosial budaya",
-      nomor: 11,
+      nomor: 12,
       soal: `Sebagai seorang PNS Tenaga Pendidik, Anda menyukai kegiatan yang dapat memberikan manfaat untuk masyarakat dan lingkungan sehingga Anda tertarik mengikuti kegiatan volunteer. Kali ini kegiatan volunteer diadakan di daerah timur untuk memberikan pendidikan bahasa dan kesenian, sedangkan Anda tidak mengerti sama sekali bahasa yang mereka gunakan. Bagaimana cara Anda mengatasi hal tersebut?`,
       pilihan: {
         a: "Mendokumentasikan kegiatan dan promosi sosial media",
@@ -226,7 +258,7 @@ const paket1 = {
       mode: "TKP",
       kategori: "Tes Karakteristik Pribadi (TKP)",
       topic: "sosial budaya",
-      nomor: 12,
+      nomor: 13,
       soal: `Anda baru sebulan pindah ke rumah baru dan terganggu tetangga yang setiap pagi menyalakan musik keras. Sikap Anda adalah ...`,
       pilihan: {
         a: "Menggunakan earbud noise cancelling",
@@ -249,7 +281,7 @@ const paket1 = {
       mode: "TKP",
       kategori: "Tes Karakteristik Pribadi (TKP)",
       topic: "sosial budaya",
-      nomor: 13,
+      nomor: 14,
       soal: `Difa memiliki sahabat yang sakit parah namun tetap ceria. Apa sikap yang tepat?`,
       pilihan: {
         a: "Memberikan postingan motivasi",
@@ -272,7 +304,7 @@ const paket1 = {
       mode: "TKP",
       kategori: "Tes Karakteristik Pribadi (TKP)",
       topic: "sosial budaya",
-      nomor: 14,
+      nomor: 15,
       soal: `Anda diminta membuat bolu untuk rekan kerja dengan permintaan tanpa bahan tertentu karena keyakinan. Tanggapan Anda ...`,
       pilihan: {
         a: "Menanyakan latar belakang keyakinan",
@@ -295,7 +327,7 @@ const paket1 = {
       mode: "TKP",
       kategori: "Tes Karakteristik Pribadi (TKP)",
       topic: "sosial budaya",
-      nomor: 15,
+      nomor: 16,
       soal: `Rekan kerja Anda naik jabatan karena nepotisme. Apa yang Anda lakukan?`,
       pilihan: {
         a: "Diam dan mendengarkan gosip",

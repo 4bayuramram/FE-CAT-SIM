@@ -2,7 +2,7 @@
 
 export default function ParticipantCard() {
   const peserta = {
-    nama: "Nissa Anggraeni",
+    nama: "Bayu Ramadhan",
   };
 
   return (
