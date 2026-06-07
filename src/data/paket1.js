@@ -739,7 +739,588 @@ const paket1 = {
         d: 3,
         e: 1,
       },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia 
+      `,
     },
+    // jejaring kerja
+    //no.88
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Jejaring Kerja",
+      nomor: 88,
+      soal: "Sebuah program revitalisasi kawasan wisata di sebuah desa melibatkan berbagai pihak, termasuk pemerintah daerah, kelompok sadar wisata, pelaku UMKM, dan komunitas lokal. Menjelang pelaksanaan program, beberapa mitra mulai kurang aktif karena merasa ide dan kepentingannya kurang diperhatikan. Akibatnya, koordinasi menurun dan risiko konflik meningkat. Sebagai pegawai yang bertugas mengoordinasikan program ini, tindakan paling tepat adalah:",
+      pilihan: {
+        a: "Mengundang seluruh mitra untuk pertemuan terbuka, mendengarkan semua aspirasi, mencari titik temu, dan menyepakati komitmen bersama demi keberhasilan program.",
+        b: "Mengadakan pertemuan awal dengan perwakilan tiap kelompok mitra untuk mendalami isu prioritas, lalu merancang langkah koordinasi sebelum pertemuan besar seluruh mitra.",
+        c: "Meminta semua mitra mengirimkan masukan secara tertulis terlebih dahulu agar langkah koordinasi berikutnya berdasarkan data yang terdokumentasi.",
+        d: "Memfokuskan koordinasi pada mitra yang memiliki pengaruh paling besar agar kegiatan tetap berjalan lancar sesuai jadwal.",
+        e: "Menunggu arahan pimpinan terkait langkah yang harus diambil agar tidak menimbulkan konflik antar mitra.",
+      },
+      scoringMap: {
+        a: 5,
+        b: 4,
+        c: 3,
+        d: 2,
+        e: 1,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.89
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Jejaring Kerja",
+      nomor: 89,
+      soal: "Sebuah kementerian sedang menjalankan program digitalisasi layanan publik yang melibatkan pegawai dari beberapa direktorat dengan latar belakang kompetensi dan cara kerja berbeda-beda. Beberapa minggu setelah tim dibentuk, muncul kesulitan koordinasi karena sebagian anggota lebih nyaman bekerja secara mandiri dan kurang aktif berbagi informasi, sementara beberapa anggota lain membutuhkan data atau masukan untuk menyelesaikan tugas mereka. Jika dibiarkan, situasi ini berpotensi menunda pencapaian target program. Sebagai anggota tim, tindakan paling tepat yang sebaiknya Anda ambil adalah...",
+      pilihan: {
+        a: "Mengamati terlebih dahulu dinamika tim, mempelajari pola kerja masing-masing anggota, sebelum terlibat lebih aktif dalam koordinasi lintas unit.",
+        b: "Fokus menyelesaikan pekerjaan yang menjadi tanggung jawab pribadi dengan sebaik-baiknya, dan menunggu anggota lain meminta bantuan bila diperlukan.",
+        c: "Mengutamakan komunikasi dengan anggota yang paling senior atau berpengaruh dalam tim untuk memastikan informasi penting tersampaikan dan keputusan cepat diambil.",
+        d: "Memahami alur kerja masing-masing direktorat, mengikuti seluruh pertemuan koordinasi, serta menjaga hubungan kerja yang harmonis dengan seluruh anggota tim.",
+        e: "Mengidentifikasi peran dan kebutuhan setiap anggota, aktif berbagi informasi, serta mendorong mekanisme koordinasi rutin agar seluruh anggota tetap sinkron dalam menyelesaikan tugas.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 1,
+        c: 2,
+        d: 4,
+        e: 5,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.90
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Jejaring Kerja",
+      nomor: 90,
+      soal: "Anda terpilih menjadi bagian dari sebuah kegiatan yang melibatkan peserta dari berbagai instansi dan latar belakang profesi untuk menyusun rekomendasi kebijakan daerah. Sebelum kegiatan inti dimulai, seluruh peserta mengikuti pembekalan dan simulasi kerja kelompok. Dalam prosesnya, Anda melihat sebagian peserta sudah saling mengenal dan memiliki pola komunikasi yang baik, sementara peserta lain masih cenderung pasif sehingga pertukaran informasi belum berjalan optimal. Padahal, kualitas rekomendasi yang dihasilkan sangat bergantung pada kolaborasi dan kontribusi seluruh anggota. Bagaimana Anda sebaiknya berperan dalam situasi tersebut?",
+      pilihan: {
+        a: "Menjalin hubungan kerja yang baik dengan peserta yang memiliki pengalaman paling banyak agar dapat memperoleh informasi dan wawasan yang berguna bagi kelompok.",
+        b: "Memastikan memahami seluruh materi pembekalan dengan baik, kemudian memberikan masukan yang relevan ketika diminta agar diskusi tetap berjalan efektif dan terarah.",
+        c: "Aktif membangun komunikasi dengan seluruh peserta, mendorong pertukaran informasi dan perspektif antaranggota, serta membantu menghubungkan peserta yang belum banyak terlibat dalam diskusi kelompok.",
+        d: "Mengikuti seluruh rangkaian kegiatan secara disiplin, menghargai pendapat peserta lain, dan menyelesaikan setiap tugas yang menjadi tanggung jawab pribadi tepat waktu.",
+        e: "Mengamati terlebih dahulu dinamika kelompok selama beberapa waktu agar dapat menyesuaikan diri dengan pola komunikasi yang telah terbentuk sebelum berpartisipasi lebih aktif.",
+      },
+      scoringMap: {
+        a: 2,
+        b: 3,
+        c: 5,
+        d: 4,
+        e: 1,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.91
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Jejaring Kerja",
+      nomor: 91,
+      soal: "Anda ditunjuk untuk mengikuti sebuah forum pengembangan kapasitas yang dihadiri peserta dari berbagai instansi, profesi, dan daerah. Dalam forum tersebut, peserta akan dibagi ke dalam kelompok kerja untuk menyusun rekomendasi atas suatu permasalahan yang cukup kompleks. Meskipun memiliki pengalaman yang relevan, Anda menyadari bahwa sebagian peserta lain memiliki sudut pandang, keahlian, dan jaringan yang berbeda dari yang Anda miliki. Agar hasil kerja kelompok dapat optimal, sikap yang paling tepat Anda lakukan adalah...",
+      pilihan: {
+        a: "Menyampaikan gagasan yang menurut Anda paling relevan sejak awal diskusi agar kelompok memiliki arah pembahasan yang jelas dan tidak kehilangan fokus terhadap tujuan kegiatan.",
+        b: "Mengamati terlebih dahulu kemampuan setiap anggota kelompok, kemudian menyesuaikan pola komunikasi agar kerja sama dapat berlangsung lebih efektif selama kegiatan berlangsung.",
+        c: "Aktif membangun hubungan kerja dengan seluruh anggota kelompok, membuka ruang pertukaran ide, serta menghubungkan pandangan yang berbeda untuk menghasilkan kesepahaman bersama.",
+        d: "Memastikan bagian tugas yang menjadi tanggung jawab Anda dapat diselesaikan dengan hasil terbaik sehingga kontribusi pribadi terhadap kelompok tetap maksimal.",
+        e: "Menjalin komunikasi yang lebih intens dengan peserta yang memiliki pengalaman dan pengaruh paling besar karena mereka berpotensi menentukan arah keputusan kelompok.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 4,
+        c: 5,
+        d: 2,
+        e: 1,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.92
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Jejaring Kerja",
+      nomor: 92,
+      soal: "Di sebuah kantor wilayah, tim Anda ditugaskan untuk menilai proposal inovasi dari beberapa unit kerja terkait program efisiensi energi. Tim terdiri dari pegawai dengan latar belakang berbeda: ada yang teknisi, analis data, staf administrasi, dan ahli kebijakan lingkungan. Saat rapat awal, sebagian anggota tim cenderung mengedepankan perspektif masing-masing, sementara beberapa anggota lain masih ragu untuk menyampaikan pendapat karena merasa kurang pengalaman atau jaringan. Anda memiliki pengetahuan teknis dan pengalaman lapangan, tetapi anggota lain juga memiliki keahlian dan wawasan yang unik. Dalam situasi ini, sikap paling tepat yang bisa Anda ambil agar penilaian tim berjalan objektif dan efektif adalah…",
+      pilihan: {
+        a: "Mengajukan ide dan rekomendasi Anda sejak awal agar tim langsung memiliki arah dan fokus pembahasan terhadap proposal yang dianggap paling penting.",
+        b: "Mengamati dinamika kelompok dan kemampuan masing-masing anggota, lalu menyesuaikan cara berkomunikasi agar diskusi berjalan lebih harmonis dan inklusif.",
+        c: "Fokus bekerja sama dengan anggota yang paling berpengalaman dan berpengaruh dalam tim karena mereka biasanya menentukan keputusan akhir kelompok.",
+        d: "Menyelesaikan bagian penilaian yang menjadi tanggung jawab Anda secara tuntas dan akurat sehingga kontribusi pribadi terhadap hasil tim tetap optimal.",
+        e: "Aktif memfasilitasi diskusi, mendorong setiap anggota menyampaikan pandangannya, dan membantu menjembatani perbedaan perspektif sehingga keputusan yang diambil mencerminkan kontribusi semua anggota.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 4,
+        c: 2,
+        d: 3,
+        e: 5,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.93
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Jejaring Kerja",
+      nomor: 93,
+      soal: "Dalam beberapa bulan terakhir, sebuah unit layanan publik di tingkat daerah menghadapi peningkatan kebutuhan koordinasi lintas sektor akibat meningkatnya dampak musim hujan yang memicu gangguan layanan, penumpukan limbah, dan penurunan kualitas lingkungan di beberapa titik wilayah. Unit Anda ditugaskan untuk mempercepat respons terpadu, namun diketahui bahwa berbagai pihak terkait seperti instansi lain, lembaga swadaya masyarakat, dan kelompok masyarakat memiliki program masing-masing yang belum saling terhubung. Sebagai bagian dari tim inti, Anda diminta menentukan langkah awal paling tepat agar upaya penanganan dapat berjalan efektif, terkoordinasi, dan berkelanjutan.",
+      pilihan: {
+        a: "Mengidentifikasi seluruh pemangku kepentingan yang relevan, kemudian menginisiasi forum koordinasi bersama untuk menyamakan tujuan, membagi peran, dan menyusun rencana aksi terpadu lintas pihak sejak tahap awal",
+        b: "Melaksanakan terlebih dahulu program internal unit secara mandiri untuk menunjukkan hasil cepat, sambil secara bertahap menyesuaikan keterlibatan pihak lain berdasarkan kebutuhan yang muncul di lapangan",
+        c: "Menggalang dukungan publik melalui kampanye informasi di media sosial agar partisipasi masyarakat meningkat, kemudian mengarahkan keterlibatan pihak lain mengikuti respons yang terbentuk dari masyarakat",
+        d: "Melakukan pendekatan langsung secara bertahap ke masing-masing instansi dan organisasi terkait untuk membangun kesepahaman sebelum akhirnya merumuskan bentuk kerja sama formal yang lebih luas",
+        e: "Menyampaikan laporan kondisi kepada pimpinan daerah dan menunggu arahan lebih lanjut sebelum mengambil inisiatif koordinasi dengan pihak eksternal agar langkah yang diambil sesuai kebijakan atasan",
+      },
+      scoringMap: {
+        a: 5,
+        b: 2,
+        c: 3,
+        d: 4,
+        e: 1,
+      },
+      pembahasan: `
+  mohon maaf,pembahasan pada paket ini tidak tersedia 
+  `,
+    },
+    //no.94
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Jejaring Kerja",
+      nomor: 94,
+      soal: "Johan adalah seorang perangkat desa yang bertanggung jawab atas administrasi dan koordinasi program pembangunan di desanya. Saat ini ia sedang sibuk menyiapkan laporan kegiatan tahunan, sehingga waktunya terbatas. Di tengah kesibukannya, Johan menerima laporan dari warga bahwa beberapa program bantuan dan perbaikan infrastruktur desa terlambat dilaksanakan akibat koordinasi yang kurang baik antara staf desa dan kelompok masyarakat penerima program. Keluhan ini mulai menurunkan kepercayaan warga terhadap kinerja desa. Tindakan apa yang sebaiknya dilakukan Johan?",
+      pilihan: {
+        a: "Menyusun presentasi mengenai program dan capaian desa, kemudian meyakinkan warga bahwa pelaksanaan program tetap sesuai rencana agar citra desa tetap terjaga",
+        b: "Memanggil staf desa dan perwakilan kelompok masyarakat untuk berdiskusi, mencari akar permasalahan keterlambatan, menyepakati langkah perbaikan yang konkret, serta memastikan komunikasi berjalan lebih efektif",
+        c: "Mencatat seluruh kegiatan desa dan menganalisis efektivitas penggunaan sumber daya sebelum melakukan perbaikan koordinasi dengan masyarakat",
+        d: "Memahami setiap tahapan pelaksanaan program di desa dan secara rutin mengingatkan staf serta kelompok masyarakat agar bekerja sesuai prosedur yang telah disepakati",
+        e: "Memastikan kebenaran laporan terlebih dahulu, kemudian berdiskusi dengan kepala desa untuk mengambil keputusan perbaikan koordinasi secara berjenjang melalui pimpinan",
+      },
+      scoringMap: {
+        a: 2,
+        b: 5,
+        c: 3,
+        d: 4,
+        e: 1,
+      },
+      pembahasan: `
+  mohon maaf,pembahasan pada paket ini tidak tersedia 
+  `,
+    },
+    //Pelayanan Publik
+    //no.95
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Pelayanan Publik",
+      nomor: 95,
+      soal: "Pada sebuah kota besar, terjadi gangguan layanan administrasi kependudukan akibat banjir yang merusak sebagian infrastruktur kantor pelayanan serta mengganggu sistem digital yang biasa digunakan masyarakat untuk mengurus dokumen penting. Dalam waktu yang hampir bersamaan, terjadi lonjakan permintaan layanan karena banyak warga membutuhkan dokumen untuk keperluan bantuan darurat, pendidikan, dan pekerjaan. Di sisi lain, masyarakat mulai menyampaikan keluhan melalui berbagai kanal, sementara media lokal menyoroti lambatnya respons pelayanan. Anda sebagai bagian dari tim pengelola layanan diminta untuk segera menentukan langkah yang paling tepat dalam situasi tersebut agar pelayanan tetap berjalan, kepercayaan publik terjaga, dan keterbatasan sumber daya dapat diatasi secara efektif.",
+      pilihan: {
+        a: "Menyampaikan pernyataan resmi melalui media sosial dan konferensi pers untuk menjelaskan kondisi terkini serta perkiraan waktu pemulihan layanan, sambil meminta masyarakat untuk bersabar dan menggunakan kanal pengaduan sementara yang tersedia",
+        b: "Mengaktifkan layanan darurat bergerak ke beberapa titik terdampak, melakukan pendataan cepat berdasarkan tingkat urgensi kebutuhan warga, serta berkoordinasi lintas unit untuk memprioritaskan layanan bagi kelompok rentan dan kebutuhan mendesak",
+        c: "Menghentikan sementara seluruh layanan nonprioritas dan memusatkan seluruh sumber daya pada penyelesaian antrean yang sudah masuk sebelum kejadian, agar tidak terjadi ketimpangan penanganan permohonan",
+        d: "Mengalihkan sementara seluruh pengaduan dan permintaan layanan ke pihak penyedia layanan eksternal tanpa integrasi sistem, agar beban internal berkurang dan proses tetap berjalan secara administratif",
+        e: "Menambah jumlah loket pelayanan di kantor yang masih dapat digunakan sambil tetap menjalankan sistem antrean lama, dengan harapan peningkatan kapasitas akan secara otomatis mempercepat penyelesaian seluruh permohonan",
+      },
+      scoringMap: {
+        a: 4,
+        b: 5,
+        c: 3,
+        d: 1,
+        e: 2,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.96
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Pelayanan Publik",
+      nomor: 96,
+      soal: "Sebuah program nasional untuk meningkatkan gizi masyarakat tengah disorot karena dugaan penyimpangan anggaran. Beberapa pejabat telah ditahan, dan salah satunya bersedia mengungkap aliran dana serta pihak lain yang terlibat. Situasi ini menuntut lembaga penegak hukum menentukan langkah paling strategis agar kasus dapat diusut tuntas, kepercayaan publik terjaga, dan kerugian negara dipulihkan. Langkah manakah yang paling tepat dilakukan lembaga penegak hukum dalam situasi tersebut?",
+      pilihan: {
+        a: "Memberikan informasi berkala kepada publik agar transparansi terjaga, tanpa memperluas penyidikan agar tidak menimbulkan spekulasi.",
+        b: "Memperluas penelusuran aliran dana, memanfaatkan keterangan pihak yang bersedia bekerja sama sebagai justice collaborator, dan mengoordinasikan pemulihan aset lintas instansi.",
+        c: "Memfokuskan proses hukum hanya pada tersangka utama agar peradilan lebih cepat selesai",
+        d: "Menyerahkan pendalaman aliran dana kepada auditor eksternal tanpa keterlibatan penyidik, untuk menjaga independensi.",
+        e: "Menunda pengembangan perkara sampai semua data transaksi lengkap tersedia dari bank dan lembaga terkait.",
+      },
+      scoringMap: {
+        a: 4,
+        b: 5,
+        c: 3,
+        d: 2,
+        e: 1,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    // no.97
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Pelayanan Publik",
+      nomor: 97,
+      soal: "Seorang pengelola pusat layanan teknologi pendidikan ingin meluncurkan sebuah platform pembelajaran digital yang aman, efektif, dan dapat dipercaya oleh siswa, guru, dan orang tua. Platform ini harus memenuhi standar keamanan data, kualitas materi pembelajaran, serta kemudahan penggunaan, sambil menjaga reputasi lembaga dan kepuasan pengguna. Dalam situasi ini, pengelola harus menentukan langkah yang paling tepat agar platform dapat berjalan lancar, diterima publik, dan memberikan manfaat maksimal.",
+      pilihan: {
+        a: "Menjalin kerja sama yang baik dengan penyedia teknologi dan vendor konten digital agar seluruh kebutuhan platform tersedia tepat waktu dan sesuai standar.",
+        b: "Mengadakan pertemuan rutin dengan calon institusi klien untuk mempresentasikan platform, menjalin kerja sama, dan menyesuaikan branding platform sesuai kebutuhan masing-masing klien.",
+        c: "Memastikan staf administrasi dan IT mendukung operasional harian platform dengan menjaga keamanan server, data pengguna, dan kelancaran layanan secara rutin.",
+        d: "Berkolaborasi dengan lembaga penelitian dan edukasi untuk mengevaluasi kualitas materi pembelajaran dan dampak platform terhadap pembelajaran siswa sebelum diluncurkan.",
+        e: "Merekrut seorang Quality Assurance yang kompeten untuk memastikan setiap modul pembelajaran, fitur interaktif, dan sistem keamanan data diuji dan memenuhi standar nasional maupun internasional.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 2,
+        c: 2,
+        d: 4,
+        e: 5,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.98
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Pelayanan Publik",
+      nomor: 98,
+      soal: "Dalam beberapa waktu terakhir, terjadi tekanan ekonomi global yang menyebabkan nilai mata uang domestik melemah terhadap dolar. Kondisi ini berdampak langsung pada sektor layanan kesehatan, khususnya meningkatnya biaya pengadaan bahan baku obat dan alat medis impor yang selama ini menjadi komponen penting dalam pelayanan fasilitas kesehatan. Sejumlah rumah sakit dan unit layanan publik mulai menghadapi keterbatasan stok, sementara kebutuhan masyarakat terhadap layanan kesehatan tidak dapat ditunda. Di sisi lain, pemerintah daerah dituntut tetap menjaga kualitas layanan, efisiensi anggaran, serta memastikan tidak terjadi gangguan layanan esensial. Dalam situasi tersebut, pimpinan unit layanan harus mengambil langkah paling tepat untuk menjaga keberlanjutan pelayanan sekaligus mengendalikan dampak kenaikan biaya secara berkelanjutan.",
+      pilihan: {
+        a: "Menunda sebagian pengadaan alat medis impor sampai kondisi nilai tukar stabil agar anggaran tidak mengalami pembengkakan yang lebih besar.",
+        b: "Mengajukan tambahan anggaran darurat kepada pemerintah pusat tanpa melakukan evaluasi internal terlebih dahulu terhadap pola penggunaan dan efisiensi layanan.",
+        c: "Mengadakan koordinasi dengan seluruh unit layanan untuk membatasi penggunaan alat medis tertentu agar stok yang ada dapat bertahan lebih lama.",
+        d: "Mengidentifikasi komponen biaya tertinggi pada obat dan alat medis impor serta menyusun strategi efisiensi penggunaan dan substitusi bertahap dengan alternatif yang setara standar.",
+        e: "Memprioritaskan pengadaan hanya pada satu jenis alat medis yang paling sering digunakan agar pengeluaran lebih terkendali dan proses pengadaan menjadi lebih sederhana.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 2,
+        c: 2,
+        d: 5,
+        e: 1,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.99
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Pelayanan Publik",
+      nomor: 99,
+      soal: "Dalam situasi tanggap darurat pascabencana hidrometeorologi yang melanda beberapa wilayah, sebagian besar infrastruktur vital seperti jalan penghubung, jembatan, dan jalur distribusi logistik dilaporkan telah kembali berfungsi secara bertahap. Konektivitas antarwilayah mulai normal, namun masih terdapat beberapa titik yang belum sepenuhnya pulih dan berpotensi menghambat distribusi bantuan serta aktivitas ekonomi masyarakat. Di sisi lain, masyarakat menuntut percepatan pemulihan secara merata, sementara sumber daya dan personel lapangan masih terbatas. Anda sebagai bagian dari tim koordinasi diminta menentukan langkah paling tepat agar pemulihan berjalan efektif, merata, dan tidak menimbulkan ketimpangan layanan di wilayah terdampak.",
+      pilihan: {
+        a: "Memfokuskan seluruh sumber daya pada wilayah yang sudah pulih sebagian agar konektivitas utama cepat stabil dan aktivitas ekonomi dapat segera bergerak normal.",
+        b: "Meminta masing-masing daerah menyelesaikan perbaikan secara mandiri dengan sumber daya yang tersedia agar proses lebih cepat tanpa koordinasi terpusat.",
+        c: "Menunggu laporan lengkap dari seluruh daerah terdampak sebelum menetapkan prioritas perbaikan agar tidak terjadi kesalahan dalam alokasi sumber daya.",
+        d: "Mengalihkan sebagian besar bantuan ke wilayah dengan kerusakan paling parah tanpa mempertimbangkan fungsi konektivitas antarwilayah yang sudah mulai pulih.",
+        e: "Melakukan pemetaan ulang titik infrastruktur yang belum pulih secara menyeluruh, kemudian menyusun prioritas perbaikan berbasis dampak terhadap distribusi logistik dan kebutuhan masyarakat.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 1,
+        c: 2,
+        d: 2,
+        e: 5,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.100
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Pelayanan Publik",
+      nomor: 100,
+      soal: "Dalam beberapa hari terakhir, terdapat peningkatan keluhan masyarakat terkait layanan publik berbasis digital yang mulai mengalami gangguan stabilitas akibat lonjakan akses dan ketidaksiapan sebagian infrastruktur pendukung. Situasi ini menimbulkan kepanikan di kalangan pengguna layanan serta memunculkan berbagai spekulasi di media sosial yang tidak sepenuhnya sesuai dengan kondisi sebenarnya. Di sisi lain, instansi dituntut untuk segera menjaga keberlangsungan layanan, memulihkan kepercayaan publik, serta memastikan tidak terjadi gangguan serupa di kemudian hari tanpa mengambil tindakan yang bersifat reaktif berlebihan. Dalam situasi tersebut, langkah paling tepat yang harus dilakukan adalah:",
+      pilihan: {
+        a: "Melakukan koordinasi cepat antar unit terkait untuk merumuskan langkah pemulihan layanan secara terukur, disertai penguatan komunikasi publik agar masyarakat memperoleh informasi yang jelas dan akurat.",
+        b: "Menyampaikan pernyataan resmi kepada publik untuk menenangkan situasi dengan menegaskan bahwa layanan sedang dalam proses perbaikan tanpa melakukan perubahan teknis tambahan agar sistem tetap stabil.",
+        c: "Menunggu hasil evaluasi menyeluruh terhadap penyebab gangguan sebelum mengambil tindakan perbaikan lanjutan agar tidak terjadi kesalahan penanganan sistem.",
+        d: "Menghentikan sementara seluruh layanan digital hingga kondisi benar-benar stabil untuk mencegah munculnya keluhan tambahan dari masyarakat.",
+        e: "Mengalihkan seluruh pelayanan ke sistem manual sebagai solusi utama agar masyarakat tetap dapat dilayani tanpa bergantung pada sistem digital.",
+      },
+      scoringMap: {
+        a: 5,
+        b: 4,
+        c: 2,
+        d: 1,
+        e: 3,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.101
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Pelayanan Publik",
+      nomor: 101,
+      soal: "Sebuah kawasan wisata alam menghadapi peningkatan risiko keselamatan akibat aktivitas geologi yang tidak stabil. Meskipun pemerintah daerah memperketat pengawasan, masih banyak wisatawan memasuki area terlarang, sementara pelaku usaha lokal khawatir terhadap penurunan kunjungan. Informasi yang beredar di media sosial tidak selalu akurat sehingga memicu kebingungan publik. Dalam situasi ini, langkah pemerintah yang paling tepat untuk menjaga keselamatan, kepercayaan publik, dan keberlanjutan wisata adalah:",
+      pilihan: {
+        a: "Membentuk pos komando terpadu lintas instansi dengan pemantauan real-time, zonasi adaptif, komunikasi risiko terpusat, dan keterlibatan masyarakat dalam pengawasan bertahap",
+        b: "Menutup seluruh kawasan sementara hingga kondisi aman, tanpa pengecualian aktivitas, sambil menunggu evaluasi lanjutan",
+        c: "Memperkuat imbauan resmi dan klarifikasi informasi di media tanpa perubahan operasional signifikan",
+        d: "Memperketat razia dan pemberian sanksi di titik masuk tanpa memperluas komunikasi risiko atau koordinasi lintas sektor",
+        e: "Menyerahkan pengaturan kawasan sepenuhnya kepada pengelola wisata lokal dengan pengawasan minimal pemerintah",
+      },
+      scoringMap: {
+        a: 5,
+        b: 4,
+        c: 3,
+        d: 2,
+        e: 1,
+      },
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //profesionalisme
+    //no.102
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 102,
+      soal: "Sebuah perusahaan menerapkan sistem presensi digital, namun terjadi kendala teknis seperti data yang tidak tercatat dan keterlambatan sinkronisasi. Sebagian pegawai menemukan cara tidak resmi agar presensi tetap tercatat, tetapi belum menjadi prosedur formal dan berpotensi menimbulkan ketidakadilan. Dalam situasi ini, tindakan paling tepat adalah:",
+      pilihan: {
+        a: "Menggunakan cara tidak resmi yang ditemukan rekan agar presensi tetap tercatat dengan benar.",
+        b: "Fokus pada presensi pribadi agar tidak terdampak masalah sistem, sementara isu teknis ditangani atasan.",
+        c: "Melaporkan masalah kepada pimpinan dan menunggu arahan sebelum melakukan tindakan lebih lanjut.",
+        d: "Menyelesaikan masalah presensi rekan secara langsung tanpa dokumentasi agar data segera tertata.",
+        e: "Mendokumentasikan kendala dan solusi sementara yang ditemukan, menyampaikannya ke tim, serta mengusulkan perbaikan prosedur presensi agar lebih akurat dan adil.",
+      },
+      scoringMap: {
+        a: 2,
+        b: 1,
+        c: 4,
+        d: 3,
+        e: 5,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+      `,
+    },
+    //no.103
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 103,
+      soal: "Sebuah perusahaan besar baru saja menerapkan sistem rotasi tugas pegawai untuk meningkatkan efisiensi dan keterampilan lintas divisi. Selama beberapa minggu pertama, beberapa pegawai melaporkan kebingungan terkait tugas baru, sementara beberapa divisi merasa beban kerja tidak merata. Di sisi lain, ada pegawai yang menemukan cara kreatif untuk menyelesaikan tugas lintas divisi, namun belum terdokumentasi secara resmi sehingga berpotensi menimbulkan ketidakadilan atau konflik internal. Dalam situasi ini, langkah paling tepat yang harus dilakukan adalah:",
+      pilihan: {
+        a: "Menginformasikan pimpinan mengenai kebingungan pegawai dan potensi ketidakmerataan beban kerja, lalu menunggu arahan resmi sebelum mengambil tindakan.",
+        b: "Memberikan arahan improvisasi langsung kepada rekan yang kesulitan agar pekerjaan tetap selesai meskipun prosedur resmi belum tersedia.",
+        c: "Menyusun catatan tentang metode kerja efektif yang ditemui, membagikannya kepada tim, dan menyarankan prosedur formal agar rotasi tugas berjalan lebih adil dan efisien.",
+        d: "Menyelesaikan tugas lintas divisi yang paling mendesak tanpa membuat dokumentasi atau prosedur tambahan agar proyek tetap berjalan.",
+        e: "Fokus menyelesaikan tugas pribadi sesuai rotasi, sementara isu ketidakmerataan dan kebingungan pegawai menunggu arahan dari atasan.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 2,
+        c: 5,
+        d: 2,
+        e: 1,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+  `,
+    },
+    //no.104
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 104,
+      soal: "Udin adalah instruktur kebugaran profesional yang terkenal di kota tempat ia bekerja. Ia ditawari menjadi pembicara dan demonstrator dalam program edukasi kesehatan publik yang menampilkan teknik olahraga untuk berbagai kelompok usia. Namun, beberapa peserta memiliki kondisi fisik yang berbeda-beda, dan program ini juga akan disiarkan secara luas melalui media digital, sehingga kesalahan kecil bisa berdampak pada reputasi lembaga penyelenggara. Dalam situasi ini, sikap Udin yang paling tepat adalah:",
+      pilihan: {
+        a: "Berfokus pada menunjukkan kemampuan terbaiknya untuk menarik perhatian publik dan meningkatkan jumlah peserta, sambil tetap memperhatikan keselamatan diri sendiri.",
+        b: "Mempromosikan program edukasi kesehatan tersebut melalui media sosial pribadi dan rutin membagikan jadwal acara untuk meningkatkan jangkauan publik.",
+        c: "Mengoptimalkan kemampuan fisik dan tekniknya untuk memberikan contoh terbaik, sambil tetap menjaga interaksi harmonis dengan peserta dan rekan tim.",
+        d: "Menyusun materi dan demonstrasi secara aman, menyesuaikan intensitas dengan kemampuan peserta, serta tetap mendukung dan memotivasi semua peserta agar mereka dapat mengikuti program dengan aman.",
+        e: "Memahami alur acara, belajar dari instruktur berpengalaman lain, dan berlatih teknik demonstrasi secara intensif sebagai persiapan menghadapi program edukasi publik.",
+      },
+      scoringMap: {
+        a: 2,
+        b: 1,
+        c: 4,
+        d: 5,
+        e: 3,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+      `,
+    },
+    //no.105
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 105,
+      soal: "Dalam kompetisi inovasi antar tim di sebuah organisasi nasional, setiap tim memiliki latar belakang keahlian berbeda. Sebagian tim mengalami kendala koordinasi karena terlalu fokus pada individu, sementara yang lain kesulitan menyatukan ide. Agar tim dapat mencapai hasil optimal, tindakan paling tepat adalah:",
+      pilihan: {
+        a: "Menyepakati strategi kerja, membagi peran sesuai keahlian, dan menjaga komunikasi terbuka agar ide terintegrasi.",
+        b: "Memberi kebebasan penuh pada semua anggota untuk menyampaikan ide tanpa batasan.",
+        c: "Menunjuk satu pengambil keputusan utama agar proses lebih cepat.",
+        d: "Mengamati strategi tim lain dan menyesuaikan secara bertahap.",
+        e: "Menyelesaikan tugas individu terlebih dahulu sebelum konsolidasi tim.",
+      },
+      scoringMap: {
+        a: 5,
+        b: 3,
+        c: 4,
+        d: 2,
+        e: 1,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+  `,
+    },
+    //no.106
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 106,
+      soal: "Dalam sebuah institusi pendidikan tinggi, seorang pengajar bertanggung jawab memastikan mahasiswa tidak hanya memahami konsep teoritis, tetapi juga mampu mengaplikasikannya dalam konteks kerja nyata. Namun, dalam pelaksanaan pembelajaran, ditemukan bahwa sebagian mahasiswa cepat memahami melalui praktik langsung, sementara sebagian lain masih kesulitan meskipun telah diberikan materi tertulis. Di sisi lain, waktu pembelajaran terbatas sehingga strategi pengajaran harus tetap efektif tanpa mengorbankan capaian pembelajaran. Dalam situasi ini, pendekatan paling tepat yang dapat dilakukan adalah:",
+      pilihan: {
+        a: "Menyusun evaluasi berbasis praktik secara berkala untuk mengukur pemahaman mahasiswa sekaligus mendorong mereka beradaptasi dengan kebutuhan kompetensi secara bertahap.",
+        b: "Mengombinasikan penjelasan materi dengan praktik langsung secara terstruktur agar mahasiswa dapat memahami konsep sekaligus penerapannya sesuai tingkat kemampuan masing-masing.",
+        c: "Memberikan bahan ajar lengkap agar mahasiswa dapat mempelajari secara mandiri dengan ritme masing-masing tanpa ketergantungan pada waktu pembelajaran di kelas.",
+        d: "Memusatkan pembelajaran pada demonstrasi langsung di kelas agar mahasiswa dapat mengikuti alur kerja secara seragam tanpa perbedaan metode belajar.",
+        e: "Membentuk kelompok belajar mandiri di antara mahasiswa agar proses pemahaman materi dapat disesuaikan dengan kemampuan masing-masing kelompok secara fleksibel.",
+      },
+      scoringMap: {
+        a: 4,
+        b: 5,
+        c: 2,
+        d: 3,
+        e: 3,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+  `,
+    },
+    //no.107
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 107,
+      soal: "Divisi tempat Anda bekerja sedang mengerjakan proyek sistem baru dengan tenggat ketat. Sebagian data belum lengkap, sementara beban kerja tim meningkat. Pimpinan menuntut proyek selesai tepat waktu tanpa mengorbankan kualitas. Sebagai staf pendukung, tindakan paling tepat adalah:",
+      pilihan: {
+        a: "Menyelesaikan seluruh pekerjaan sesuai tenggat dengan memaksimalkan upaya, meskipun beberapa data belum lengkap agar target waktu tetap tercapai.",
+        b: "Menyusun prioritas penyelesaian berdasarkan data yang sudah tersedia, menutup kekurangan secara bertahap bersama tim, serta melaporkan perkembangan secara transparan kepada pimpinan.",
+        c: "Meminta seluruh anggota tim bekerja tambahan waktu untuk memastikan kekurangan data dapat segera tertutupi demi menjaga target proyek.",
+        d: "Melaporkan kondisi ketidaksiapan data kepada pimpinan dan menunggu arahan lebih lanjut tanpa melakukan penyesuaian pekerjaan.",
+        e: "Menyelesaikan bagian data yang sudah ada terlebih dahulu secara optimal, kemudian mengusulkan penyesuaian tenggat agar pekerjaan lebih realistis.",
+      },
+      scoringMap: {
+        a: 3,
+        b: 5,
+        c: 4,
+        d: 1,
+        e: 2,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+  `,
+    },
+    //no.108
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 108,
+      soal: "Seorang pegawai akan berpindah unit kerja setelah menerima penugasan baru. Pengganti sudah ditunjuk dan mulai bersamaan dengan proses perpindahan, sementara masih ada pekerjaan aktif dan sebagian alur kerja belum terdokumentasi dengan baik. Tindakan paling tepat adalah:",
+      pilihan: {
+        a: "Menyelesaikan pekerjaan yang tersisa semampunya tanpa penjelasan detail karena pengganti akan menyesuaikan diri seiring waktu.",
+        b: "Menyerahkan seluruh pekerjaan yang belum selesai kepada pengganti agar transisi lebih cepat dan Anda bisa fokus pada tugas baru.",
+        c: "Melakukan serah terima terstruktur, memastikan pemahaman tugas dan tanggung jawab, serta menjelaskan pekerjaan yang masih berjalan.",
+        d: "Memperkenalkan pengganti kepada rekan kerja agar lebih cepat beradaptasi dengan lingkungan dan budaya kerja.",
+        e: "Menyelesaikan seluruh pekerjaan sekaligus menyiapkan dokumen dan alur kerja secara lengkap agar pengganti dapat langsung memahami tugas.",
+      },
+      scoringMap: {
+        a: 2,
+        b: 1,
+        c: 5,
+        d: 3,
+        e: 4,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+  `,
+    },
+    //no.109
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 109,
+      soal: "Seorang pegawai memiliki beberapa tanggung jawab pekerjaan yang berjalan bersamaan, yaitu penyusunan materi proyek kreatif di unit kerja serta koordinasi dengan mitra eksternal untuk pencapaian target kerja. Kedua pekerjaan tersebut memiliki tenggat yang berdekatan dan sama-sama berdampak pada capaian kinerja organisasi. Dalam kondisi tersebut, cara paling tepat agar seluruh tugas dapat berjalan optimal adalah:",
+      pilihan: {
+        a: "Menghindari keterlambatan dengan membagi tugas menjadi bagian kecil dan sangat rinci agar pekerjaan cepat selesai tanpa membebani rekan kerja.",
+        b: "Memastikan seluruh pertemuan dan koordinasi berjalan tepat waktu, mencatat setiap hasil diskusi secara lengkap, serta menjaga kedisiplinan hadir dalam setiap agenda kerja.",
+        c: "Meminta atasan untuk memilihkan pekerjaan mana yang harus diprioritaskan agar tidak terjadi kesalahan dalam pembagian fokus kerja.",
+        d: "Mendelegasikan sebagian tugas kepada rekan kerja yang tersedia agar beban kerja lebih ringan dan pekerjaan dapat selesai lebih cepat.",
+        e: "Memfokuskan diri pada pekerjaan yang paling berdampak langsung terhadap hasil akhir organisasi, sementara pekerjaan lain diselesaikan jika masih ada waktu tersisa.",
+      },
+      scoringMap: {
+        a: 4,
+        b: 5,
+        c: 1,
+        d: 2,
+        e: 3,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+  `,
+    },
+    //no.110
+    {
+      paket: 1,
+      mode: "TKP",
+      kategori: "Tes Karakteristik Pribadi (TKP)",
+      topic: "Profesionalisme",
+      nomor: 110,
+      soal: "Seorang pegawai di unit pelayanan administrasi menyadari bahwa ia telah melakukan kesalahan input data yang berdampak pada keterlambatan proses penerbitan dokumen penting milik pengguna layanan. Kesalahan tersebut sudah diketahui oleh rekan satu tim dan berpotensi memengaruhi kepercayaan masyarakat terhadap instansi. Dalam situasi ini, sikap paling tepat yang menunjukkan tanggung jawab dan profesionalisme adalah:",
+      pilihan: {
+        a: "Menunggu instruksi atasan terlebih dahulu sebelum melakukan tindakan apa pun agar tidak memperburuk keadaan.",
+        b: "Memastikan masalah ini diselesaikan nanti dan melanjutkan input dengan tujuan memaksimalkan produktivitas kerja.",
+        c: "Meminta rekan kerja lain untuk membantu memperbaiki kesalahan tanpa perlu melibatkan atasan agar masalah tidak menjadi besar.",
+        d: "Segera melaporkan kesalahan kepada atasan, memperbaiki data yang salah, dan membantu mempercepat penyelesaian layanan yang terdampak.",
+        e: "Mengusulkan gagasan agar sistem input yang digunakan diganti ke sistem yang lebih efektif karena kesalahan kemungkinan besar berasal dari gangguan teknis.",
+      },
+      scoringMap: {
+        a: 2,
+        b: 1,
+        c: 3,
+        d: 5,
+        e: 4,
+      },
+      pembahasan: `
+      mohon maaf,pembahasan pada paket ini tidak tersedia
+  `,
+    },
+    ,
   ],
 };
 

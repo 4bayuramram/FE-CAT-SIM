@@ -1,103 +1,11 @@
+import twk2 from "./2/twk2";
+import tiu2 from "./2/tiu2";
+import tkp2 from "./2/tkp2";
 
 const paket2 = {
   id: 2,
-  nama: "Paket 2 TIU",
-  questions: [
-    {
-      paket: 2,
-      kategori: "TIU",
-      nomor: 1,
-      soal: "5 + 7 × 2 = ?",
-      pilihan: {
-        a: "24",
-        b: "19",
-        c: "17",
-        d: "22",
-        e: "26",
-      },
-      jawabanBenar: "c",
-      poin: 10,
-    },
-    {
-      paket: 2,
-      kategori: "TIU",
-      nomor: 2,
-      soal: "Jika 12 : x = 3, maka nilai x adalah ...",
-      pilihan: {
-        a: "3",
-        b: "4",
-        c: "5",
-        d: "6",
-        e: "9",
-      },
-      jawabanBenar: "b",
-      poin: 10,
-    },
-    {
-      paket: 2,
-      kategori: "TIU",
-      nomor: 3,
-      soal: "Sinonim dari kata 'absolut' adalah ...",
-      pilihan: {
-        a: "Mutlak",
-        b: "Relatif",
-        c: "Sementara",
-        d: "Lemah",
-        e: "Tidak pasti",
-      },
-      jawabanBenar: "a",
-      poin: 10,
-    },
-    {
-      paket: 2,
-      kategori: "TIU",
-      nomor: 4,
-      soal: "Jika semua A adalah B, dan semua B adalah C, maka ...",
-      pilihan: {
-        a: "Semua C adalah A",
-        b: "Semua A adalah C",
-        c: "Sebagian A bukan C",
-        d: "Tidak ada hubungan",
-        e: "Semua B bukan A",
-      },
-      jawabanBenar: "b",
-      poin: 10,
-    },
-    {
-      paket: 2,
-      kategori: "TIU",
-      nomor: 5,
-      soal: "Urutan bilangan berikut yang paling besar adalah ...",
-      pilihan: {
-        a: "0.75",
-        b: "3/4",
-        c: "70%",
-        d: "0.7",
-        e: "2/3",
-      },
-      jawabanBenar: "a",
-      poin: 10,
-    },
-    {
-      paket: 2,
-      kategori: "TIU",
-      topic: "figural",
-      nomor: 7,
-      soal: "Perhatikan gambar berikut dan tentukan pola yang benar:",
-      image: "/assets/figural.png",
-
-      pilihan: {
-        a: "Pola A",
-        b: "Pola B",
-        c: "Pola C",
-        d: "Pola D",
-        e: "Pola E",
-      },
-
-      jawabanBenar: "a",
-      poin: 5,
-    },
-  ],
+  nama: "Paket 2",
+  questions: [...twk2, ...tiu2, ...tkp2],
 };
 
 export default paket2;
