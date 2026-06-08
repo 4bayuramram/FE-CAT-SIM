@@ -6,7 +6,7 @@ const paket1 = {
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "Dasar Negara",
+      topic: "Pilar Negara",
       nomor: 1,
       soal: `
       Dalam rangka meningkatkan kualitas pelayanan publik, sebuah pemerintah daerah menerapkan program seleksi penerima bantuan sosial berbasis data terpadu. Namun, dalam pelaksanaannya ditemukan praktik di mana sebagian petugas sengaja mengabaikan hak kelompok masyarakat tertentu untuk memperoleh layanan yang sama hanya karena latar belakang suku dan kondisi sosial mereka. Tindakan tersebut bertentangan dengan nilai kemanusiaan yang adil dan beradab karena mengabaikan prinsip persamaan derajat setiap warga negara. Selain perilaku tersebut, tindakan lain yang juga mencerminkan pelanggaran terhadap nilai yang sama dalam Pancasila adalah ...	
@@ -28,7 +28,7 @@ const paket1 = {
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "Dasar Negara",
+      topic: "Pilar Negara",
       nomor: 2,
       soal: "	Dalam sebuah seminar kebangsaan, peserta diminta menjelaskan mengapa Pancasila termasuk salah satu pilar kebangsaan Indonesia. Berbagai pendapat muncul terkait kedudukan dan fungsi Pancasila dalam kehidupan berbangsa dan bernegaraAlasan yang paling tepat adalah ...",
       pilihan: {
@@ -48,7 +48,7 @@ const paket1 = {
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "Dasar Negara",
+      topic: "Pilar Negara",
       nomor: 3,
       soal: `Sebuah kabupaten yang dihuni oleh masyarakat dari berbagai suku dan agama berencana membangun pusat kegiatan masyarakat. Dalam musyawarah, setiap kelompok mengusulkan desain yang mencerminkan identitas budayanya masing-masing. Perdebatan berlangsung cukup panjang karena setiap kelompok ingin usulannya lebih diutamakan. Untuk mencegah konflik berkepanjangan, para tokoh masyarakat kemudian mengajak seluruh peserta mempertimbangkan kepentingan bersama di atas kepentingan kelompok.`,
       pilihan: {
@@ -68,7 +68,7 @@ const paket1 = {
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "Dasar Negara",
+      topic: "Pilar Negara",
       nomor: 4,
       soal: `
       Di sebuah kota, pemerintah daerah mengadakan kampanye kesadaran warga untuk menegakkan etika bermasyarakat, termasuk menghormati hak-hak individu dan mencegah tindakan yang merugikan orang lain. Meski demikian, beberapa insiden seperti intimidasi terhadap kelompok minoritas dan penyebaran berita bohong di media sosial tetap terjadi. Kasus tersebut menunjukkan adanya pelanggaran terhadap nilai Pancasila. Selain intimidasi dan penyebaran informasi palsu, kasus mana yang juga merupakan pelanggaran nilai Pancasila serupa di masyarakat?	
@@ -90,7 +90,7 @@ const paket1 = {
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "Dasar Negara",
+      topic: "Pilar Negara",
       nomor: 5,
       soal: `
       Di sebuah kota besar yang dihuni oleh berbagai kelompok etnis dan agama, terjadi perbedaan pendapat mengenai alokasi anggaran untuk kegiatan budaya masing-masing komunitas. Pemerintah daerah mengadakan musyawarah, menekankan bahwa keputusan harus tetap berlandaskan UUD 1945. Tujuan utama penekanan tersebut adalah agar setiap kebijakan tidak hanya sah secara hukum, tetapi juga menjaga kesatuan bangsa dan menghormati nilai-nilai kebangsaan. Nilai UUD 1945 yang paling mendasari sikap pemerintah daerah dalam kasus tersebut adalah …
@@ -112,7 +112,7 @@ const paket1 = {
     {
       paket: 1,
       kategori: "Tes Wawasan Kebangsaan (TWK)",
-      topic: "Dasar Negara",
+      topic: "Pilar Negara",
       nomor: 6,
       soal: "Pada saat pelaksanaan pemilihan kepala daerah di sebuah provinsi, muncul ajakan di media sosial dari sebagian pihak untuk tidak menggunakan hak pilih dengan alasan ketidakpercayaan terhadap calon yang tersedia. Di sisi lain, pemerintah daerah bersama KPU setempat terus melakukan sosialisasi agar masyarakat tetap berpartisipasi secara aktif dan bertanggung jawab dalam proses demokrasi. Dalam sosialisasi tersebut ditegaskan bahwa partisipasi politik warga merupakan bagian dari penerapan nilai Pancasila dalam kehidupan bernegara. Contoh penerapan nilai Pancasila dalam aspek politik yang paling tepat adalah ...",
       pilihan: {
@@ -126,11 +126,121 @@ const paket1 = {
       pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
       poin: 5,
     },
+    //pilar negara
+    //no.7
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Nasionalisme",
+      nomor: 7,
+      soal: "Nasionalisme bukan hanya sekadar kebanggaan terhadap simbol negara, tetapi juga diwujudkan melalui tindakan nyata yang mendukung kepentingan bersama dan keberlanjutan negara. Seorang guru di sebuah daerah terpencil mengetahui bahwa sebagian orang tua murid meminta izin untuk memindahkan anak mereka ke sekolah swasta karena fasilitas sekolah negeri kurang memadai. Jika semua murid pindah, keberlangsungan sekolah negeri akan terancam, padahal sekolah itu menjadi satu-satunya akses pendidikan bagi anak-anak yang kurang mampu di desa tersebut. Dalam situasi ini, sikap yang paling mencerminkan patriotisme dan tanggung jawab sebagai warga negara adalah…",
+      pilihan: {
+        a: "Mengizinkan murid pindah ke sekolah swasta agar orang tua merasa puas dan anak-anak mendapatkan fasilitas lebih baik",
+        b: "Menyampaikan keluhan dan kritik kepada pemerintah daerah agar segera meningkatkan fasilitas sekolah negeri, sambil tetap mendorong murid untuk bertahan",
+        c: "Memaksa murid dan orang tua tetap di sekolah negeri demi menjaga keberlangsungan sekolah, meski menimbulkan ketidakpuasan",
+        d: "Mengalihkan sebagian anggaran sekolah untuk kegiatan ekstrakurikuler agar murid merasa senang tanpa menyelesaikan masalah fasilitas utama",
+        e: "Memberi pemahaman kepada orang tua tentang pentingnya mendukung sekolah negeri, tanpa melakukan upaya nyata untuk memperbaiki fasilitas",
+      },
+      jawabanBenar: "b",
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+      poin: 5,
+    },
+    //no.8
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Nasionalisme",
+      nomor: 8,
+      soal: "Banjir besar yang melanda beberapa wilayah menyebabkan gangguan distribusi bantuan, ribuan warga mengungsi, dan pemerintah menetapkan kebijakan evakuasi terpusat serta jalur bantuan resmi untuk menjamin keselamatan dan keteraturan penanganan. Namun di lapangan, sebagian warga menolak evakuasi demi menjaga harta benda, sementara relawan menyalurkan bantuan langsung tanpa koordinasi karena menilai prosedur resmi terlalu lambat. Di sisi lain, opini publik di media sosial semakin kuat menekan pemerintah agar lebih fleksibel dalam penanganan. Jika dikaji dari prinsip nasionalisme dan tanggung jawab warga negara, tindakan yang tidak tepat dalam situasi tersebut adalah…",
+      pilihan: {
+        a: "Mematuhi kebijakan evakuasi sambil tetap mendorong perbaikan mekanisme penyaluran bantuan melalui jalur resmi",
+        b: "Mengutamakan keselamatan warga dengan mengikuti sistem koordinasi resmi agar penanganan bencana tetap teratur dan terdata",
+        c: "Menyalurkan bantuan secara mandiri tanpa koordinasi dengan pihak berwenang karena dianggap lebih cepat dan lebih efektif",
+        d: "Mengkritisi kebijakan pemerintah melalui ruang publik dengan tetap menjaga akurasi informasi agar tidak menimbulkan kepanikan",
+        e: "Mengikuti arahan evakuasi demi keselamatan sambil tetap menghormati upaya relawan yang bekerja dalam kerangka koordinasi resmi",
+      },
+      jawabanBenar: "c",
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+      poin: 5,
+    },
+    //no.9
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Nasionalisme",
+      nomor: 9,
+      soal: "Seorang warga negara yang bekerja di instansi pemerintah mengetahui adanya proyek pembangunan strategis nasional yang memiliki dampak ekonomi besar bagi masyarakat luas, namun dalam pelaksanaannya ditemukan indikasi pelanggaran prosedur dan potensi ketidakadilan bagi kelompok masyarakat adat setempat. Di sisi lain, proyek tersebut sudah berjalan dengan dukungan politik yang kuat dan keterlambatan dapat memicu kerugian nasional yang signifikan serta ketegangan sosial baru. Dalam situasi ini, tindakan yang paling mencerminkan nasionalisme yang bertanggung jawab adalah …",
+      pilihan: {
+        a: "Mengabaikan temuan karena prioritas utama adalah menjaga kelancaran proyek yang sudah berdampak luas bagi kepentingan nasional",
+        b: "Menyampaikan keberatan secara terbuka kepada publik agar tekanan sosial memaksa pemerintah segera memperbaiki proses meskipun berisiko memperuncing konflik",
+        c: "Mendukung penuh pelaksanaan proyek sambil tetap mengharapkan adanya perbaikan prosedur di tahap berikutnya agar manfaat nasional tetap tercapai",
+        d: "Menyalurkan temuan melalui mekanisme internal pengawasan resmi disertai dorongan perbaikan, sambil mempertimbangkan dampak keterlambatan terhadap kepentingan nasional yang lebih luas",
+        e: "Mengajak kelompok masyarakat terdampak untuk melakukan penolakan terorganisir sebagai bentuk perlindungan hak konstitusional mereka terhadap kebijakan yang dianggap merugikan",
+      },
+      jawabanBenar: "d",
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+      poin: 5,
+    },
+    //no.10
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Nasionalisme",
+      nomor: 10,
+      soal: "Udin adalah seorang warga negara yang memiliki sikap nasionalisme tinggi dan cinta tanah air. Ia senantiasa melakukan tindakan yang bermanfaat dalam jangka panjang, sekaligus pernah mengambil risiko pribadi untuk melindungi kepentingan bangsa. Selain itu, Udin ingin memiliki identitas yang kuat terkait budaya dan sejarah tempat kelahirannya. Sikap nasionalisme dan cinta tanah air yang pernah dilakukan Udin adalah …",
+      pilihan: {
+        a: "Membantu tetangga agar lingkungan menjadi harmonis, meskipun tidak berdampak langsung pada kepentingan nasional",
+        b: "Mengikuti program pendidikan kewarganegaraan untuk memperkuat identitas bangsa",
+        c: "Menggunakan transportasi umum untuk mendukung keberlanjutan lingkungan, meskipun merepotkan teman",
+        d: "Melaporkan praktik penyelewengan atau kebijakan yang merugikan Masyarakat kepada pihak berwenang.",
+        e: "Mengikuti latihan pertunjukan seni tradisional untuk melestarikan budaya lokal, memperkuat identitas, dan sebagai bentuk cinta tanah air.",
+      },
+      jawabanBenar: "d",
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+      poin: 5,
+    },
+    //no.11
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Nasionalisme",
+      nomor: 11,
+      soal: "Dalam situasi ketika terjadi gelombang protes di sebuah kota akibat kebijakan pemerintah yang dipandang merugikan sebagian masyarakat, kondisi di lapangan mulai tidak stabil dan sangat berpotensi menimbulkan kericuhan. Seorang warga negara berada dalam posisi yang menuntutnya untuk tetap menjaga kepentingan publik, menghormati hak menyampaikan pendapat, serta mencegah eskalasi konflik di lingkungannya. Sikap yang paling mencerminkan nasionalisme dan patriotisme yang bertanggung jawab adalah …",
+      pilihan: {
+        a: "Mengikuti aksi demonstrasi dan mengajak semua pihak untuk berpartisipasi di lapangan agar aspirasi lebih cepat tersampaikan.",
+        b: "Memberikan dukungan terbuka kepada aparat agar dapat bertindak lebih tegas dalam meredam kericuhan.",
+        c: "Menjauh dari seluruh bentuk keterlibatan karena menganggap situasi tersebut merupakan urusan pihak berwenang.",
+        d: "Membantu membagikan informasi dari media sosial kepada masyarakat dengan tujuan agar mereka lebih waspada.",
+        e: "Mengajak lingkungan sekitar untuk tetap tenang sambil memastikan aspirasi disalurkan melalui mekanisme resmi.",
+      },
+      jawabanBenar: "e",
+      poin: 5,
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.12
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Nasionalisme",
+      nomor: 12,
+      soal: "Di wilayah perbatasan terjadi kontak bersenjata antara pihak keamanan dan kelompok bersenjata yang menimbulkan korban jiwa dan ketidakstabilan sosial. Beredarnya informasi yang simpang siur menambah ketegangan masyarakat, sementara warga harus mempertimbangkan keselamatan diri, lingkungan, serta kepentingan bangsa. Dalam situasi ini, sikap yang paling tidak mencerminkan nasionalisme dan tanggung jawab warga negara adalah",
+      pilihan: {
+        a: "Tetap membagikan informasi kepada warga sekitar agar masyarakat mengetahui perkembangan situasi meskipun beberapa data belum terverifikasi sepenuhnya",
+        b: "Menjaga ketenangan lingkungan dan mengajak warga menyampaikan aspirasi atau keluhan melalui jalur resmi dan bertanggung jawab",
+        c: "Menyesuaikan diri dengan opini mayoritas agar tidak menimbulkan konflik dan tetap aman secara pribadi",
+        d: "Menjauh dari semua situasi yang berisiko agar tidak menambah ketegangan di masyarakat",
+        e: "Memberikan dukungan atau bantuan kepada pihak yang dianggap mampu menstabilkan kondisi, meskipun berisiko dianggap berpihak",
+      },
+      jawabanBenar: "a",
+      poin: 5,
+      pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    },
+    //no.13
     {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 7,
+      nomor: 31,
       soal: "-1, 1, 3, 8, 13, 15, ...",
       pilihan: {
         a: "13",
@@ -146,7 +256,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 8,
+      nomor: 32,
       soal: "2, 5, 9, 12, 16, 19, ...",
       pilihan: {
         a: "20",
@@ -162,7 +272,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 9,
+      nomor: 33,
       type: "sequence",
       soal: ["1/12", "3/24", "1/6", "5/24", "1/4", "7/24", "..."],
       pilihan: {
@@ -179,7 +289,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 10,
+      nomor: 34,
       type: "table",
       soal: `dengan jumlah penghasilan sebesar 5,6 juta/bulan toko pak basri membayar zakat sebesar 140.000  `,
       table: {
@@ -206,7 +316,7 @@ const paket1 = {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
       topic: "kemampuan numerik",
-      nomor: 11,
+      nomor: 35,
       type: "table",
       soal: `untuk membuat adonan bolu sebanyak 50 buah dibutuhkan gula 0,5 kg `,
       table: {
