@@ -26,6 +26,63 @@ export default function QuestionRenderer({ question }) {
     );
   }
 
+  //bahasa indonesia - bacaan 1
+  if (question.type === "bacaan") {
+    return (
+      <>
+        {question.image && (
+          <img
+            src={question.image}
+            alt="soal"
+            className="mb-4 rounded-lg border max-w-full"
+          />
+        )}
+
+        <p
+          className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
+          style={{ lineHeight: "1.8" }}
+        >
+          <i>{question.textref}</i>
+          <br />
+          {question.soal}
+          <br />
+          <br />
+          {question.ditanya}
+        </p>
+      </>
+    );
+  }
+
+  //bahasa indonesia - bacaan 2
+  if (question.type === "bacaan2") {
+    return (
+      <>
+        {question.image && (
+          <img
+            src={question.image}
+            alt="soal"
+            className="mb-4 rounded-lg border max-w-full"
+          />
+        )}
+
+        <p
+          className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
+          style={{ lineHeight: "1.8" }}
+        >
+          <i>{question.textref}</i>
+          <br />
+          {question.p1}
+          <br />
+          <br />
+          {question.p2}
+          <br />
+          <br />
+          {question.ditanya}
+        </p>
+      </>
+    );
+  }
+
   // SEQUENCE
   if (question.type === "sequence") {
     return (

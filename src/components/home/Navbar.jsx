@@ -55,7 +55,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href="cpn-z/daftar"
+            href="/cpn-z/daftar"
             className="px-5 py-2 text-white border border-white bg-transparent hover:bg-white hover:text-[#12345b] rounded-lg text-lg transition"
           >
             Daftar Sekarang
