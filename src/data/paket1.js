@@ -690,9 +690,6 @@ const paket1 = {
       pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
     },
     //no.36 - verbal analogi 
-    
-    ,
-
     {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
@@ -1888,7 +1885,6 @@ const paket1 = {
       mohon maaf,pembahasan pada paket ini tidak tersedia
   `,
     },
-    ,
   ],
 };
 
