@@ -101,7 +101,7 @@ export default function QuestionCard() {
       </div>
 
       {/* FONT WRAPPER (SOAL + OPSI SINKRON) */}
-      <div className="text-[18px] md:text-[19px] font-times leading-7 text-slate-800">
+      <div className="text-lg md:text-xl font-times leading-7 text-slate-800">
         {/* SOAL */}
         <QuestionRenderer question={question} />
 
