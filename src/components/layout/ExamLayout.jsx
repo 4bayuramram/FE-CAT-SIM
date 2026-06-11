@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import BottomNav from "./Bottomnav";
 
 import QuestionGrid from "../../components/question/QuestionGrid";
+import ExamGuard from "../../components/layout/ExamGuard"// ← import di sini
 
 export default function ExamLayout() {
   const [mobileView, setMobileView] = useState("ujian");
@@ -53,6 +54,8 @@ export default function ExamLayout() {
         </main>
       </div>
       <BottomNav mobileView={mobileView} setMobileView={setMobileView} />
+      {/* PASANG EXAM GUARD DI SINI */}
+      <ExamGuard />
     </div>
   );
 }

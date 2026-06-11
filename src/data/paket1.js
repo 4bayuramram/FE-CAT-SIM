@@ -530,63 +530,169 @@ const paket1 = {
       pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
     },
     //no.28
-      {
-        paket: 1,
-        kategori: "Tes Wawasan Kebangsaan (TWK)",
-        topic: "Bela Negara",
-        nomor: 28,
-        soal: "Sikap bela negara tidak selalu diwujudkan melalui keterlibatan dalam pertahanan militer, tetapi juga dapat tercermin dari pelaksanaan profesi yang mengutamakan kepentingan bangsa. Tindakan yang paling mencerminkan sikap tersebut adalah ...",
-        pilihan: {
-          a: "Seorang pegawai kementerian tetap menjalankan program bantuan sosial sesuai prosedur meskipun mendapat tekanan dari tokoh masyarakat untuk memprioritaskan kelompok tertentu.",
-          b: "Seorang analis perbankan menolak mempercepat proses pencairan dana investasi yang berpotensi meningkatkan pertumbuhan ekonomi daerah karena terdapat dokumen yang belum memenuhi ketentuan.",
-          c: "Seorang tenaga kesehatan memilih tetap memberikan pelayanan kepada seluruh pasien secara adil di tengah keterbatasan fasilitas dan meningkatnya tekanan dari berbagai pihak.",
-          d: "Seorang aparat penegak hukum menangani kasus yang melibatkan tokoh berpengaruh dengan tetap berpegang pada asas persamaan di hadapan hukum meskipun berisiko menghambat kariernya.",
-          e: "Seorang jaksa mengutamakan penegakan hukum yang objektif dan profesional dalam perkara korupsi yang merugikan keuangan negara meskipun menghadapi tekanan politik dan opini publik yang terbelah.",
-        },
-        jawabanBenar: "e",
-        poin: 5,
-        pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Bela Negara",
+      nomor: 28,
+      soal: "Sikap bela negara tidak selalu diwujudkan melalui keterlibatan dalam pertahanan militer, tetapi juga dapat tercermin dari pelaksanaan profesi yang mengutamakan kepentingan bangsa. Tindakan yang paling mencerminkan sikap tersebut adalah ...",
+      pilihan: {
+        a: "Seorang pegawai kementerian tetap menjalankan program bantuan sosial sesuai prosedur meskipun mendapat tekanan dari tokoh masyarakat untuk memprioritaskan kelompok tertentu.",
+        b: "Seorang analis perbankan menolak mempercepat proses pencairan dana investasi yang berpotensi meningkatkan pertumbuhan ekonomi daerah karena terdapat dokumen yang belum memenuhi ketentuan.",
+        c: "Seorang tenaga kesehatan memilih tetap memberikan pelayanan kepada seluruh pasien secara adil di tengah keterbatasan fasilitas dan meningkatnya tekanan dari berbagai pihak.",
+        d: "Seorang aparat penegak hukum menangani kasus yang melibatkan tokoh berpengaruh dengan tetap berpegang pada asas persamaan di hadapan hukum meskipun berisiko menghambat kariernya.",
+        e: "Seorang jaksa mengutamakan penegakan hukum yang objektif dan profesional dalam perkara korupsi yang merugikan keuangan negara meskipun menghadapi tekanan politik dan opini publik yang terbelah.",
       },
-      //no.29
-      {
-        paket: 1,
-        kategori: "Tes Wawasan Kebangsaan (TWK)",
-        topic: "Bela Negara",
-        nomor: 29,
-        soal: "Seorang mahasiswa aktif di organisasi kemahasiswaan dan kegiatan sosial di kampus. Ia dihadapkan pada situasi di mana terjadi perbedaan pendapat yang tajam antara mahasiswa dari berbagai latar belakang budaya dan agama. Sikap yang paling mencerminkan nilai bela negara dalam situasi tersebut adalah …",
-        pilihan: {
-          a: "Memberikan saran secara pribadi kepada pihak yang berselisih agar situasi tetap terjada.",
-          b: "Menyampaikan pendapat pribadi kepada semua pihak agar keputusan lebih adil.",
-          c: "Mengajak kedua pihak berdiskusi agar mendapat kesepakatan yang tidak menyudutkan pihak tertentu.",
-          d: "Berpartisipasi aktif dalam kegiatan kampus sambil tetap menjaga hubungan baik dengan semua pihak.",
-          e: "Membagikan informasi dan perspektif yang seimbang agar teman-teman memahami situasi secara utuh.",
-        },
-        jawabanBenar: "d",
-        poin: 5,
-        pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+      jawabanBenar: "e",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //no.29
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Bela Negara",
+      nomor: 29,
+      soal: "Seorang mahasiswa aktif di organisasi kemahasiswaan dan kegiatan sosial di kampus. Ia dihadapkan pada situasi di mana terjadi perbedaan pendapat yang tajam antara mahasiswa dari berbagai latar belakang budaya dan agama. Sikap yang paling mencerminkan nilai bela negara dalam situasi tersebut adalah …",
+      pilihan: {
+        a: "Memberikan saran secara pribadi kepada pihak yang berselisih agar situasi tetap terjada.",
+        b: "Menyampaikan pendapat pribadi kepada semua pihak agar keputusan lebih adil.",
+        c: "Mengajak kedua pihak berdiskusi agar mendapat kesepakatan yang tidak menyudutkan pihak tertentu.",
+        d: "Berpartisipasi aktif dalam kegiatan kampus sambil tetap menjaga hubungan baik dengan semua pihak.",
+        e: "Membagikan informasi dan perspektif yang seimbang agar teman-teman memahami situasi secara utuh.",
       },
-      //no.30
-      {
-        paket: 1,
-        kategori: "Tes Wawasan Kebangsaan (TWK)",
-        topic: "Bela Negara",
-        nomor: 30,
-        soal: "Di sebuah lingkungan masyarakat, warga sedang merencanakan pembangunan fasilitas bersama untuk kepentingan umum. Dalam prosesnya muncul perbedaan pendapat terkait prioritas kebutuhan, desain, dan pelaksanaan. Sikap yang paling mencerminkan nilai bela negara adalah …",
-        pilihan: {
-          a: "Menjadi penengah dalam musyawarah warga agar setiap pendapat dapat dipertimbangkan secara seimbang dalam pengambilan keputusan.",
-          b: "Menjalankan peran pribadi dalam kegiatan warga sambil tetap menghormati hasil keputusan bersama yang telah disepakati.",
-          c: "Mengambil bagian dalam kegiatan warga sesuai kemampuan untuk mendukung kelancaran proses pembangunan fasilitas bersama.",
-          d: "Mengemukakan pandangan dalam forum warga secara berkala serta tetap menjaga sikap terbuka terhadap keputusan akhir bersama.",
-          e: "Mengusulkan rancangan yang mempertimbangkan kebutuhan warga secara menyeluruh, mengoordinasikan proses musyawarah, serta memastikan hasil kesepakatan dijalankan bersama secara konsisten.",
-        },
-        jawabanBenar: "e",
-        poin: 5,
-        pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+      jawabanBenar: "d",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //no.30
+    {
+      paket: 1,
+      kategori: "Tes Wawasan Kebangsaan (TWK)",
+      topic: "Bela Negara",
+      nomor: 30,
+      soal: "Di sebuah lingkungan masyarakat, warga sedang merencanakan pembangunan fasilitas bersama untuk kepentingan umum. Dalam prosesnya muncul perbedaan pendapat terkait prioritas kebutuhan, desain, dan pelaksanaan. Sikap yang paling mencerminkan nilai bela negara adalah …",
+      pilihan: {
+        a: "Menjadi penengah dalam musyawarah warga agar setiap pendapat dapat dipertimbangkan secara seimbang dalam pengambilan keputusan.",
+        b: "Menjalankan peran pribadi dalam kegiatan warga sambil tetap menghormati hasil keputusan bersama yang telah disepakati.",
+        c: "Mengambil bagian dalam kegiatan warga sesuai kemampuan untuk mendukung kelancaran proses pembangunan fasilitas bersama.",
+        d: "Mengemukakan pandangan dalam forum warga secara berkala serta tetap menjaga sikap terbuka terhadap keputusan akhir bersama.",
+        e: "Mengusulkan rancangan yang mempertimbangkan kebutuhan warga secara menyeluruh, mengoordinasikan proses musyawarah, serta memastikan hasil kesepakatan dijalankan bersama secara konsisten.",
       },
-    //TIU
-
-
+      jawabanBenar: "e",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //TIU 31-65
+    //no.31
+    {
+      paket: 1,
+      kategori: "Tes Intelegensia Umum (TIU)",
+      topic: "Penalaran Verbal",
+      nomor: 31,
+      soal: "Sebuah lembaga mengadakan pelatihan untuk enam peserta: Udin, Ujang, Usep, Ulfa, Usro, dan Ucok. Tersedia tiga kelas, yaitu Administrasi, Teknologi Informasi, dan Keuangan, dengan masing-masing kelas diikuti tepat dua peserta. Diketahui bahwa Usep mengikuti kelas Teknologi Informasi. Udin dan Usro berada di kelas yang sama, sedangkan Ujang dan Ulfa juga berada di kelas yang sama. Ujang tidak satu kelas dengan Udin. Ulfa tidak mengikuti kelas Keuangan. Ucok tidak mengikuti kelas Teknologi Informasi. Tepat salah satu dari Udin atau Ujang mengikuti kelas Keuangan. Selain itu, jika Ucok mengikuti kelas Administrasi, maka Udin mengikuti kelas Keuangan. Berdasarkan informasi tersebut, siapakah yang mengikuti kelas Administrasi?",
+      pilihan: {
+        a: "Udin dan Usro",
+        b: "Ujang dan Ulfa",
+        c: "Usep dan Ucok",
+        d: "Ujang dan Ucok",
+        e: "Ulfa dan Usro",
+      },
+      jawabanBenar: "",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //.32
+    {
+      paket: 1,
+      kategori: "Tes Intelegensia Umum (TIU)",
+      topic: "Penalaran Verbal",
+      nomor: 32,
+      soal: "Enam pegawai, yaitu Ardi, Arman, Arif, Arina, Aruna, dan Arlan, akan ditempatkan pada empat proyek berbeda: A, B, C, dan D. Setiap pegawai hanya masuk ke satu proyek. Diketahui bahwa Ardi dan Aruna selalu berada pada proyek yang sama. Arif berada di proyek C. Arlan tidak berada di proyek A maupun C. Arman dan Arina tidak berada pada proyek yang sama. Jika Arlan berada di proyek B, maka Arina berada di proyek D. Tepat satu dari Ardi atau Arman berada di proyek A. Selain itu, setiap proyek yang diisi lebih dari satu pegawai harus memuat Ardi atau Aruna sebagai salah satu anggotanya. Pada susunan akhir, proyek C hanya berisi satu pegawai. Berdasarkan seluruh informasi tersebut, manakah pernyataan yang pasti benar?",
+      pilihan: {
+        a: "Ardi dan Aruna berada di proyek A.",
+        b: "Arman tidak berada di proyek A.",
+        c: "Arina tidak berada di proyek C.",
+        d: "Arlan berada di proyek D.",
+        e: "Proyek B berisi tepat dua pegawai.",
+      },
+      jawabanBenar: "",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //no.33
+    {
+      paket: 1,
+      kategori: "Tes Intelegensia Umum (TIU)",
+      topic: "Penalaran Verbal",
+      nomor: 33,
+      type: "bacaan2",
+      textref: "Teks untuk nomor 33, 34 dan 35",
+      p1: "Sebuah perusahaan konsultan memiliki delapan analis, yaitu Yuda, Yuni, Yura, Yudi, Yuna, Yugo, Yuli, dan Yusuf, yang harus ditempatkan ke dalam empat proyek berbeda: Alpha, Beta, Gamma, dan Delta. Setiap proyek diisi oleh tepat dua analis.",
+      p2: "Diketahui bahwa Yuda dan Yuna selalu berada dalam proyek yang sama. Yuni dan Yuli juga selalu berada dalam proyek yang sama. Yura berada di proyek Gamma. Yusuf tidak berada di proyek Alpha maupun Gamma. Yugo tidak berada dalam proyek yang sama dengan Yuli. Jika Yusuf berada di proyek Beta, maka Yugo berada di proyek Delta. Tepat satu dari pasangan Yuda–Yuna atau Yuni–Yuli berada di proyek Alpha. Selain itu, setiap proyek yang berisi lebih dari satu pasangan wajib mengandung minimal satu dari empat analis: Yuda, Yuna, Yuni, atau Yuli. Proyek Gamma hanya berisi Yura.",
+      ditanya:
+        "Jika Yusuf dipastikan tidak berada di proyek Beta, maka kemungkinan manakah yang pasti benar?",
+      pilihan: {
+        a: "Yusuf berada di proyek Delta",
+        b: "Yugo berada di proyek Beta",
+        c: "Yuda dan Yuna berada di proyek Alpha",
+        d: "Yuni dan Yuli berada di proyek Delta",
+        e: "Yuli berada di proyek Alpha",
+      },
+      jawabanBenar: "",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //no.34
+    {
+      paket: 1,
+      kategori: "Tes Intelegensia Umum (TIU)",
+      topic: "Penalaran Verbal",
+      nomor: 34,
+      type: "bacaan2",
+      textref: "Teks untuk nomor 33, 34 dan 35",
+      p1: "Sebuah perusahaan konsultan memiliki delapan analis, yaitu Yuda, Yuni, Yura, Yudi, Yuna, Yugo, Yuli, dan Yusuf, yang harus ditempatkan ke dalam empat proyek berbeda: Alpha, Beta, Gamma, dan Delta. Setiap proyek diisi oleh tepat dua analis.",
+      p2: "Diketahui bahwa Yuda dan Yuna selalu berada dalam proyek yang sama. Yuni dan Yuli juga selalu berada dalam proyek yang sama. Yura berada di proyek Gamma. Yusuf tidak berada di proyek Alpha maupun Gamma. Yugo tidak berada dalam proyek yang sama dengan Yuli. Jika Yusuf berada di proyek Beta, maka Yugo berada di proyek Delta. Tepat satu dari pasangan Yuda–Yuna atau Yuni–Yuli berada di proyek Alpha. Selain itu, setiap proyek yang berisi lebih dari satu pasangan wajib mengandung minimal satu dari empat analis: Yuda, Yuna, Yuni, atau Yuli. Proyek Gamma hanya berisi Yura.",
+      ditanya:
+        "Jika Yugo berada di proyek Beta, maka pernyataan yang pasti benar adalah:",
+      pilihan: {
+        a: "Yusuf berada di proyek Alpha",
+        b: "Yuda dan Yuna berada di proyek Delta",
+        c: "Yuni dan Yuli berada di proyek Alpha",
+        d: "Yugo berada di proyek Gamma",
+        e: "Yura berada di proyek Beta",
+      },
+      jawabanBenar: "",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //no.35
+    {
+      paket: 1,
+      kategori: "Tes Intelegensia Umum (TIU)",
+      topic: "Penalaran Verbal",
+      nomor: 35,
+      type: "bacaan2",
+      textref: "Teks untuk nomor 33, 34 dan 35",
+      p1: "Sebuah perusahaan konsultan memiliki delapan analis, yaitu Yuda, Yuni, Yura, Yudi, Yuna, Yugo, Yuli, dan Yusuf, yang harus ditempatkan ke dalam empat proyek berbeda: Alpha, Beta, Gamma, dan Delta. Setiap proyek diisi oleh tepat dua analis.",
+      p2: "Diketahui bahwa Yuda dan Yuna selalu berada dalam proyek yang sama. Yuni dan Yuli juga selalu berada dalam proyek yang sama. Yura berada di proyek Gamma. Yusuf tidak berada di proyek Alpha maupun Gamma. Yugo tidak berada dalam proyek yang sama dengan Yuli. Jika Yusuf berada di proyek Beta, maka Yugo berada di proyek Delta. Tepat satu dari pasangan Yuda–Yuna atau Yuni–Yuli berada di proyek Alpha. Selain itu, setiap proyek yang berisi lebih dari satu pasangan wajib mengandung minimal satu dari empat analis: Yuda, Yuna, Yuni, atau Yuli. Proyek Gamma hanya berisi Yura.",
+      ditanya:
+        "Jika Yusuf berada di proyek Delta, maka kemungkinan susunan yang paling konsisten adalah:",
+      pilihan: {
+        a: "Yuda–Yuna (Alpha), Yuni–Yuli (Beta), Yusuf–Yugo (Delta), Yura–Yuni (Gamma)",
+        b: "Yuda–Yuna (Beta), Yuni–Yuli (Alpha), Yusuf–Yugo (Delta), Yura (Gamma)",
+        c: "Yuda–Yuna (Alpha), Yuni–Yuli (Delta), Yusuf–Yugo (Beta), Yura (Gamma)",
+        d: "Yuda–Yuna (Gamma), Yuni–Yuli (Alpha), Yusuf–Yugo (Beta), Yura (Delta)",
+        e: "Yuda–Yuna (Delta), Yuni–Yuli (Beta), Yusuf–Yugo (Alpha), Yura (Gamma)",
+      },
+      jawabanBenar: "",
+      poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
+    },
+    //no.36 - verbal analogi 
     
+    ,
+
     {
       paket: 1,
       kategori: "Tes Intelegensia Umum (TIU)",
@@ -602,6 +708,7 @@ const paket1 = {
       },
       jawabanBenar: "d",
       poin: 5,
+      pembahasan: "mohon maaf, pembahasan pada paket ini tidak tersedia",
     },
     {
       paket: 1,

@@ -64,7 +64,7 @@ const tiu2 = [
     topic: "figural",
     nomor: 7,
     soal: "Perhatikan gambar berikut dan tentukan pola yang benar:",
-    image: "/assets/figural.png",
+    image: "../assets/figural.png",
 
     pilihan: {
       a: "Pola A",
