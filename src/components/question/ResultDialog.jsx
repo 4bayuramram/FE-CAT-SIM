@@ -7,17 +7,14 @@ import Divider from "@mui/material/Divider";
 
 export default function ResultDialog({ open, result, onExit, onReview }) {
   const categoryScores = result?.categoryScores || {};
+
   const categoryMaxScores = result?.categoryMaxScores || {};
+
   const topicStats = result?.topicStats || {};
 
-  const allCategories = Object.keys(categoryMaxScores || {});
+  const tkpStats = result?.tkpStats || {};
 
-  // =================================
-  // MAP CATEGORY → SCORE (SOURCE OF TRUTH)
-  // =================================
-  const twkScore = categoryScores["TWK"] || 0;
-  const tiuScore = categoryScores["TIU"] || 0;
-  const tkpScore = categoryScores["TKP"] || 0;
+  const allCategories = Object.keys(categoryMaxScores);
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
@@ -25,20 +22,22 @@ export default function ResultDialog({ open, result, onExit, onReview }) {
 
       <DialogContent>
         {result ? (
-          <div className="space-y-4 mt-2">
-            {/* TOTAL SCORE */}
+          <div className="space-y-4 mt-2 ">
+            {/* TOTAL */}
             <div className="p-4 border rounded-lg bg-slate-50">
               <p>Total Skor</p>
+
               <h2 className="text-2xl font-bold">{result.totalScore ?? 0}</h2>
             </div>
 
             <Divider />
 
-            {/* SCORE PER JENIS (FROM CATEGORY) */}
+            {/* SCORE PER KATEGORI */}
             <div className="grid grid-cols-3 gap-3 text-center">
               {allCategories.map((cat) => (
                 <div key={cat}>
-                  <p>{cat.match(/\((.*?)\)/)?.[1]}</p>
+                  <p>{cat.match(/\((.*?)\)/)?.[1] || cat}</p>
+
                   <b>{categoryScores[cat] || 0}</b>
                 </div>
               ))}
@@ -47,11 +46,29 @@ export default function ResultDialog({ open, result, onExit, onReview }) {
             <Divider />
 
             {/* SUMMARY */}
-            <div className="text-sm">
-              <p>Benar: {result.correct ?? 0}</p>
-              <p>Salah: {result.wrong ?? 0}</p>
-              <p>Tidak dijawab: {result.unanswered ?? 0}</p>
-              <p>Total Soal: {result.total ?? 0}</p>
+            <div className="text-sm space-y-1">
+              <p className="font-semibold">
+                Benar (TWK dan TIU) :{" "}
+                {(result.twkCorrect || 0) + (result.tiuCorrect || 0)}
+              </p>
+              <p className="font-semibold">
+                Salah (TWK dan TIU) :{" "}
+                {(result.twkWrong || 0) + (result.tiuWrong || 0)}
+              </p>
+
+              <Divider className="my-2" />
+
+              <p>Perolehan skor TKP </p>
+              <p className="font-semibold">Skor +5 : {tkpStats.score5 || 0}</p>
+              <p className="font-semibold">Skor +4 : {tkpStats.score4 || 0}</p>
+              <p className="font-semibold">Skor +3 : {tkpStats.score3 || 0}</p>
+              <p className="font-semibold">Skor +2 : {tkpStats.score2 || 0}</p>
+              <p className="font-semibold">Skor +1 : {tkpStats.score1 || 0}</p>
+
+              <Divider className="my-2" />
+
+              <p>Total Soal: {result.total || 0}</p>
+              <p>Tidak dijawab: {result.unanswered || 0}</p>
             </div>
 
             {/* CATEGORY SCORE */}
@@ -60,48 +77,69 @@ export default function ResultDialog({ open, result, onExit, onReview }) {
                 <Divider />
 
                 <div className="text-sm space-y-2">
-                  {/* HEADER */}
                   <p className="font-semibold">Skor per Kategori</p>
 
-                  {/* LIST CATEGORY */}
-                  {allCategories.map((cat) => {
-                    const score = categoryScores[cat] || 0;
-                    const max = categoryMaxScores[cat] || 0;
+                  {allCategories.map((cat) => (
+                    <div key={cat} className="flex justify-between">
+                      <span>{cat}</span>
 
-                    return (
-                      <div key={cat} className="flex justify-between">
-                        <span>{cat}</span>
-                        <span>
-                          {score} / {max}
-                        </span>
-                      </div>
-                    );
-                  })}
+                      <span>
+                        {categoryScores[cat] || 0}
+                        {" / "}
+                        {categoryMaxScores[cat] || 0}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </>
             )}
 
-            {/* TOPIC STATS */}
+            {/* TOPIC ANALYSIS */}
             {Object.keys(topicStats).length > 0 && (
               <>
                 <Divider />
 
                 <div className="text-sm space-y-2">
-                  {/* HEADER */}
                   <p className="font-semibold">Analisis Topik</p>
 
-                  {/* LIST TOPIC */}
-                  {Object.keys(topicStats).map((topic) => {
-                    const t = topicStats[topic];
+                  {Object.entries(topicStats).map(([topic, t]) => {
+                    const isTKP = t.kategori?.toUpperCase().includes("TKP");
 
                     return (
-                      <div key={topic} className="border p-2 rounded">
-                        <p> {t.kategori}</p>
+                      <div key={topic} className="border p-3 rounded">
+                        <p>{t.kategori}</p>
+
                         <p className="font-medium">Topik: {topic}</p>
-                        <p>Total soal: {t.total ?? 0}</p>
-                        <p>Benar: {t.correct ?? 0}</p>
-                        <p>Salah: {t.wrong ?? 0}</p>
-                        <p>Tidak dijawab: {t.unanswered ?? 0}</p>
+
+                        <p>Total soal: {t.total}</p>
+
+                        <p>Tidak dijawab: {t.unanswered}</p>
+
+                        {isTKP ? (
+                          <>
+                            <Divider className="my-2" />
+
+                            <p>+5 : {t.score5}</p>
+
+                            <p>+4 : {t.score4}</p>
+
+                            <p>+3 : {t.score3}</p>
+
+                            <p>+2 : {t.score2}</p>
+
+                            <p>+1 : {t.score1}</p>
+
+                            <p className="font-semibold">
+                              Total Skor : {t.totalScore}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <p>Benar: {t.correct}</p>
+
+                            <p>Salah: {t.wrong}</p>
+                          </>
+                        )}
                       </div>
                     );
                   })}

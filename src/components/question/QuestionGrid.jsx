@@ -19,7 +19,6 @@ export default function QuestionGrid({ onSelect }) {
     onSelect?.();
   };
 
-  // RESULT CALC (FINISHED ONLY)
   const getResultMark = (q) => {
     const userAnswer = answers?.[q.nomor];
 
@@ -50,7 +49,8 @@ export default function QuestionGrid({ onSelect }) {
   return (
     <div>
       <ParticipantCard />
-     {/* legenda - tetap */}
+
+      {/* LEGEND */}
       <div className="mb-4 space-y-2 border border-slate-200 rounded-2xl p-4 bg-white shadow-sm">
         {!isFinished ? (
           <>
@@ -69,7 +69,7 @@ export default function QuestionGrid({ onSelect }) {
         )}
       </div>
 
-     {/* title - finished */}
+      {/* TITLE */}
       {isFinished && (
         <div className="mb-3 text-sm font-bold text-slate-700">
           Jawaban Peserta
@@ -85,6 +85,7 @@ export default function QuestionGrid({ onSelect }) {
                 {kategori}
               </div>
 
+              {/* row */}
               <div className="grid grid-cols-5 gap-2">
                 {list.map((q) => {
                   const isActive = currentIndex === q.index;
@@ -97,9 +98,10 @@ export default function QuestionGrid({ onSelect }) {
                       key={q.nomor}
                       onClick={() => handleClick(q.index)}
                       className={`
-                        w-14 h-10 rounded-lg text-[11px] font-bold border
-                        flex items-center justify-between px-2
+                        relative w-12 h-10 rounded-lg text-[11px] font-bold border
+                        flex items-center justify-center
                         transition-all duration-200
+                        px-1
 
                         ${
                           isActive
@@ -108,20 +110,22 @@ export default function QuestionGrid({ onSelect }) {
                         }
                       `}
                     >
-                      {/* LEFT */}
-                      <span className="flex items-center gap-1">
+                      {/* NOMOR + JAWABAN */}
+                      <div className="flex items-center gap-1">
                         <span>{q.nomor}.</span>
                         {userAnswer && (
                           <span className="text-slate-500 font-semibold">
                             {answerLabel}
                           </span>
                         )}
-                      </span>
+                      </div>
 
-                      {/* RIGHT */}
-                      <span
-                        className={`
-                          text-[11px]
+                      {/* TKP / MARK BADGE */}
+                      {mark && (
+                        <span
+                          className={`
+                          absolute top-0 right-0 translate-x-0 -translate-y-2
+                          text-[13px] font-bold
                           ${
                             mark === "✓"
                               ? "text-green-600"
@@ -129,12 +133,13 @@ export default function QuestionGrid({ onSelect }) {
                               ? "text-red-600"
                               : mark.includes("+")
                               ? "text-blue-600"
-                              : "text-transparent"
+                              : "text-slate-400"
                           }
                         `}
-                      >
-                        {mark}
-                      </span>
+                        >
+                          {mark}
+                        </span>
+                      )}
                     </button>
                   );
                 })}
@@ -142,40 +147,82 @@ export default function QuestionGrid({ onSelect }) {
             </div>
           ))
         ) : (
-          <div className="grid grid-cols-5 gap-2">
-            {questions.map((q, i) => {
-              const isActive = currentIndex === i;
-              const isAnswered = !!answers?.[q.nomor];
+          <>
+            {/* ================= MOBILE ================= */}
+            <div className="md:hidden w-full">
+              <div className="grid grid-cols-5 gap-1">
+                {questions.map((q, i) => {
+                  const isActive = currentIndex === i;
+                  const isAnswered = !!answers?.[q.nomor];
 
-              return (
-                <button
-                  key={q.nomor}
-                  onClick={() => handleClick(i)}
-                  className={`
-                    w-10 h-10 rounded-lg text-xs font-semibold border
-                    transition-all duration-200
+                  return (
+                    <button
+                      key={q.nomor}
+                      onClick={() => handleClick(i)}
+                      className={`
+            w-full h-7
+            rounded-md
+            text-[12px]
+            font-semibold
+            border
+            flex items-center justify-center
+            transition-all duration-150
 
-                    ${
-                      isActive
-                        ? "bg-[#fcd400] text-black border-yellow-500"
-                        : isAnswered
-                        ? "bg-[#00467f] text-white border-blue-700"
-                        : "bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200"
-                    }
-                  `}
-                >
-                  {q.nomor}
-                </button>
-              );
-            })}
-          </div>
+            ${
+              isActive
+                ? "bg-[#fcd400] text-black border-yellow-500"
+                : isAnswered
+                ? "bg-[#00467f] text-white border-blue-700"
+                : "bg-slate-100 text-slate-700 border-slate-300"
+            }
+          `}
+                    >
+                      {q.nomor}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ================= DESKTOP ================= */}
+            <div className="hidden md:block overflow-x-auto">
+              <div className="grid grid-cols-5 gap-1 w-max">
+                {questions.map((q, i) => {
+                  const isActive = currentIndex === i;
+                  const isAnswered = !!answers?.[q.nomor];
+
+                  return (
+                    <button
+                      key={`${q.nomor}-${i}`}
+                      onClick={() => handleClick(i)}
+                      className={`
+              w-11 h-10 rounded-lg text-[13px] font-bold border
+              flex items-center justify-center
+              transition-all duration-200 px-1
+
+              ${
+                isActive
+                  ? "bg-[#fcd400] text-black border-yellow-500"
+                  : isAnswered
+                  ? "bg-[#00467f] text-white border-blue-700"
+                  : "bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200"
+              }
+            `}
+                    >
+                      {q.nomor}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 }
 
-//legenda
+// LEGEND
 function Legend({ color, label }) {
   return (
     <div className="flex items-center gap-3 text-sm">
