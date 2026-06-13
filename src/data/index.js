@@ -9,4 +9,5 @@ export const paketData = {
   2: paket2,
   3: paket3,
   4: paket4,
+  
 };
