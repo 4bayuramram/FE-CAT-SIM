@@ -1,3 +1,5 @@
+import twk2Pembahasan from "./twk2Pembahasan";
+
 const twk2 = [
   // no.1
   {
@@ -14,9 +16,11 @@ const twk2 = [
       e: "Menghormati keberagaman budaya dan adat istiadat dalam setiap program pembangunan",
     },
     jawabanBenar: "b",
-    pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    pembahasan: twk2Pembahasan[1],
     poin: 5,
   },
+
+  // no.2
   {
     paket: 2,
     kategori: "Tes Wawasan Kebangsaan (TWK)",
@@ -31,10 +35,10 @@ const twk2 = [
       e: "Pancasila lahir dari kesepakatan para pendiri bangsa ...",
     },
     jawabanBenar: "a",
-    pembahasan: "mohon maaf,pembahasan pada paket ini tidak tersedia",
+    pembahasan: twk2Pembahasan[2],
     poin: 5,
   },
-  // Tambahkan TWK nomor 3-6 dengan format sama
+
 ];
 
 export default twk2;
