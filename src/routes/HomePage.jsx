@@ -4,6 +4,7 @@ import Navbar from "../components/home/Navbar";
 import FooterSection from "../components/home/FooterSection";
 import Simulasi from "../pages/simulasi/Simulasi";
 import NotFound from "../pages/home/NotFound";
+import ProtectedLayout from "./ProtectedLayout";
 
 export default function HomePage() {
   const location = useLocation();
@@ -23,7 +24,9 @@ export default function HomePage() {
 
       <Routes>
         <Route index element={<Home />} />
-        <Route path="simulasi" element={<Simulasi />} />
+        <Route element={<ProtectedLayout />}>
+          <Route path="simulasi" element={<Simulasi />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
 
