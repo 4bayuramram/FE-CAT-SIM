@@ -1,0 +1,27 @@
+{
+  /* Terms */
+}
+<label className="flex items-start gap-3 text-sm text-gray-500">
+  <input type="checkbox" className="mt-1 accent-[#fcd401]" />
+
+  <span>
+    Saya menyetujui{" "}
+    <a
+      href="/cpn-z/terms"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-[#12345b] font-semibold hover:underline"
+    >
+      Syarat & Ketentuan
+    </a>{" "}
+    dan{" "}
+    <a
+      href="/cpn-z/privacy"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-[#12345b] font-semibold hover:underline"
+    >
+      Kebijakan Privasi
+    </a>
+  </span>
+</label>;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
@@ -60,7 +60,7 @@ export default function LoginPage() {
       <section className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-white">
         <div className="w-full max-w-md">
           <h2 className="text-3xl font-bold text-[#12345b] mb-2">
-            Selamat Datang
+            Selamat Datang Pejuang!
           </h2>
           <p className="text-gray-500 mb-8">Silahkan masuk untuk melanjutkan</p>
 
