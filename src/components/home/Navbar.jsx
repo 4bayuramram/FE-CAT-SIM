@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { supabase } from "../../lib/supabaseClient";
 
 const NAV_LINKS = [
   { label: "Home", href: "/home" },
@@ -10,13 +11,42 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
+  
   const [open, setOpen] = useState(false);
-  const location = useLocation(); // hook untuk dapatkan path saat ini
+  const [user, setUser] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+   const syncUser = async () => {
+     const {
+       data: { session },
+     } = await supabase.auth.getSession();
+
+     alert(JSON.stringify(session?.user, null, 2));
+
+     setUser(session?.user ?? null);
+     
+   };
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const avatar =
+    user?.user_metadata?.avatar_url ||
+    user?.user_metadata?.picture ||
+    user?.identities?.[0]?.identity_data?.avatar_url ||
+    "/default-avatar.png";
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#12345b] shadow-sm font-serif text-white">
       <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop h-24 flex items-center justify-between">
-        {/* LEFT / LOGO */}
+        {/* LOGO */}
         <div className="flex items-center">
           <img
             src="/sim-cat.png"
@@ -28,7 +58,7 @@ export default function Navbar() {
         {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center gap-8 ml-auto">
           {NAV_LINKS.map((item) => {
-            const isActive = location.pathname === item.href; // cek halaman aktif
+            const isActive = location.pathname === item.href;
             return (
               <a
                 key={item.label}
@@ -46,27 +76,49 @@ export default function Navbar() {
         </div>
 
         {/* RIGHT ACTIONS */}
-        <div className="hidden md:flex items-center gap-3 ml-8">
-          <a
-            href="/cpn-z/login"
-            className="text-white text-lg transition hover:text-gray-300"
-          >
-            Masuk
-          </a>
+        <div className="hidden md:flex items-center gap-4 ml-8">
+          {user ? (
+            <>
+              <img
+                src={avatar}
+                alt="avatar"
+                className="w-10 h-10 rounded-full object-cover border border-white"
+              />
 
-          <a
-            href="/cpn-z/daftar"
-            className="px-5 py-2 text-white border border-white bg-transparent hover:bg-white hover:text-[#12345b] rounded-lg text-lg transition"
-          >
-            Daftar Sekarang
-          </a>
+              <span className="text-sm max-w-[120px] truncate">
+                {user.email}
+              </span>
+
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  setUser(null);
+                }}
+                className="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-[#12345b] transition"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <a href="/cpn-z/login" className="text-lg hover:text-gray-300">
+                Masuk
+              </a>
+
+              <a
+                href="/cpn-z/daftar"
+                className="px-5 py-2 border border-white rounded-lg hover:bg-white hover:text-[#12345b] transition"
+              >
+                Daftar Sekarang
+              </a>
+            </>
+          )}
         </div>
 
         {/* MOBILE BUTTON */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden p-2 rounded-lg text-white hover:text-gray-300"
-          aria-label="Toggle menu"
+          className="md:hidden p-2 text-white"
         >
           ☰
         </button>
@@ -74,7 +126,7 @@ export default function Navbar() {
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="md:hidden border-t border-white bg-[#12345b] font-serif text-white">
+        <div className="md:hidden border-t border-white bg-[#12345b] text-white">
           <div className="px-4 py-3 flex flex-col gap-3">
             {NAV_LINKS.map((item) => {
               const isActive = location.pathname === item.href;
@@ -94,20 +146,46 @@ export default function Navbar() {
               );
             })}
 
-            <div className="flex flex-col gap-2 pt-2 border-t border-white">
-              <a
-                href="/login"
-                className="px-4 py-2 text-center text-white border border-white rounded-lg text-lg hover:bg-white hover:text-[#12345b]"
-              >
-                Masuk
-              </a>
+            <div className="flex flex-col gap-3 pt-3 border-t border-white">
+              {user ? (
+                <>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={avatar}
+                      className="w-10 h-10 rounded-full border"
+                      alt="avatar"
+                    />
+                    <span className="text-sm truncate">{user.email}</span>
+                  </div>
 
-              <a
-                href="/register"
-                className="px-4 py-2 text-center text-white border border-white rounded-lg text-lg hover:bg-white hover:text-[#12345b]"
-              >
-                Daftar Sekarang
-              </a>
+                  <button
+                    onClick={async () => {
+                      await supabase.auth.signOut();
+                      setUser(null);
+                      setOpen(false);
+                    }}
+                    className="px-4 py-2 border border-white rounded-lg"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <a
+                    href="/cpn-z/login"
+                    className="px-4 py-2 text-center border border-white rounded-lg"
+                  >
+                    Masuk
+                  </a>
+
+                  <a
+                    href="/cpn-z/daftar"
+                    className="px-4 py-2 text-center border border-white rounded-lg"
+                  >
+                    Daftar Sekarang
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </div>
