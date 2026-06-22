@@ -2,23 +2,82 @@ import React, { useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    if (!email || !password) {
+      return "Email dan password wajib diisi";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return "Format email tidak valid";
+    }
+
+    if (password.length < 6) {
+      return "Password minimal 6 karakter";
+    }
+
+    return null;
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMsg("");
+
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMsg(validationError);
+      return;
+    }
+
+    setLoading(true);
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
+    setLoading(false);
+
     console.log("SESSION:", data?.session);
     console.log("ERROR:", error);
 
+    if (error) {
+      if (error.message.toLowerCase().includes("invalid login credentials")) {
+        setErrorMsg("Email atau password salah");
+        return;
+      }
+
+      if (error.message.toLowerCase().includes("email not confirmed")) {
+        setErrorMsg("Email belum dikonfirmasi. Cek inbox kamu");
+        return;
+      }
+
+      if (error.message.toLowerCase().includes("user not found")) {
+        setErrorMsg("User tidak ditemukan");
+        return;
+      }
+
+      setErrorMsg(error.message);
+      return;
+    }
+
     if (data?.session) {
+      //  sync session ke supabase runtime
+      await supabase.auth.setSession(data.session);
       navigate("/home/simulasi");
     }
   };
@@ -64,6 +123,13 @@ export default function LoginPage() {
           </h2>
           <p className="text-gray-500 mb-8">Silahkan masuk untuk melanjutkan</p>
 
+          {/* ERROR MESSAGE */}
+          {errorMsg && (
+            <div className="mb-4 p-3 text-sm text-red-600 bg-red-50 rounded-xl">
+              {errorMsg}
+            </div>
+          )}
+
           <form className="space-y-5">
             {/* Email */}
             <div>
@@ -80,34 +146,78 @@ export default function LoginPage() {
             {/* Password */}
             <div>
               <label className="text-sm text-gray-600">Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full mt-1 px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fcd401]"
-              />
+
+              <div className="relative mt-1">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-3 pr-10 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fcd401]"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
+                >
+                  {showPassword ? (
+                    <Visibility fontSize="small" />
+                  ) : (
+                    <VisibilityOff fontSize="small" />
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Remember + Forgot */}
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2">
-                <input type="checkbox" className="accent-[#fcd401]" />
-                Biarkan Saya Tetap Masuk
-              </label>
+            <div className="flex items-center justify-between text-sm relative">
+              {/* LEFT SIDE (checkbox + info icon) */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="accent-[#fcd401]"
+                />
 
-              <a href="#" className="text-[#12345b] hover:underline">
+                <span>Biarkan Saya Tetap Masuk</span>
+
+                {/* INFO ICON (sebelah checkbox) */}
+                <button
+                  type="button"
+                  onClick={() => setShowInfo(!showInfo)}
+                  className="w-5 h-4 flex items-center justify-center rounded-full bg-[#12345b] text-white text-xs font-bold"
+                >
+                  ?
+                </button>
+              </div>
+
+              {/* RIGHT SIDE (forgot password) */}
+              <a
+                href="#"
+                className="text-[#12345b] hover:underline whitespace-nowrap"
+              >
                 Lupa Password?
               </a>
+
+              {/* DROPDOWN */}
+              {showInfo && (
+                <div className="absolute top-8 left-0 z-50 bg-white border shadow-md rounded-md p-2 text-xs text-gray-600 w-60 sm:w-72">
+                  Jika dicentang, akun akan tetap login meskipun browser
+                  ditutup.
+                </div>
+              )}
             </div>
 
             {/* Button */}
             <button
               type="submit"
               onClick={handleLogin}
-              className="w-full py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[#12345b] to-[#fcd401] hover:opacity-90 transition"
+              disabled={loading}
+              className="w-full py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[#12345b] to-[#fcd401] hover:opacity-90 transition disabled:opacity-50"
             >
-              Masuk
+              {loading ? "Memproses..." : "Masuk"}
             </button>
           </form>
 
