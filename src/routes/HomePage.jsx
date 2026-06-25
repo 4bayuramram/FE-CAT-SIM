@@ -27,9 +27,9 @@ export default function HomePage() {
         <Route index element={<Home />} />
         {/* halaman simulasi */}
         <Route element={<ProtectedLayout />}>
-          
+          <Route path="simulasi" element={<Simulasi />} />
         </Route>
-        <Route path="simulasi" element={<Simulasi />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 
