@@ -6,6 +6,7 @@ import Simulasi from "../pages/simulasi/Simulasi";
 import NotFound from "../pages/home/NotFound";
 import ProtectedLayout from "./ProtectedLayout";
 
+
 export default function HomePage() {
   const location = useLocation();
 
@@ -24,9 +25,11 @@ export default function HomePage() {
 
       <Routes>
         <Route index element={<Home />} />
+        {/* halaman simulasi */}
         <Route element={<ProtectedLayout />}>
-          <Route path="simulasi" element={<Simulasi />} />
+          
         </Route>
+        <Route path="simulasi" element={<Simulasi />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import QuizIcon from "@mui/icons-material/Quiz";
 import ScheduleIcon from "@mui/icons-material/Schedule";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import BoltIcon from "@mui/icons-material/Bolt";
+import PeopleIcon from "@mui/icons-material/People";
 
 // Reusable PackageSim
 const PackageSim = ({
@@ -12,7 +17,12 @@ const PackageSim = ({
   image = "https://lh3.googleusercontent.com/aida-public/AB6AXuCFcqYtR6JjJhpDeWJLlW1yogF8y6rEp2yNPIiWUeb7zbs16zBZ1gnLp4qSolOyfW5H896BSDNKDMLnaNfCO8Qnmq4_uoGpNH-Ml7BIXfSsA0NZI4OohGkxn5tegnT5r448DAKXLSjXkc2ZzmvFlEx1X9-5imVR3N7BZBYmI8Px0bR07gGnIe1ZlMN3uDfdT9COjWO-Dw2h52Pxnd9ijsYW-VxzbFNfP26Jovwa5SGh2lSabSdiAKfMOIjmJBaw0chtGh7zifAxnSwr",
   badge = "Langsung",
   buttonText = "Mulai Simulasi",
+  pembahasan = "",
+  peringkat = "",
+  hots = "",
+  ultrahots = "",
   linkTo = "#",
+  peserta = "",
 }) => {
   return (
     <div className="bg-white border border-[#00467f] rounded-xl overflow-hidden flex flex-col md:flex-row shadow-md hover:shadow-lg transition-shadow group w-full">
@@ -41,10 +51,39 @@ const PackageSim = ({
               <QuizIcon fontSize="small" />
               <span>{questions} Soal</span>
             </div>
-
             <div className="flex items-center gap-1">
               <ScheduleIcon fontSize="small" />
               <span>{duration}</span>
+            </div>
+            {hots && (
+              <div className="flex items-center gap-1">
+                <PsychologyIcon fontSize="small" />
+                <span>{hots}</span>
+              </div>
+            )}
+            {ultrahots && (
+              <div className="flex items-center gap-1">
+                <BoltIcon fontSize="small" />
+                <span>{ultrahots}</span>
+              </div>
+            )}
+
+            {pembahasan && (
+              <div className="flex items-center gap-1">
+                <QuestionAnswerIcon fontSize="small" />
+                <span>{pembahasan}</span>
+              </div>
+            )}
+            {peringkat && (
+              <div className="flex items-center gap-1">
+                <EmojiEventsIcon fontSize="small" />
+                <span>{peringkat}</span>
+              </div>
+            )}
+
+            <div className="flex items-center gap-1">
+              <PeopleIcon fontSize="small" />
+              <span>{peserta}</span>
             </div>
           </div>
         </div>
@@ -82,38 +121,57 @@ export default function Sematkan() {
   const paketSimulasi = [
     {
       title: "Paket 1",
-      badge: "Free",
-      questions: 6,
-      duration: "60 Menit",
+      badge: "Gratis",
+      questions: 110,
+      duration: "95 Menit",
+      description: "Try-Out SKD (TWK,TIU,TKP)",
       linkTo: "/exam-page/1",
+      pembahasan: "koreksi-jawaban",
+      peserta: 112,
     },
     {
-      title: "Paket 2",
-      badge: "Free",
-      questions: 6,
+      title: "Paket 2 (sedang disusun)",
+      badge: "11.999.rp",
+      questions: 0,
       duration: "60 Menit",
+      description: "Try-Out SKD (TWK,TIU,TKP)",
+      hots: "HOTS",
       linkTo: "/exam-page/2",
+      pembahasan: "full-pembahasan",
+      peringkat: "pemeringkatan Nasional/Provinsi",
     },
     {
-      title: "Paket 3",
-      badge: "Free",
+      title: "Paket 3 (sedang disusun)",
+      badge: "15.000.rp",
       questions: 30,
       duration: "60 Menit",
+      description: "Try-Out SKD (TWK,TIU,TKP)",
+      ultrahots: "ultra-hots",
       linkTo: "/exam-page/3",
+      pembahasan: "full-pembahasan",
+      peringkat: "pemeringkatan Nasional/Provinsi",
     },
     {
-      title: "Paket 4",
-      badge: "Free",
+      title: "Paket 4 (sedang disusun)",
+      badge: "11.999.rp",
       questions: 6,
       duration: "60",
+      description: "Try-Out SKD (TWK,TIU,TKP)",
+      hots: "HOTS",
       linkTo: "/exam-page/4",
+      pembahasan: "full-pembahasan",
+      peringkat: "pemeringkatan Nasional/Provinsi",
     },
     {
-      title: "Paket 5",
-      badge: "Free",
+      title: "Paket 5 (sedang disusun)",
+      badge: "11,999.rp",
       questions: 6,
       duration: "60",
+      description: "Try-Out SKD (TWK,TIU,TKP)",
+      hots: "HOTS",
       linkTo: "/exam-page/5",
+      pembahasan: "full-pembahasan",
+      peringkat: "pemeringkatan Nasional/Provinsi",
     },
   ];
 
@@ -126,7 +184,7 @@ export default function Sematkan() {
             className="text-2xl md:text-4xl font-extrabold"
             style={{ color: "#00467f" }}
           >
-            Daftar Paket
+            Daftar Paket Try-Out Full-SKD
           </h2>
         </div>
 
@@ -143,7 +201,12 @@ export default function Sematkan() {
                 badge={paket.badge}
                 questions={paket.questions}
                 duration={paket.duration}
+                hots={paket.hots}
+                ultrahots={paket.ultrahots}
                 linkTo={paket.linkTo}
+                pembahasan={paket.pembahasan}
+                peringkat={paket.peringkat}
+                peserta={paket.peserta}
               />
             </div>
           ))}

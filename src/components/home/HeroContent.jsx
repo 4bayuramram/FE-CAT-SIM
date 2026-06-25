@@ -30,13 +30,15 @@ export default function HeroContent() {
           leading-relaxed
         "
       >
-        SIM-CAT Menyediakan Ribuan Soal untuk Kamu Bisa Melatih kemampuan Menjawab Soal SKD CPNS dengan Simulasi Berbasis Computer.
+        CPNZ menyediakan materi dan try-out SKD CPNS yang bisa diakses di semua
+        perangkat. Hasil ujian langsung dianalisis agar kamu tahu kelebihan dan
+        kekurangan, supaya belajar lebih terarah dan efektif.
       </p>
 
       {/* BUTTONS */}
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <button className="px-6 sm:px-8 py-3 sm:py-4 bg-secondary-container text-on-secondary-container font-bold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto">
-          Simulasi Sekarang
+          Try-out Sekarang
         </button>
 
         <button className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all duration-300 w-full sm:w-auto">

@@ -10,7 +10,7 @@ export default function SimulationIntro() {
 
   const steps = [
     { label: "Pilih Paket", icon: <InfoIcon /> },
-    { label: "Kerjakan Simulasi", icon: <TimerIcon /> },
+    { label: "Kerjakan Try-Out", icon: <TimerIcon /> },
     { label: "Lihat Hasil", icon: <AnalyticsIcon /> },
   ];
 
@@ -42,14 +42,14 @@ export default function SimulationIntro() {
             className="text-2xl md:text-4xl font-extrabold"
             style={{ color: "#00467f" }}
           >
-            Pilih Paket Simulasi
+            Pilih Paket Try-Out
           </h2>
           <p
             className="max-w-2xl text-sm md:text-base font-medium"
             style={{ color: "#000" }}
           >
             Persiapkan diri kamu menghadapi Seleksi Kompetensi Dasar (SKD)
-            dengan simulasi yang dirancang menyerupai sistem CAT BKN. Tingkatkan
+            dengan Try-out yang dirancang menyerupai sistem CAT BKN. Tingkatkan
             kecepatan dan akurasi menjawab kamu melalui latihan intensif.
           </p>
         </div>

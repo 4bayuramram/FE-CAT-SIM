@@ -16,7 +16,7 @@ export default function FooterSection() {
             {/* LOGO */}
             <div className="flex items-center justify-center lg:justify-start gap-3 mb-5">
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                SIM-CAT
+                CPNZ
               </h2>
             </div>
 
@@ -159,7 +159,7 @@ export default function FooterSection() {
         {/* BOTTOM */}
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
           <p className="text-sm text-gray-500 leading-relaxed">
-            © 2026 SIM-CAT CPNS Simulation. All rights reserved.
+            © 2026 CPNZ. All rights reserved.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-3">

@@ -5,9 +5,9 @@ import { supabase } from "../../lib/supabaseClient";
 const NAV_LINKS = [
   { label: "Home", href: "/home" },
   { label: "Materi", href: "/home/materi" },
-  { label: "Simulasi", href: "/home/simulasi" },
-  { label: "Pembahasan", href: "/home/pembahasan" },
-  { label: "Try-Out", href: "/home/try-out" },
+  { label: "Try-Out", href: "/home/simulasi" },
+  { label: "leaderboard", href: "/home/leaderboard" },
+  { label: "Premium", href: "/home/premium" },
 ];
 
 export default function Navbar() {
@@ -49,9 +49,9 @@ export default function Navbar() {
         {/* LOGO */}
         <div className="flex items-center">
           <img
-            src="/sim-cat.png"
+            src="/cpnz.png"
             alt="SIM-CAT"
-            className="h-12 w-auto object-contain"
+            className="h-20 w-auto object-contain flex-shrink-0"
           />
         </div>
 
@@ -118,9 +118,27 @@ export default function Navbar() {
         {/* MOBILE BUTTON */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden p-2 text-white"
+          className="md:hidden p-3 text-2xl text-white"
         >
-          ☰
+          {user ? (
+            <div
+              onClick={() => setOpen(!open)}
+              className="md:hidden flex items-center gap-2 cursor-pointer"
+            >
+              <img
+                src={avatar}
+                className="w-12 h-12 rounded-full border border-white object-cover"
+                alt="avatar"
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => setOpen(!open)}
+              className="md:hidden p-2 text-white"
+            >
+              ☰
+            </button>
+          )}
         </button>
       </div>
 
@@ -149,15 +167,6 @@ export default function Navbar() {
             <div className="flex flex-col gap-3 pt-3 border-t border-white">
               {user ? (
                 <>
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={avatar}
-                      className="w-10 h-10 rounded-full border"
-                      alt="avatar"
-                    />
-                    <span className="text-sm truncate">{user.email}</span>
-                  </div>
-
                   <button
                     onClick={async () => {
                       await supabase.auth.signOut();

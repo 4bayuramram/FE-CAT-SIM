@@ -27,12 +27,16 @@ export default function RegisterForm({
   return (
     <div className="w-full max-w-md">
       <div className="lg:hidden mb-10">
-        <h1 className="text-3xl font-extrabold text-[#12345b]">CPN-Z</h1>
+        <img
+          src="/cpnz2.png"
+          alt="CPN-Z"
+          className="h-20 w-auto object-contain"
+        />
       </div>
 
       <div className="mb-8">
         <h2 className="text-4xl font-bold text-[#12345b] mb-2">
-          Daftar Akun CPN-Z
+          Daftar Akun CPNZ
         </h2>
         <p className="text-gray-500">
           Silahkan lengkapi data untuk membuat akun

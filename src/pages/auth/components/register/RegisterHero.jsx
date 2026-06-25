@@ -8,7 +8,11 @@ export default function RegisterHero() {
       />
 
       <div className="relative z-10">
-        <h1 className="text-5xl font-extrabold tracking-tight">CPN-Z</h1>
+        <img
+          src="/cpnz.png"
+          alt="CPN-Z"
+          className="h-32 w-auto object-contain"
+        />
       </div>
 
       <div className="relative z-10 max-w-xl">
