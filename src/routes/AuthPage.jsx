@@ -6,8 +6,6 @@ import TermsPage from "../pages/auth/TermsPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import AuthCallback from "../pages/auth/AuthCallback";
 
-
-
 export default function BasePage() {
   return (
     <Routes>

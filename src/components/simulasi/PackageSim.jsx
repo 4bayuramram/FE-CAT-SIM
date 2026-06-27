@@ -31,7 +31,7 @@ const PackageSim = ({
         <img src={image} alt={title} className="w-full h-full object-cover" />
 
         {/* Badge */}
-        <div className="absolute top-2 right-2 bg-[#00467f] text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">
+        <div className="absolute top-2 right-2 bg-[#00467f] text-white text-xs font-bold px-2 py-1 rounded tracking-wider">
           {badge}
         </div>
       </div>
@@ -131,7 +131,7 @@ export default function Sematkan() {
     },
     {
       title: "Paket 2 (sedang disusun)",
-      badge: "11.999.rp",
+      badge: "rp.11.999.",
       questions: 0,
       duration: "60 Menit",
       description: "Try-Out SKD (TWK,TIU,TKP)",
@@ -142,7 +142,7 @@ export default function Sematkan() {
     },
     {
       title: "Paket 3 (sedang disusun)",
-      badge: "15.000.rp",
+      badge: "rp.15.000.",
       questions: 30,
       duration: "60 Menit",
       description: "Try-Out SKD (TWK,TIU,TKP)",
@@ -153,7 +153,7 @@ export default function Sematkan() {
     },
     {
       title: "Paket 4 (sedang disusun)",
-      badge: "11.999.rp",
+      badge: "rp.11.999",
       questions: 6,
       duration: "60",
       description: "Try-Out SKD (TWK,TIU,TKP)",
@@ -164,7 +164,7 @@ export default function Sematkan() {
     },
     {
       title: "Paket 5 (sedang disusun)",
-      badge: "11,999.rp",
+      badge: "rp.11,999",
       questions: 6,
       duration: "60",
       description: "Try-Out SKD (TWK,TIU,TKP)",
