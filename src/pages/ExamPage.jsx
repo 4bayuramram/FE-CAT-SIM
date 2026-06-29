@@ -33,7 +33,7 @@ export default function ExamPage() {
    * START EXAM
    */
   const startExam = () => {
-    const created = examEngine.createSession(Number(paketId));
+    const created = examEngine.createSession(paketId);
     const running = examEngine.startSession(created);
 
     dispatch(setSession(running));

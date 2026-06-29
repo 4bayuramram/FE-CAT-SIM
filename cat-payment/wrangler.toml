@@ -1,0 +1,5 @@
+cat > wrangler.toml << EOF
+name = "cat-payment"
+main = "src/index.js"
+compatibility_date = "2026-06-28"
+EOFc
