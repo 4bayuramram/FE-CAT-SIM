@@ -102,7 +102,11 @@ export default function PaymentPage() {
 
       window.snap.pay(data.token, {
         onSuccess: () => {
-          window.location.href = `/exam-page/${paketId}`;
+          // PATCH: sebelumnya redirect ke "/exam-page/:id" (jalur lama/
+          // free, TestPage) — salah, karena ini flow paket berbayar.
+          // Diarahkan ke halaman info paket (TODO §3) di jalur Paid yang
+          // benar ("/try-out/:id/info"), BUKAN langsung ke sesi ujian.
+          window.location.href = `/try-out/${paketId}/info`;
         },
         onPending: () => {
           alert("Pembayaran pending, akses akan aktif setelah konfirmasi.");

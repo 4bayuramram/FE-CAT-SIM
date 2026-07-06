@@ -136,7 +136,7 @@ export default function Sematkan() {
       duration: "60 Menit",
       description: "Try-Out SKD (TWK,TIU,TKP)",
       hots: "HOTS",
-      linkTo: "/exam-page/skd-002",
+      linkTo: "/try-out/skd-002",
       pembahasan: "full-pembahasan",
       peringkat: "pemeringkatan Nasional/Provinsi",
     },

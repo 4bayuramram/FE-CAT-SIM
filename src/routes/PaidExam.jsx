@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import ExamPagePaid from "../pages/ExamPagePaid";
 import ExamResultPageDb from "../components/question2/ExamResultPageDb";
 import ExamLayoutPaid from "../components/layout2/ExamLayoutPaid";
+import PackageInfoPage from "../pages/payment/PackageInfoPage";
 import ProtectedExamLayoutDb from "./ProtectedExamLayoutDb";
 
 /**
@@ -31,6 +32,7 @@ export default function BasePage() {
         <Route element={<ExamLayoutPaid />}>
           <Route index element={<ExamPagePaid />} />
         </Route>
+        <Route path="info" element={<PackageInfoPage />} />
         <Route path="hasil" element={<ExamResultPageDb />} />
       </Route>
     </Routes>
