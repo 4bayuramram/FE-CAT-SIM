@@ -1,4 +1,4 @@
-//production 
+//production (salinan worker di cloudflare)
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*", //stagginf
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",

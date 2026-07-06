@@ -5,7 +5,9 @@ import { supabase } from "./lib/supabaseClient";
 import TestPage from "./routes/TestPage";
 import HomePage from "./routes/HomePage";
 import AuthPage from "./routes/AuthPage";
+import PaidExam from "./routes/PaidExam";
 import ProtectedLayout from "./routes/ProtectedLayout";
+import ProtectedLayoutDb from "./routes/ProtectedLayoutDb";
 
 export default function App() {
   useEffect(() => {
@@ -26,6 +28,10 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/home/*" element={<HomePage />} />
+
+        <Route element={<ProtectedLayoutDb />}>
+          <Route path="/try-out/*" element={<PaidExam />} />
+        </Route>
 
         <Route element={<ProtectedLayout />}>
           <Route path="/exam-page/*" element={<TestPage />} />
