@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "../../lib/supabaseClient";
+import Avatar from "../common/Avatar";
 
 const NAV_LINKS = [
   { label: "Home", href: "/home" },
@@ -11,22 +12,20 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
-  
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
-   const syncUser = async () => {
-     const {
-       data: { session },
-     } = await supabase.auth.getSession();
+    const syncUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-     alert(JSON.stringify(session?.user, null, 2));
+      alert(JSON.stringify(session?.user, null, 2));
 
-     setUser(session?.user ?? null);
-     
-   };
+      setUser(session?.user ?? null);
+    };
 
     const {
       data: { subscription },
@@ -37,11 +36,19 @@ export default function Navbar() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const avatar =
+  const avatarSrc =
     user?.user_metadata?.avatar_url ||
     user?.user_metadata?.picture ||
     user?.identities?.[0]?.identity_data?.avatar_url ||
-    "/default-avatar.png";
+    null;
+
+  const fullName =
+    user?.user_metadata?.full_name ||
+    `${user?.user_metadata?.first_name || ""} ${
+      user?.user_metadata?.last_name || ""
+    }`.trim() ||
+    user?.email ||
+    "";
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#12345b] shadow-sm font-serif text-white">
@@ -79,11 +86,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4 ml-8">
           {user ? (
             <>
-              <img
-                src={avatar}
-                alt="avatar"
-                className="w-10 h-10 rounded-full object-cover border border-white"
-              />
+              <Avatar src={avatarSrc} name={fullName} size="w-10 h-10" />
 
               <span className="text-sm max-w-[120px] truncate">
                 {user.email}
@@ -125,11 +128,7 @@ export default function Navbar() {
               onClick={() => setOpen(!open)}
               className="md:hidden flex items-center gap-2 cursor-pointer"
             >
-              <img
-                src={avatar}
-                className="w-12 h-12 rounded-full border border-white object-cover"
-                alt="avatar"
-              />
+              <Avatar src={avatarSrc} name={fullName} size="w-12 h-12" />
             </div>
           ) : (
             <button

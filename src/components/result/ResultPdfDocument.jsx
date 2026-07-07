@@ -13,18 +13,6 @@ import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
  * 3. Skor per kategori (TWK/TIU/TKP)
  * 4. Skor per topik (tabel)
  * 5. Kekuatan & kelemahan (top topik tertinggi/terendah dari proficiencyPct)
- *
- * FIX page-break (2026-07-06):
- * - Judul "Skor per Kategori" dibungkus bareng isinya (wrap={false}) supaya
- *   tidak jadi "orphan title" di akhir halaman.
- * - Judul "Skor per Topik" & header tabel diberi minPresenceAhead supaya
- *   dipaksa pindah halaman kalau sisa ruang tidak cukup.
- * - Judul "Analisis Kekuatan & Kelemahan" diberi `break` + minPresenceAhead
- *   supaya section ini tidak terpotong (judul di halaman 1, isi kosong,
- *   list pindah ke halaman 2) seperti yang terjadi sebelumnya.
- * - `gap` di strengthWeaknessWrap diganti `marginLeft` biasa, karena `gap`
- *   di flexbox react-pdf (Yoga layout) sering bikin salah hitung tinggi
- *   blok saat menentukan apakah wrap={false} muat atau tidak.
  */
 
 const styles = StyleSheet.create({
@@ -73,6 +61,7 @@ const styles = StyleSheet.create({
   },
   statsRow: {
     flexDirection: "row",
+    gap: 8,
     marginTop: 10,
   },
   statBox: {
@@ -82,10 +71,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     alignItems: "center",
-  },
-  statBoxMiddle: {
-    marginLeft: 8,
-    marginRight: 8,
   },
   statValue: {
     fontSize: 14,
@@ -145,6 +130,7 @@ const styles = StyleSheet.create({
   colStatus: { width: "26%", textAlign: "right" },
   strengthWeaknessWrap: {
     flexDirection: "row",
+    gap: 12,
     marginTop: 4,
   },
   swBox: {
@@ -161,7 +147,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fdecea",
     borderWidth: 1,
     borderColor: "#f3c1bb",
-    marginLeft: 12,
   },
   swTitle: {
     fontSize: 10,
@@ -223,7 +208,7 @@ export default function ResultPdfDocument({ result, meta }) {
             <Text style={styles.statValue}>{result.correct}</Text>
             <Text style={styles.statLabel}>BENAR</Text>
           </View>
-          <View style={[styles.statBox, styles.statBoxMiddle]}>
+          <View style={styles.statBox}>
             <Text style={styles.statValue}>{result.wrong}</Text>
             <Text style={styles.statLabel}>SALAH</Text>
           </View>
@@ -234,44 +219,32 @@ export default function ResultPdfDocument({ result, meta }) {
         </View>
 
         {/* 3. Skor per kategori (TKP dimasukkan di sini juga, sejajar TWK/TIU) */}
-        {/* Judul + isi dibungkus jadi satu blok anti-split supaya judul */}
-        {/* tidak "orphan" sendirian di akhir halaman. */}
-        <View wrap={false}>
-          <Text style={styles.sectionTitle}>Skor per Kategori</Text>
-          {result.categories.map((cat) => (
-            <View style={styles.categoryRow} key={cat.code}>
-              <Text style={styles.categoryLabel}>
-                {cat.label} ({cat.code})
-              </Text>
-              <Text style={styles.categoryScore}>
-                {cat.score} / {cat.maxScore}
-              </Text>
-            </View>
-          ))}
-          {result.tkp && (
-            <View style={styles.categoryRow}>
-              <Text style={styles.categoryLabel}>
-                Tes Karakteristik Pribadi (TKP)
-              </Text>
-              <Text style={styles.categoryScore}>
-                {result.tkp.score} / {result.tkp.maxScore}
-              </Text>
-            </View>
-          )}
-        </View>
+        <Text style={styles.sectionTitle}>Skor per Kategori</Text>
+        {result.categories.map((cat) => (
+          <View style={styles.categoryRow} key={cat.code}>
+            <Text style={styles.categoryLabel}>
+              {cat.label} ({cat.code})
+            </Text>
+            <Text style={styles.categoryScore}>
+              {cat.score} / {cat.maxScore}
+            </Text>
+          </View>
+        ))}
+        {result.tkp && (
+          <View style={styles.categoryRow}>
+            <Text style={styles.categoryLabel}>
+              Tes Karakteristik Pribadi (TKP)
+            </Text>
+            <Text style={styles.categoryScore}>
+              {result.tkp.score} / {result.tkp.maxScore}
+            </Text>
+          </View>
+        )}
 
         {/* 4. Skor per topik */}
-        {/* minPresenceAhead: kalau sisa ruang halaman kurang dari nilai ini, */}
-        {/* judul/header dipaksa pindah ke halaman baru bareng isinya. */}
-        <Text style={styles.sectionTitle} minPresenceAhead={90}>
-          Skor per Topik
-        </Text>
+        <Text style={styles.sectionTitle}>Skor per Topik</Text>
         <View style={styles.table}>
-          <View
-            style={styles.tableHeaderRow}
-            wrap={false}
-            minPresenceAhead={60}
-          >
+          <View style={styles.tableHeaderRow}>
             <Text style={[styles.tableHeaderCell, styles.colTopic]}>Topik</Text>
             <Text style={[styles.tableHeaderCell, styles.colCategory]}>
               Kategori
@@ -304,14 +277,10 @@ export default function ResultPdfDocument({ result, meta }) {
         </View>
 
         {/* 5. Kekuatan & kelemahan */}
-        {/* `break` + minPresenceAhead memaksa seluruh section ini pindah */}
-        {/* ke halaman baru kalau sisa ruang tidak cukup untuk menampung */}
-        {/* judul + kedua kotak sekaligus (perbaikan utama untuk bug */}
-        {/* "kotak kosong di halaman 1, isi list pindah ke halaman 2"). */}
-        <Text style={styles.sectionTitle} break minPresenceAhead={110}>
+        <Text style={styles.sectionTitle}>
           Analisis Kekuatan &amp; Kelemahan
         </Text>
-        <View style={styles.strengthWeaknessWrap} wrap={false}>
+        <View style={styles.strengthWeaknessWrap}>
           <View style={[styles.swBox, styles.swBoxStrength]}>
             <Text style={styles.swTitle}>Kekuatan (skor tertinggi)</Text>
             {strengths.map((t) => (

@@ -8,6 +8,7 @@ import AuthPage from "./routes/AuthPage";
 import PaidExam from "./routes/PaidExam";
 import ProtectedLayout from "./routes/ProtectedLayout";
 import ProtectedLayoutDb from "./routes/ProtectedLayoutDb";
+import DomicileGuard from "./components/auth/DomicileGuard";
 
 export default function App() {
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <DomicileGuard />
       <Routes>
         <Route path="/home/*" element={<HomePage />} />
 

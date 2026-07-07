@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import Avatar from "../common/Avatar";
 
 export default function ParticipantCard() {
   const [user, setUser] = useState(null);
@@ -32,7 +33,7 @@ export default function ParticipantCard() {
     user?.user_metadata?.avatar_url ||
     user?.user_metadata?.picture ||
     user?.user_metadata?.avatar ||
-    "/default-avatar.png";
+    null;
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 mb-4">
@@ -41,14 +42,7 @@ export default function ParticipantCard() {
         {/* AVATAR */}
         <div className="absolute left-1/2 -bottom-10 -translate-x-1/2">
           <div className="w-20 h-20 rounded-full bg-white shadow-md p-1">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="w-full h-full rounded-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = "/default-avatar.png";
-              }}
-            />
+            <Avatar src={avatar} name={peserta.nama} size="w-full h-full" />
           </div>
         </div>
       </div>

@@ -18,6 +18,8 @@ export default function ProvinceCityField({
           value={province}
           onChange={onProvinceChange}
           getOptionLabel={(option) => option.label}
+          disablePortal
+          componentsProps={{ popper: { sx: { zIndex: 10000 } } }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -44,6 +46,8 @@ export default function ProvinceCityField({
           onChange={onCityChange}
           getOptionLabel={(option) => option.label}
           disabled={!province}
+          disablePortal
+          componentsProps={{ popper: { sx: { zIndex: 10000 } } }}
           renderInput={(params) => (
             <TextField
               {...params}

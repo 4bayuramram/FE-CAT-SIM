@@ -270,9 +270,9 @@ export default function PackageInfoPage() {
               </h3>
             </div>
             <p className="text-sm text-gray-600 mb-5">
-              Apakah identitas Anda (nama, avatar, domisili) boleh
+              Apakah identitas kamu (nama, avatar, lokasi formasi yang ingin di lamar) boleh
               ditampilkan pada leaderboard? Pilihan ini hanya ditanyakan
-              sekali dan berlaku untuk attempt pertama Anda.
+              sekali dan berlaku untuk attempt pertama kamu.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
