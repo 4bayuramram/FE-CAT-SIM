@@ -52,12 +52,12 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#12345b] shadow-sm font-serif text-white">
-      <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop h-24 flex items-center justify-between">
+      <div className="w-full max-w-[1280px] mx-auto px-4 md:px-8 h-24 flex items-center justify-between">
         {/* LOGO */}
         <div className="flex items-center">
           <img
             src="/cpnz.png"
-            alt="SIM-CAT"
+            alt="CPNZ"
             className="h-20 w-auto object-contain flex-shrink-0"
           />
         </div>

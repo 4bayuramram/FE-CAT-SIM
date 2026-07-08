@@ -163,11 +163,23 @@ export default function SoftAurora({
   const containerRef = useRef(null);
 
   useEffect(() => {
+    // Hormati preferensi user yang mematikan animasi (aksesibilitas +
+    // sinyal kuat kalau device/koneksi terbatas)
+    const prefersReducedMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) return;
+
     if (!containerRef.current) return;
 
     const container = containerRef.current;
 
-    const renderer = new Renderer({ alpha: true });
+    // OPTIMASI 1: cap devicePixelRatio. Tanpa ini, di layar dpr 3 kita
+    // render 9x lebih banyak piksel untuk shader yang sudah berat.
+    // 1.5 masih tajam secara visual tapi jauh lebih ringan untuk GPU.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    const renderer = new Renderer({ alpha: true, dpr });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
 
@@ -221,9 +233,21 @@ export default function SoftAurora({
     container.appendChild(gl.canvas);
 
     let animationFrameId;
+    let isRunning = true;
+
+    // OPTIMASI 2: cap frame rate ke ~30fps. Animasi aurora ini pelan dan
+    // halus secara visual, tidak butuh 60/90/120fps device modern —
+    // ini langsung memotong beban GPU sampai separuh atau lebih.
+    const FRAME_INTERVAL = 1000 / 30;
+    let lastFrameTime = 0;
 
     function update(time) {
       animationFrameId = requestAnimationFrame(update);
+
+      if (!isRunning) return;
+
+      if (time - lastFrameTime < FRAME_INTERVAL) return;
+      lastFrameTime = time;
 
       program.uniforms.uTime.value = time * 0.001;
 
@@ -232,9 +256,27 @@ export default function SoftAurora({
 
     animationFrameId = requestAnimationFrame(update);
 
+    // OPTIMASI 3: berhenti render saat tab/browser tidak aktif dilihat
+    function handleVisibilityChange() {
+      isRunning = !document.hidden;
+    }
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // OPTIMASI 4: berhenti render saat section ini di-scroll keluar
+    // layar (mis. user sudah scroll ke section fitur/footer)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isRunning = entry.isIntersecting && !document.hidden;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(container);
+
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      observer.disconnect();
       container.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
@@ -253,5 +295,16 @@ export default function SoftAurora({
     colorSpeed,
   ]);
 
-  return <div ref={containerRef} className="soft-aurora-container" />;
+  return (
+    <div
+      ref={containerRef}
+      className="soft-aurora-container"
+      // Fallback statis: kalau WebGL/animasi tidak jalan (reduced-motion
+      // atau device tidak support), tetap tampil gradient mirip aurora
+      // alih-alih kosong/putih polos.
+      style={{
+        background: `linear-gradient(135deg, ${color1}, ${color2})`,
+      }}
+    />
+  );
 }

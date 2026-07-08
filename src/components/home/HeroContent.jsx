@@ -1,27 +1,79 @@
+import { motion } from "framer-motion";
+import TypewriterText from "./TypewriterText";
+
+// Parent: mengatur jeda (stagger) antar child saat muncul
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+// Child: tiap elemen fade + slide up sedikit
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 export default function HeroContent() {
   return (
-    <div className="text-white space-y-6 md:space-y-8">
+    <motion.div
+      className="text-white space-y-6 md:space-y-8"
+      variants={container}
+      initial="hidden"
+      animate="show"
+    >
       {/* Badge */}
-      <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm">
+      <motion.div
+        variants={item}
+        className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm"
+      >
         <span className="text-xs md:text-sm font-medium tracking-wide">
           Platform Persiapan CPNS
         </span>
-      </div>
+      </motion.div>
 
       {/* HERO TITLE */}
-      <h1
+      <motion.h1
+        variants={item}
         className="
+          relative
           font-merriweather font-extrabold
           text-3xl sm:text-4xl md:text-5xl lg:text-6xl
           leading-tight md:leading-[1.1]
           tracking-tight
         "
       >
-        Belajar Kapan saja dan Dimana saja...
-      </h1>
+        {/* GHOST: teks final penuh, invisible, cuma dipakai untuk
+            "mengunci" tinggi h1 (termasuk saat wrap ke 2/3 baris)
+            sesuai lebar layar. Tidak pernah berubah -> tidak ada
+            reflow, jadi tombol di bawah tidak ikut bergerak. */}
+        <span aria-hidden="true" className="invisible block">
+          Belajar Kapan saja dan Dimana saja...
+        </span>
+
+        {/* Teks yang benar-benar diketik, ditumpuk di atas ghost
+            lewat absolute positioning -> perubahan panjang teks
+            selama animasi tidak lagi mempengaruhi layout di luar h1 */}
+        <span className="absolute inset-0">
+          <TypewriterText
+            text="Belajar Kapan saja dan Dimana saja..."
+            typingSpeed={45}
+            pauseAfterTyping={1500}
+          />
+        </span>
+      </motion.h1>
 
       {/* DESCRIPTION */}
-      <p
+      <motion.p
+        variants={item}
         className="
           font-times
           text-sm sm:text-base md:text-lg
@@ -33,18 +85,21 @@ export default function HeroContent() {
         CPNZ menyediakan materi dan try-out SKD CPNS yang bisa diakses di semua
         perangkat. Hasil ujian langsung dianalisis agar kamu tahu kelebihan dan
         kekurangan, supaya belajar lebih terarah dan efektif.
-      </p>
+      </motion.p>
 
       {/* BUTTONS */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-        <button className="px-6 sm:px-8 py-3 sm:py-4 bg-secondary-container text-on-secondary-container font-bold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto">
-          Try-out Sekarang
-        </button>
-
-        <button className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all duration-300 w-full sm:w-auto">
-          Pengantar Tes CPNS
-        </button>
-      </div>
-    </div>
+      <motion.div
+        variants={item}
+        className="flex flex-col sm:flex-row gap-3 sm:gap-4"
+      >
+        <motion.button
+          whileHover={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+          whileTap={{ scale: 0.97 }}
+          className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white/30 text-white font-bold rounded-xl transition-colors duration-300 w-full sm:w-auto"
+        >
+          Tryout sekarang
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 }

@@ -17,7 +17,7 @@
     "@react-pdf/renderer": "^4.5.1",
     "@reduxjs/toolkit": "^2.11.2",
     "@supabase/supabase-js": "^2.78.0",
-    "framer-motion": "^12.39.0",
+    "framer-motion": "^12.42.2",
     "lucide-react": "^1.16.0",
     "ogl": "^1.0.11",
     "react": "^19.2.6",

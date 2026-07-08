@@ -27,23 +27,29 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <DomicileGuard />
-      <Routes>
-        <Route path="/home/*" element={<HomePage />} />
+      {/* overflow-x-hidden di sini mencegah elemen mana pun yang tidak
+          sengaja overflow (mis. canvas/gambar tanpa max-width) membuat
+          layout viewport melebar di mobile, yang memicu browser
+          "menyusutkan" seluruh halaman seperti pada bug lebar mobile */}
+      <div className="w-full overflow-x-hidden">
+        <DomicileGuard />
+        <Routes>
+          <Route path="/home/*" element={<HomePage />} />
 
-        <Route element={<ProtectedLayoutDb />}>
-          <Route path="/try-out/*" element={<PaidExam />} />
-        </Route>
+          <Route element={<ProtectedLayoutDb />}>
+            <Route path="/try-out/*" element={<PaidExam />} />
+          </Route>
 
-        <Route element={<ProtectedLayout />}>
-          <Route path="/exam-page/*" element={<TestPage />} />
-        </Route>
+          <Route element={<ProtectedLayout />}>
+            <Route path="/exam-page/*" element={<TestPage />} />
+          </Route>
 
-        <Route path="/cpn-z/*" element={<AuthPage />} />
+          <Route path="/cpn-z/*" element={<AuthPage />} />
 
-        {/* fallback */}
-        <Route path="*" element={<Navigate to="/home" replace />} />
-      </Routes>
+          {/* fallback */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
