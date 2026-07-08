@@ -41,8 +41,21 @@ export default function QuestionGridPaid({ onSelect }) {
   const currentIndex = useSelector(selectCurrentIndex);
   const pembahasan = useSelector(selectPembahasan);
 
-  if (!questions?.length) {
+  if (!session) {
     return <div className="text-sm text-slate-400">Memuat soal...</div>;
+  }
+
+  // BARU: kalau session sudah ada (artinya create-session sukses &
+  // status running) tapi questions tetap kosong, itu bukan lagi
+  // "sedang loading" — get-questions memang mengembalikan array kosong
+  // untuk paket yang belum ada isinya (lihat catatan sama di
+  // QuestionCardPaid.jsx).
+  if (!questions?.length) {
+    return (
+      <div className="text-sm text-red-500">
+        Paket ini belum ada soalnya.
+      </div>
+    );
   }
 
   const isFinished = session?.status !== "running";

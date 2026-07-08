@@ -77,7 +77,36 @@ export default function QuestionCardPaid() {
     setShowPembahasan(false);
   }, [currentIndex]);
 
-  if (!session || !question) {
+  if (!session) {
+    return (
+      <div className="bg-white p-6 rounded-xl border">Memuat soal...</div>
+    );
+  }
+
+  // BARU: bedakan "masih loading" vs "paket ini memang belum ada
+  // soalnya sama sekali di DB" — sebelumnya dua kasus ini sama-sama
+  // nampilkan "Memuat soal..." selamanya (session running + timer
+  // jalan, tapi tidak pernah ada soal muncul), padahal akar masalahnya
+  // get-questions.txt TIDAK error kalau query ke tabel `questions`
+  // kosong untuk package_id tsb — backend tetap balikin 200 dengan
+  // questions: [] apa adanya. Jadi user cuma diam menunggu tanpa tahu
+  // kalau paketnya memang belum ada isinya (lihat Dokumen Acuan §5,
+  // "Exam Questions — soal final belum dibuat").
+  if (Array.isArray(questions) && questions.length === 0) {
+    return (
+      <div className="bg-white p-6 rounded-xl border border-red-200">
+        <p className="text-red-600 font-semibold mb-1">
+          Paket ini belum memiliki soal.
+        </p>
+        <p className="text-sm text-gray-600">
+          Kemungkinan soal untuk paket ini belum diinput oleh admin.
+          Silakan hubungi admin, atau coba paket lain sementara waktu.
+        </p>
+      </div>
+    );
+  }
+
+  if (!question) {
     return (
       <div className="bg-white p-6 rounded-xl border">Memuat soal...</div>
     );
