@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabaseClient";
 import { initUserProfile } from "../../services/auth/initUserProfile";
 import { updateLeaderboardConsent } from "../../services/auth/updateLeaderboardConsent";
+import LeaderboardSection from "../../components/leaderboard/LeaderboardSection";
 
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import TimerIcon from "@mui/icons-material/Timer";
@@ -45,16 +46,15 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const RULES = [
   "Ujian memiliki durasi tetap sesuai paket dan akan otomatis berakhir saat waktu habis.",
-  "Attempt pertama digunakan sebagai nilai resmi untuk pemeringkatan.",
-  "Attempt berikutnya ('Coba Lagi') murni untuk melihat progres belajar, tidak menimpa nilai resmi.",
+  "Hasil Percobaan pertama digunakan sebagai nilai resmi untuk pemeringkatan.",
+  "Hasil Percobaan berikutnya ('Coba Lagi') murni untuk melihat progres belajar, tidak menimpa nilai resmi.",
   "Pastikan koneksi internet stabil selama mengerjakan ujian.",
+  "Ujian ini dirancang untuk mengukur kemampuan kamu. Hindari segala bentuk kecurangan dan kerjakan setiap soal dengan jujur.",
 ];
 
 const PROHIBITIONS = [
-  "Membuka tab/aplikasi lain saat ujian berlangsung.",
   "Meninggalkan halaman ujian dalam waktu lama tanpa menyelesaikan sesi.",
-  "Melakukan kecurangan dalam bentuk apa pun (joki, kerja sama, dsb).",
-  "Me-refresh halaman secara berulang di luar kebutuhan (dapat memengaruhi sesi).",
+  "Me-refresh halaman secara berulang-ulang di luar kebutuhan (dapat memengaruhi sesi).",
 ];
 
 export default function PackageInfoPage() {
@@ -188,7 +188,7 @@ export default function PackageInfoPage() {
           <h1 className="text-lg sm:text-2xl font-bold text-[#001f3f]">
             Sebelum Memulai Ujian
           </h1>
-        </div>
+        </div> 
       </header>
 
       <main className="max-w-3xl mx-auto w-full px-4 sm:px-5 py-6 sm:py-10 space-y-6">
@@ -234,7 +234,10 @@ export default function PackageInfoPage() {
           </div>
           <ul className="space-y-3">
             {RULES.map((rule) => (
-              <li key={rule} className="flex gap-3 items-start text-sm text-gray-700">
+              <li
+                key={rule}
+                className="flex gap-3 items-start text-sm text-gray-700"
+              >
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#001f3f] shrink-0" />
                 {rule}
               </li>
@@ -252,13 +255,19 @@ export default function PackageInfoPage() {
           </div>
           <ul className="space-y-3">
             {PROHIBITIONS.map((item) => (
-              <li key={item} className="flex gap-3 items-start text-sm text-gray-700">
+              <li
+                key={item}
+                className="flex gap-3 items-start text-sm text-gray-700"
+              >
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
                 {item}
               </li>
             ))}
           </ul>
         </section>
+
+        {/* LEADERBOARD */}
+        <LeaderboardSection packageId={packageId} currentUserId={userId} />
 
         {/* CONSENT — hanya muncul kalau belum pernah dijawab */}
         {needsConsent && (
@@ -270,9 +279,9 @@ export default function PackageInfoPage() {
               </h3>
             </div>
             <p className="text-sm text-gray-600 mb-5">
-              Apakah identitas kamu (nama, avatar, lokasi formasi yang ingin di lamar) boleh
-              ditampilkan pada leaderboard? Pilihan ini hanya ditanyakan
-              sekali dan berlaku untuk attempt pertama kamu.
+              Apakah identitas kamu (nama, avatar, lokasi formasi yang ingin di
+              lamar) boleh ditampilkan pada leaderboard? Pilihan ini hanya
+              ditanyakan sekali dan berlaku untuk Percobaan pertama kamu.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

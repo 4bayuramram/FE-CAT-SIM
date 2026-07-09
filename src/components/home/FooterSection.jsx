@@ -2,16 +2,6 @@ import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
 import AlternateEmailRoundedIcon from "@mui/icons-material/AlternateEmailRounded";
 import ForumRoundedIcon from "@mui/icons-material/ForumRounded";
 
-// CATATAN LEGAL:
-// - Semua logo di bawah ini SUDAH pakai file logo asli (background putih
-//   sudah dihapus/dibikin transparan), taruh di /public/payment-logos/
-//   dengan nama file persis seperti path di array `paymentLogos`.
-// - Logo di sini HANYA menandakan "metode pembayaran yang didukung",
-//   BUKAN "partner resmi/kerja sama langsung" dengan bank/e-wallet tsb --
-//   makanya captionnya eksplisit bilang diproses lewat Midtrans, bukan
-//   langsung oleh institusi yang bersangkutan. Tetap ikuti brand
-//   guideline masing-masing (jangan diubah warna/bentuk/proporsi lebih
-//   jauh dari file yang sudah disediakan).
 const paymentLogos = [
   { name: "BCA", file: "/payment-logos/bca.png" },
   { name: "Bank Mandiri", file: "/payment-logos/mandiri.png" },
@@ -32,7 +22,7 @@ const paymentLogos = [
 export default function FooterSection() {
   return (
     <footer
-      className="w-full bg-black border-t border-white/10 overflow-hidden text-white"
+      className="w-full bg-[#000] border-t border-white/10 overflow-hidden text-white"
       style={{ fontFamily: "sans-serif" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
@@ -100,7 +90,7 @@ export default function FooterSection() {
                       href="#"
                       className="text-sm text-gray-400 hover:text-[#00467f] transition-colors duration-300"
                     >
-                      Premium Plan
+                      Tryout Berbayar
                     </a>
                   </li>
 
