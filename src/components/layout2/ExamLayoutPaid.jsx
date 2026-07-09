@@ -9,6 +9,7 @@ import BottomNavPaid from "./BottomNavPaid";
 import ExamGuardPaid from "./ExamGuardPaid";
 import QuestionGridPaid from "../layout2/QuestionGridPaid";
 import ResultDialogPaid from "../question2/ResultDialogPaid";
+import ParticipantCard from "../layout/ParticipantCard"; // reused — sama seperti di SidebarPaid, presentational murni
 import {
   selectSubmitResult,
   resetExamDb,
@@ -28,6 +29,36 @@ import {
  * dia tetap mount & jalan terlepas dari view mana yang sedang aktif di
  * mobile. Ini menutup open item soal "mobileView lokal vs Redux" di
  * dokumen perencanaan.
+ *
+ * PATCH (perbaikan mobile nav — todo "Rapikan navigasi mobile", v3):
+ * Tab "Navigasi" di mobile sekarang DRAWER DARI SAMPING (kanan), lebar
+ * 78%, bukan overlay/sheet yang menutup seluruh layar. Sisi kiri yang
+ * tersisa tetap menampilkan halaman soal (Outlet TETAP dirender, tidak
+ * di-hidden) tapi diberi filter blur + pointer-events-none supaya tidak
+ * kepencet tanpa sengaja. Tap area blur (backdrop) buat nutup drawer.
+ * ExamTopbarPaid (z-50) dan BottomNavPaid (z-50) tidak disentuh — drawer
+ * dibatasi top-16/bottom-16 supaya keduanya tetap kelihatan & bisa dipakai.
+ *
+ * SidebarPaid pakai `hidden lg:block`, jadi di mobile ParticipantCard +
+ * tombol "Lihat Ringkasan Hasil" sebelumnya SAMA SEKALI tidak punya jalan
+ * masuk — sekarang ada di dalam drawer ini. Tab "Bantuan" dihapus (isinya
+ * cuma placeholder teks statis) — mobileView tersisa cuma "ujian" &
+ * "navigasi".
+ *
+ * PATCH (timer ikut masuk ke drawer navigasi, hanya grid soal yang scroll):
+ * <TimerPanelPaid /> sekarang punya dua wujud tergantung mobileView:
+ *   - mobileView === "ujian"  -> render variant="floating" (fixed top-20
+ *     right-4 z-30), PERSIS seperti semula.
+ *   - mobileView === "navigasi" -> floating instance di-UNMOUNT (supaya
+ *     tidak dobel), diganti variant="inline" yang dirender menempel di
+ *     bawah ParticipantCard, di dalam bagian STICKY drawer (bukan ikut
+ *     scroll). Drawer sekarang dipecah flex-col: header sticky
+ *     (ParticipantCard + Timer + tombol "Lihat Ringkasan Hasil") tidak
+ *     overflow, dan cuma <QuestionGridPaid /> yang punya overflow-y-auto
+ *     sendiri — jadi saat soal banyak, yang scroll cuma nomor soalnya.
+ *   Interval timer aman saat unmount/mount ganti variant karena
+ *   TimerPanelPaid selalu hitung ulang dari session.started_at (Redux),
+ *   bukan dari state lokal — jadi angka tetap akurat, tidak reset.
  *
  * PATCH (ResultDialogPaid aktif): open/close popup hasil JUGA state
  * lokal di sini (bukan Redux) — alasannya sama seperti mobileView, ini
@@ -75,7 +106,9 @@ export default function ExamLayoutPaid() {
   return (
     <div className="min-h-screen bg-slate-100">
       <ExamTopbarPaid />
-      <TimerPanelPaid /> {/* floating */}
+      {/* floating — cuma tampil saat drawer navigasi TIDAK dibuka;
+          saat navigasi dibuka, versi inline yang muncul di dalam drawer */}
+      {mobileView !== "navigasi" && <TimerPanelPaid />}
       <div className="flex pt-8">
         <SidebarPaid
           canShowResultDialog={!!submitResult}
@@ -90,23 +123,59 @@ export default function ExamLayoutPaid() {
 
           {/* MOBILE */}
           <div className="md:hidden">
-            {/* EXAM VIEW */}
-            <div className={mobileView === "ujian" ? "block" : "hidden"}>
+            {/* EXAM VIEW — SELALU dirender (bukan cuma saat mobileView
+                'ujian'), supaya tetap kelihatan (blur) di belakang drawer
+                Navigasi. */}
+            <div
+              className={
+                mobileView === "navigasi"
+                  ? "blur-sm pointer-events-none select-none transition-[filter] duration-200"
+                  : "transition-[filter] duration-200"
+              }
+            >
               <Outlet />
             </div>
 
-            {/* NAVIGASI OVERLAY */}
+            {/* NAVIGASI — DRAWER DARI SAMPING (kanan), 78% lebar. Sisi
+                kiri tetap menampilkan halaman soal (blur, lihat atas).
+                z-20: di BAWAH timer (z-30) & topbar/bottomnav (z-50)
+                supaya ketiganya tidak pernah ketutup drawer. */}
             {mobileView === "navigasi" && (
-              <div className="fixed inset-0 bg-slate-100 z-50 p-4 overflow-auto pb-28">
-                <QuestionGridPaid onSelect={handleSelectQuestion} />
-              </div>
-            )}
+              <>
+                <div
+                  className="fixed top-16 left-0 right-0 bottom-16 z-20
+                    bg-black/10 animate-[fadeIn_0.2s_ease-out]"
+                  onClick={() => setMobileView("ujian")}
+                  aria-hidden="true"
+                />
 
-            {/* BANTUAN */}
-            {mobileView === "bantuan" && (
-              <div className="fixed inset-0 bg-white z-50 p-4 text-sm">
-                Gunakan navigasi untuk pindah soal.
-              </div>
+                <div
+                  className="fixed top-16 right-0 bottom-16 z-20 w-[78%] max-w-xs
+                    bg-slate-100 border-l shadow-2xl
+                    flex flex-col
+                    animate-[slideInRight_0.25s_ease-out]"
+                >
+                  {/* STICKY — tidak ikut scroll */}
+                  <div className="flex-shrink-0 p-4 pb-0">
+                    <ParticipantCard />
+                    <TimerPanelPaid variant="inline" />
+
+                    {!!submitResult && (
+                      <button
+                        onClick={() => setResultDialogOpen(true)}
+                        className="mt-3 mb-4 w-full text-sm px-3 py-2 rounded-lg border border-[#00467f] text-[#00467f] font-semibold bg-white hover:bg-blue-50"
+                      >
+                        Lihat Ringkasan Hasil
+                      </button>
+                    )}
+                  </div>
+
+                  {/* CUMA BAGIAN INI YANG SCROLL — nomor soal */}
+                  <div className="flex-1 overflow-y-auto p-4 pt-2">
+                    <QuestionGridPaid onSelect={handleSelectQuestion} />
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </main>

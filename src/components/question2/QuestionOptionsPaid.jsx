@@ -12,16 +12,15 @@
  * Tidak ada jawabanBenar di sini sama sekali (sesuai desain Level 3:
  * kunci jawaban tidak pernah dikirim ke client selama sesi berjalan).
  *
- * PATCH (revert mark benar/salah — ikuti pola hardcode persis):
- * sebelumnya komponen ini sempat diberi highlight hijau/merah + badge
- * poin TKP begitu sesi selesai (isFinished). Ini DIBATALKAN — sesuai
- * arahan, opsi jawaban saat mode review harus PURE read-only, sama
- * seperti QuestionOptions versi hardcode: hanya menampilkan pilihan
- * yang tadinya dipilih user (radio terisi, tidak bisa diklik lagi),
- * TANPA info benar/salah/poin di level opsi. Jawaban-kamu vs jawaban-
- * benar vs pembahasan SEKARANG SEPENUHNYA pindah ke panel "Lihat
- * Pembahasan" di QuestionCardPaid — supaya grid/opsi tetap bersih dan
- * user harus sengaja buka panel itu untuk lihat detail benar/salahnya.
+ * PATCH (opsi jawaban benar-benar pure saat review — hilangkan bekas
+ * pilihan user): sebelumnya walau highlight benar/salah sudah dihapus,
+ * opsi yang tadinya dipilih user MASIH tampil "selected" (radio terisi +
+ * border/bg biru) meski isFinished. Itu tetap bocor sedikit info. Sekarang
+ * status "selected" HANYA dipakai untuk styling saat sesi masih berjalan
+ * (!isFinished) — begitu selesai, semua opsi dirender polos/netral tanpa
+ * radio terisi maupun border/bg pembeda, walau data userAnswer tetap
+ * dihitung (dibutuhkan QuestionCardPaid untuk teks "Jawaban kamu" di
+ * panel Pembahasan). Klik juga sudah nonaktif lewat isFinished sejak awal.
  */
 export default function QuestionOptionsPaid({
   question,
@@ -37,7 +36,10 @@ export default function QuestionOptionsPaid({
   return (
     <div className="space-y-3 font-times text-slate-800 leading-6">
       {Object.entries(question.pilihan).map(([key, val]) => {
-        const selected = getSelected(key);
+        // Selected styling cuma berlaku selagi ujian masih berjalan.
+        // Saat isFinished, opsi selalu netral — bekas pilihan user tidak
+        // ditampilkan di sini sama sekali, murni lewat panel Pembahasan.
+        const selected = !isFinished && getSelected(key);
         const isObject = typeof val === "object" && val !== null;
 
         return (

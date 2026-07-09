@@ -45,3 +45,26 @@
     opacity: 0;
   }
 }
+
+/* Animasi untuk drawer mobile "Navigasi" (ExamLayoutPaid) — dipakai lewat
+   Tailwind arbitrary value:
+   animate-[fadeIn_0.2s_ease-out] untuk area blur/backdrop,
+   animate-[slideInRight_0.25s_ease-out] untuk drawer yang masuk dari
+   kanan. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

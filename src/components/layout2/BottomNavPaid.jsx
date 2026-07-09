@@ -2,9 +2,14 @@ export default function BottomNavPaid({ mobileView, setMobileView }) {
   const menus = [
     {
       key: "ujian",
-      label: "Ujian",
+      label: "Soal",
       icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeWidth="2"
             strokeLinecap="round"
@@ -18,7 +23,12 @@ export default function BottomNavPaid({ mobileView, setMobileView }) {
       key: "navigasi",
       label: "Navigasi",
       icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeWidth="2"
             strokeLinecap="round"
@@ -28,20 +38,9 @@ export default function BottomNavPaid({ mobileView, setMobileView }) {
         </svg>
       ),
     },
-    {
-      key: "bantuan",
-      label: "Bantuan",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 18h.01M12 14a4 4 0 100-8 4 4 0 000 8zm0 8a10 10 0 100-20 10 10 0 000 20z"
-          />
-        </svg>
-      ),
-    },
+    // PATCH — tab "Bantuan" dihapus: cuma placeholder teks statis, tidak
+    // ada isi nyata. Slot navigasi sekarang jadi tempat gabungan
+    // profil peserta + waktu ujian + navigasi soal (lihat ExamLayoutPaid).
   ];
 
   return (

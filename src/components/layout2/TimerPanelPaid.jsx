@@ -16,8 +16,20 @@ import { getRemainingSeconds } from "../../engine_2/timerEngineDb";
  *
  * session.duration dalam MENIT (Kontrak API) — dikonversi ke detik untuk
  * perhitungan progress bar.
+ *
+ * PATCH (drawer navigasi mobile — timer ikut ke dalam ParticipantCard):
+ * sekarang ada prop `variant`:
+ *   - "floating" (default) — persis seperti semula: fixed top-20 right-4,
+ *     z-30, dipakai saat mobileView === "ujian".
+ *   - "inline" — versi menempel di dalam alur dokumen (dipakai di bawah
+ *     ParticipantCard, di area sticky drawer navigasi), TANPA position
+ *     fixed, TANPA z-index. Dipakai saat mobileView === "navigasi" supaya
+ *     timer ikut jadi bagian sticky header drawer (bukan floating di atas
+ *     drawer lagi), sehingga cuma QuestionGridPaid yang ikut scroll.
+ * Style progress bar/format waktu SAMA PERSIS di kedua variant, cuma
+ * wrapper-nya beda.
  */
-export default function TimerPanelPaid() {
+export default function TimerPanelPaid({ variant = "floating" }) {
   const session = useSelector((state) => state.examDb.session);
   const [remainingSeconds, setRemainingSeconds] = useState(0);
 
@@ -51,8 +63,13 @@ export default function TimerPanelPaid() {
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
+  const wrapperClass =
+    variant === "inline"
+      ? "w-full p-3 bg-white rounded-lg shadow border mt-3"
+      : "fixed top-20 right-4 w-48 p-3 bg-white rounded-lg shadow-lg z-30 border";
+
   return (
-    <div className="fixed top-20 right-4 w-48 p-3 bg-white rounded-lg shadow-lg z-30 border">
+    <div className={wrapperClass}>
       <div className="flex justify-between mb-2 text-sm font-semibold text-black">
         <span>Sisa Waktu</span>
         <span>{format(remainingSeconds)}</span>

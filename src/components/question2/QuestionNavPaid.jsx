@@ -69,11 +69,11 @@ export default function QuestionNavPaid() {
   };
 
   return (
-    <div className="flex flex-wrap gap-3 mt-6">
+    <div className="flex justify-between items-center gap-2 mt-6">
       <button
         onClick={prev}
         disabled={currentIndex === 0}
-        className="px-4 py-2 bg-slate-300 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-400 transition"
+        className="px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-base bg-slate-300 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-400 transition"
       >
         Sebelumnya
       </button>
@@ -81,7 +81,7 @@ export default function QuestionNavPaid() {
       {!isFinished && (
         <button
           onClick={handleToggleFlag}
-          className="px-4 py-2 text-white rounded-lg transition bg-[#ba1a1a] hover:opacity-90"
+          className="px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-base text-white rounded-lg transition bg-[#ba1a1a] hover:opacity-90"
         >
           {isFlagged ? "Batalkan Ragu" : "Ragu-ragu"}
         </button>
@@ -90,7 +90,7 @@ export default function QuestionNavPaid() {
       <button
         onClick={next}
         disabled={currentIndex === questions.length - 1}
-        className="px-4 py-2 bg-[#00467f] text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition"
+        className="px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-base bg-[#00467f] text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition"
       >
         Selanjutnya
       </button>
