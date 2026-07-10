@@ -8,6 +8,17 @@
  *    halaman ini bisa langsung dipakai tanpa perlu menyentuh
  *    tailwind.config.js project utama.
  */
+
+/* Font khusus halaman Bantuan (desain asli pakai Hanken Grotesk untuk
+   judul + Inter untuk body). Di-@import di sini (bukan lewat <link> di
+   index.html) supaya komponen ini tetap portable / self-contained.
+   Kalau font gagal load (mis. offline), otomatis fallback ke
+   sans-serif standar -- layout tetap jalan.
+   CATATAN: @import WAJIB di paling atas file (sebelum rule lain),
+   makanya dipindah ke sini -- sebelumnya ada di bawah :root dan
+   itu yang bikin error "@import must precede all other statements". */
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
+
 :root {
   --help-primary: #002f59;
   --help-primary-container: #00467f;
@@ -30,14 +41,6 @@
   --help-outline: #727781;
   --help-outline-variant: #c2c6d1;
 }
-
-/* Font khusus halaman Bantuan (desain asli pakai Hanken Grotesk untuk
-   judul + Inter untuk body). Di-@import di sini (bukan lewat <link> di
-   index.html) supaya komponen ini tetap portable / self-contained.
-   Kalau font gagal load (mis. offline), otomatis fallback ke
-   sans-serif standar -- layout tetap jalan. */
-@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
-
 .bantuan-page {
   font-family: "Inter", sans-serif;
 }
