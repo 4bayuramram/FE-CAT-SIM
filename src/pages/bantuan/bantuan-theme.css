@@ -1,0 +1,52 @@
+/**
+ * Token warna halaman Bantuan, diambil persis dari file desain
+ * (Pusat Bantuan - CPNZ, mockup HTML Tailwind CDN + Material 3 palette).
+ * Dipakai lewat arbitrary value Tailwind, misal: bg-[var(--help-primary-container)]
+ *
+ * Kenapa CSS variable, bukan tambah token baru di tailwind.config.js?
+ * -> Sama seperti components/leaderboard/leaderboard-theme.css: supaya
+ *    halaman ini bisa langsung dipakai tanpa perlu menyentuh
+ *    tailwind.config.js project utama.
+ */
+:root {
+  --help-primary: #002f59;
+  --help-primary-container: #00467f;
+  --help-on-primary: #ffffff;
+  --help-on-primary-container: #ffffff;
+
+  --help-secondary-container: #fcd402; /* aksen kuning/emas */
+  --help-on-secondary-container: #6f5c00;
+
+  --help-surface: #f7f9fb;
+  --help-surface-container: #eceef0;
+  --help-surface-container-low: #f2f4f6;
+  --help-surface-container-lowest: #ffffff;
+  --help-surface-container-high: #e6e8ea;
+  --help-surface-container-highest: #e0e3e5;
+
+  --help-on-surface: #191c1e;
+  --help-on-surface-variant: #424750;
+
+  --help-outline: #727781;
+  --help-outline-variant: #c2c6d1;
+}
+
+/* Font khusus halaman Bantuan (desain asli pakai Hanken Grotesk untuk
+   judul + Inter untuk body). Di-@import di sini (bukan lewat <link> di
+   index.html) supaya komponen ini tetap portable / self-contained.
+   Kalau font gagal load (mis. offline), otomatis fallback ke
+   sans-serif standar -- layout tetap jalan. */
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
+
+.bantuan-page {
+  font-family: "Inter", sans-serif;
+}
+
+.bantuan-page .bantuan-headline {
+  font-family: "Hanken Grotesk", sans-serif;
+}
+
+/* Panah chevron pada accordion FAQ, dibalik otomatis saat <details open> */
+.bantuan-faq[open] .bantuan-chevron {
+  transform: rotate(180deg);
+}

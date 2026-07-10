@@ -1,20 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "../../lib/supabaseClient";
 import Avatar from "../common/Avatar";
 
 const NAV_LINKS = [
   { label: "Home", href: "/home" },
-  { label: "Materi", href: "/home/materi" },
   { label: "Try-Out", href: "/home/simulasi" },
-  { label: "leaderboard", href: "/home/leaderboard" },
-  { label: "Premium", href: "/home/premium" },
+  { label: "Leaderboard", href: "/home/leaderboard" },
+  { label: "Bantuan", href: "/home/bantuan" },
 ];
 
+/**
+ * UPDATE Navbar:
+ * - NAV_LINKS dikembalikan ke 3 item yang beneran ada halamannya (Materi
+ *   & Premium dihapus, belum ada page-nya -- daripada 404).
+ * - State LOGGED IN disederhanakan: sebelumnya menampilkan
+ *   avatar + email + tombol Logout sekaligus di navbar (makan tempat).
+ *   Sekarang cukup AVATAR SAJA, diklik untuk buka dropdown berisi nama
+ *   user, "Dashboard" (mengarah ke "/home/dashboard" -- sekarang
+ *   halaman sungguhan, lihat pages/dashboard/DashboardPageContainer.jsx,
+ *   sebelumnya route ini sengaja belum terdaftar sebagai placeholder),
+ *   dan "Logout".
+ * - Dropdown ditutup otomatis kalau klik di luar area avatar/dropdown.
+ * - Mobile menu disamakan pola-nya: kalau logged in, tombol mobile jadi
+ *   avatar (bukan hamburger), tap membuka drawer berisi NAV_LINKS +
+ *   Dashboard + Logout (bukan lagi email statis tanpa dropdown).
+ * - Dihapus: `alert(JSON.stringify(session?.user, null, 2))` yang
+ *   kebawa dari debug -- munculin popup alert tiap kali auth state
+ *   sync, jelas bukan disengaja untuk production.
+ */
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // mobile drawer
+  const [dropdownOpen, setDropdownOpen] = useState(false); // desktop dropdown
   const [user, setUser] = useState(null);
   const location = useLocation();
+
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const syncUser = async () => {
@@ -22,10 +43,10 @@ export default function Navbar() {
         data: { session },
       } = await supabase.auth.getSession();
 
-      alert(JSON.stringify(session?.user, null, 2));
-
       setUser(session?.user ?? null);
     };
+
+    syncUser();
 
     const {
       data: { subscription },
@@ -35,6 +56,26 @@ export default function Navbar() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Tutup dropdown desktop kalau klik di luar area avatar/dropdown.
+  useEffect(() => {
+    if (!dropdownOpen) return;
+
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownOpen]);
+
+  // Ganti halaman -> tutup dropdown/drawer yang lagi terbuka.
+  useEffect(() => {
+    setDropdownOpen(false);
+    setOpen(false);
+  }, [location.pathname]);
 
   const avatarSrc =
     user?.user_metadata?.avatar_url ||
@@ -49,6 +90,13 @@ export default function Navbar() {
     }`.trim() ||
     user?.email ||
     "";
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setDropdownOpen(false);
+    setOpen(false);
+  };
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#12345b] shadow-sm font-serif text-white">
@@ -83,27 +131,52 @@ export default function Navbar() {
         </div>
 
         {/* RIGHT ACTIONS */}
-        <div className="hidden md:flex items-center gap-4 ml-8">
+        <div className="hidden md:flex items-center ml-8">
           {user ? (
-            <>
-              <Avatar src={avatarSrc} name={fullName} size="w-10 h-10" />
-
-              <span className="text-sm max-w-[120px] truncate">
-                {user.email}
-              </span>
-
+            <div className="relative" ref={dropdownRef}>
               <button
-                onClick={async () => {
-                  await supabase.auth.signOut();
-                  setUser(null);
-                }}
-                className="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-[#12345b] transition"
+                type="button"
+                onClick={() => setDropdownOpen((v) => !v)}
+                aria-haspopup="menu"
+                aria-expanded={dropdownOpen}
+                className="flex items-center rounded-full ring-offset-2 ring-offset-[#12345b] focus:outline-none focus:ring-2 focus:ring-white"
               >
-                Logout
+                <Avatar src={avatarSrc} name={fullName} size="w-11 h-11" />
               </button>
-            </>
+
+              {dropdownOpen && (
+                <div
+                  role="menu"
+                  className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#12345b] shadow-xl border border-gray-100 overflow-hidden font-sans"
+                >
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-sm font-semibold truncate">{fullName}</p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {user.email}
+                    </p>
+                  </div>
+
+                  <a
+                    href="/home/dashboard"
+                    role="menuitem"
+                    className="block px-4 py-2.5 text-sm hover:bg-gray-50 transition"
+                  >
+                    Dashboard
+                  </a>
+
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
-            <>
+            <div className="flex items-center gap-4">
               <a href="/cpn-z/login" className="text-lg hover:text-gray-300">
                 Masuk
               </a>
@@ -114,37 +187,46 @@ export default function Navbar() {
               >
                 Daftar Sekarang
               </a>
-            </>
+            </div>
           )}
         </div>
 
         {/* MOBILE BUTTON */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden p-3 text-2xl text-white"
-        >
-          {user ? (
-            <div
-              onClick={() => setOpen(!open)}
-              className="md:hidden flex items-center gap-2 cursor-pointer"
-            >
-              <Avatar src={avatarSrc} name={fullName} size="w-12 h-12" />
-            </div>
-          ) : (
-            <button
-              onClick={() => setOpen(!open)}
-              className="md:hidden p-2 text-white"
-            >
-              ☰
-            </button>
-          )}
-        </button>
+        {user ? (
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            className="md:hidden flex items-center"
+          >
+            <Avatar src={avatarSrc} name={fullName} size="w-11 h-11" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            className="md:hidden p-2 text-2xl text-white"
+          >
+            ☰
+          </button>
+        )}
       </div>
 
       {/* MOBILE MENU */}
       {open && (
         <div className="md:hidden border-t border-white bg-[#12345b] text-white">
           <div className="px-4 py-3 flex flex-col gap-3">
+            {user && (
+              <div className="flex items-center gap-3 pb-3 border-b border-white/30">
+                <Avatar src={avatarSrc} name={fullName} size="w-10 h-10" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold truncate">{fullName}</p>
+                  <p className="text-xs text-gray-300 truncate">{user.email}</p>
+                </div>
+              </div>
+            )}
+
             {NAV_LINKS.map((item) => {
               const isActive = location.pathname === item.href;
               return (
@@ -163,15 +245,19 @@ export default function Navbar() {
               );
             })}
 
-            <div className="flex flex-col gap-3 pt-3 border-t border-white">
+            <div className="flex flex-col gap-3 pt-3 border-t border-white/30">
               {user ? (
                 <>
+                  <a
+                    href="/home/dashboard"
+                    className="px-4 py-2 text-center border border-white rounded-lg"
+                    onClick={() => setOpen(false)}
+                  >
+                    Dashboard
+                  </a>
                   <button
-                    onClick={async () => {
-                      await supabase.auth.signOut();
-                      setUser(null);
-                      setOpen(false);
-                    }}
+                    type="button"
+                    onClick={handleLogout}
                     className="px-4 py-2 border border-white rounded-lg"
                   >
                     Logout

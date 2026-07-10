@@ -1,0 +1,64 @@
+/**
+ * Token warna leaderboard, diambil persis dari file desain (dekstop.html).
+ * Dipakai lewat arbitrary value Tailwind, misal: bg-[var(--lb-primary-container)]
+ *
+ * Kenapa CSS variable, bukan tambah token baru di tailwind.config.js?
+ * -> Supaya komponen ini bisa langsung dipakai di project manapun tanpa
+ *    perlu menyentuh tailwind.config.js project utama (yang isinya belum
+ *    tentu sama dengan punya file desain ini). Cukup import file CSS ini
+ *    sekali di titik masuk (lihat index.js).
+ */
+:root {
+  --lb-primary: #002f59;
+  --lb-primary-container: #00467f;
+  --lb-on-primary-container: #ffffff;
+
+  --lb-secondary-container: #fcd401; /* aksen kuning/emas */
+  --lb-on-secondary-container: #6f5c00;
+
+  --lb-surface: #f8f9ff;
+  --lb-surface-container: #e5eeff;
+  --lb-surface-container-low: #eef4ff;
+  --lb-surface-container-high: #dfe9fa;
+  --lb-surface-container-lowest: #ffffff;
+  --lb-surface-variant: #d9e3f4;
+
+  --lb-on-surface: #121c28;
+  --lb-on-surface-variant: #424750;
+
+  --lb-outline: #727781;
+  --lb-outline-variant: #c2c6d1;
+}
+
+/* Font khusus halaman leaderboard (desain asli pakai Hanken Grotesk).
+   Kalau font belum di-load (belum ada <link> Google Fonts di index.html),
+   otomatis fallback ke sans-serif standar -- tampilan tetap jalan, cuma
+   nuansa hurufnya sedikit beda. Tambahkan link berikut di index.html kalau
+   mau match 100%:
+   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet" /> */
+.leaderboard-page {
+  font-family: "Hanken Grotesk", "Inter", sans-serif;
+}
+
+.leaderboard-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.leaderboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 70, 127, 0.12);
+}
+.leaderboard-card:active {
+  transform: scale(0.98);
+}
+
+.leaderboard-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.leaderboard-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.leaderboard-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--lb-primary-container);
+  border-radius: 10px;
+}

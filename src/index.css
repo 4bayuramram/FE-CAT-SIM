@@ -68,3 +68,15 @@
     transform: translateX(0);
   }
 }
+
+/* Sembunyikan scrollbar untuk daftar tab kategori paket
+   (PackageCategoryTabs) yang di-scroll horizontal di layar sempit,
+   tanpa menghilangkan kemampuan scroll-nya. */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge lama */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Edge Chromium */
+}

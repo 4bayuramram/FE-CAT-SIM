@@ -9,6 +9,8 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import PeopleIcon from "@mui/icons-material/People";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { supabase } from "../../lib/supabaseClient";
+import PackageCategoryTabs from "./PackageCategoryTabs";
+import { resolvePackageCategory } from "../../utils/packageCategory";
 
 // Format harga ke Rupiah (pola sama seperti pages/payment/PaymentPage.jsx)
 const formatRupiah = (amount) =>
@@ -209,11 +211,13 @@ export default function Sematkan() {
     linkTo: "/exam-page/1",
     pembahasan: "koreksi-jawaban",
     peserta: 112,
+    category: "skd",
   };
 
   const [paketBerbayar, setPaketBerbayar] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [activeTab, setActiveTab] = useState("semua");
 
   useEffect(() => {
     let cancelled = false;
@@ -233,7 +237,10 @@ export default function Sematkan() {
       } = await supabase.auth.getSession();
 
       const [packagesRes, accessRes] = await Promise.all([
-        supabase.from("packages").select("*").order("price", { ascending: true }),
+        supabase
+          .from("packages")
+          .select("*")
+          .order("price", { ascending: true }),
         session?.user
           ? supabase
               .from("user_package_access")
@@ -276,8 +283,10 @@ export default function Sematkan() {
 
           return {
             ...pkg,
-            questionCount: !countError && typeof count === "number" ? count : null,
+            questionCount:
+              !countError && typeof count === "number" ? count : null,
             owned: ownedIds.has(String(pkg.id)),
+            category: resolvePackageCategory(pkg),
           };
         })
       );
@@ -293,40 +302,63 @@ export default function Sematkan() {
     };
   }, []);
 
+  // Satu daftar gabungan (gratis + berbayar) supaya hitungan tab dan
+  // filter tab konsisten dari satu sumber. Paket gratis selalu ikut
+  // dihitung sebagai kategori "skd".
+  const semuaPaket = [
+    { ...paketGratis, id: "gratis-1", isFree: true },
+    ...paketBerbayar,
+  ];
+
+  const tabCounts = semuaPaket.reduce(
+    (acc, pkg) => {
+      acc.semua += 1;
+      acc[pkg.category] = (acc[pkg.category] || 0) + 1;
+      return acc;
+    },
+    { semua: 0, skd: 0, twk: 0, tiu: 0, tkp: 0 }
+  );
+
+  const paketTampil =
+    activeTab === "semua"
+      ? semuaPaket
+      : semuaPaket.filter((pkg) => pkg.category === activeTab);
+
+  const tabAktifLabel =
+    activeTab === "semua"
+      ? "Semua"
+      : { skd: "SKD", twk: "TWK", tiu: "TIU", tkp: "TKP" }[activeTab];
+
   return (
     <section className="bg-white font-merriweather font-extrabold pt-4 mb-8 md:pt-8 pb-8">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         {/* Header */}
-        <div className="text-left mb-8 md:mb-12 space-y-3">
+        <div className="text-left mb-6 md:mb-8 space-y-3">
           <h2
             className="text-2xl md:text-4xl font-extrabold"
             style={{ color: "#00467f" }}
           >
-            Daftar Paket Try-Out Full-SKD
+            Daftar Paket Tryout
           </h2>
         </div>
 
-        {errorMsg && (
-          <p className="text-sm text-red-600 mb-6">{errorMsg}</p>
-        )}
+        {errorMsg && <p className="text-sm text-red-600 mb-6">{errorMsg}</p>}
+
+        {/* Tabbed Interface kategori paket */}
+        <PackageCategoryTabs
+          active={activeTab}
+          onChange={setActiveTab}
+          counts={tabCounts}
+        />
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Paket 1 — gratis, tetap jalur hardcode (disengaja) */}
-          <div className="w-full sm:w-auto max-w-full sm:max-w-none mx-auto">
-            <PackageSim
-              title={paketGratis.title}
-              description={paketGratis.description}
-              badge={paketGratis.badge}
-              questions={paketGratis.questions}
-              duration={paketGratis.duration}
-              linkTo={paketGratis.linkTo}
-              pembahasan={paketGratis.pembahasan}
-              peserta={paketGratis.peserta}
-            />
-          </div>
-
-          {/* Paket berbayar — live dari tabel `packages`, jalur Paid */}
+        <div
+          role="tabpanel"
+          id={`tabpanel-${activeTab}`}
+          aria-labelledby={`tab-${activeTab}`}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+        >
+          {/* Skeleton loading — tetap tampil di tab manapun saat fetch berjalan */}
           {loading &&
             [1, 2].map((n) => (
               <div
@@ -335,33 +367,67 @@ export default function Sematkan() {
               />
             ))}
 
+          {/* Empty state per kategori — tab tetap ada walau isinya kosong */}
+          {!loading && paketTampil.length === 0 && (
+            <div className="col-span-1 sm:col-span-2 text-center py-12 px-4 border border-dashed border-gray-300 rounded-xl">
+              <p className="font-semibold text-gray-600">
+                Belum ada paket {tabAktifLabel} tersedia.
+              </p>
+              <p className="text-sm text-gray-400 font-normal mt-1">
+                Paket untuk kategori ini akan muncul di sini begitu tersedia.
+              </p>
+            </div>
+          )}
+
           {!loading &&
-            paketBerbayar.map((pkg) => (
-              <div
-                key={pkg.id}
-                className="w-full sm:w-auto max-w-full sm:max-w-none mx-auto"
-              >
-                <PackageSim
-                  title={pkg.title}
-                  description={pkg.description || "Try-Out SKD (TWK,TIU,TKP)"}
-                  price={typeof pkg.price === "number" ? pkg.price : null}
-                  originalPrice={
-                    typeof pkg.original_price === "number"
-                      ? pkg.original_price
-                      : null
-                  }
-                  owned={pkg.owned}
-                  buttonText={pkg.owned ? "Lanjutkan Ujian" : "Mulai Simulasi"}
-                  questions={pkg.questionCount ?? "—"}
-                  duration={
-                    pkg.duration_minutes ? `${pkg.duration_minutes} Menit` : "—"
-                  }
-                  pembahasan="full-pembahasan"
-                  peringkat="pemeringkatan Nasional/Provinsi"
-                  linkTo={`/try-out/${pkg.id}/info`}
-                />
-              </div>
-            ))}
+            paketTampil.map((pkg) =>
+              pkg.isFree ? (
+                <div
+                  key={pkg.id}
+                  className="w-full sm:w-auto max-w-full sm:max-w-none mx-auto"
+                >
+                  <PackageSim
+                    title={pkg.title}
+                    description={pkg.description}
+                    badge={pkg.badge}
+                    questions={pkg.questions}
+                    duration={pkg.duration}
+                    linkTo={pkg.linkTo}
+                    pembahasan={pkg.pembahasan}
+                    peserta={pkg.peserta}
+                  />
+                </div>
+              ) : (
+                <div
+                  key={pkg.id}
+                  className="w-full sm:w-auto max-w-full sm:max-w-none mx-auto"
+                >
+                  <PackageSim
+                    title={pkg.title}
+                    description={pkg.description || "Try-Out SKD (TWK,TIU,TKP)"}
+                    price={typeof pkg.price === "number" ? pkg.price : null}
+                    originalPrice={
+                      typeof pkg.original_price === "number"
+                        ? pkg.original_price
+                        : null
+                    }
+                    owned={pkg.owned}
+                    buttonText={
+                      pkg.owned ? "Lanjutkan Ujian" : "Mulai Simulasi"
+                    }
+                    questions={pkg.questionCount ?? "—"}
+                    duration={
+                      pkg.duration_minutes
+                        ? `${pkg.duration_minutes} Menit`
+                        : "—"
+                    }
+                    pembahasan="full-pembahasan"
+                    peringkat="pemeringkatan Nasional/Provinsi"
+                    linkTo={`/try-out/${pkg.id}/info`}
+                  />
+                </div>
+              )
+            )}
         </div>
       </div>
     </section>

@@ -1,0 +1,59 @@
+/**
+ * Token warna Dashboard, disamakan persis dengan leaderboard-theme.css
+ * (brand primary #002f59 / #00467f / kuning #fcd402) supaya nuansa
+ * antar halaman "/home/*" konsisten. Prefix --db- (bukan --lb-) supaya
+ * modul ini tetap independen dan bisa dipakai tanpa perlu import
+ * leaderboard-theme.css juga.
+ *
+ * Dipakai lewat arbitrary value Tailwind, misal: bg-[var(--db-primary-container)]
+ */
+:root {
+  --db-primary: #002f59;
+  --db-primary-container: #00467f;
+  --db-on-primary-container: #ffffff;
+
+  --db-secondary-container: #fcd401; /* aksen kuning/emas */
+  --db-on-secondary-container: #6f5c00;
+
+  --db-surface: #f8f9ff;
+  --db-surface-container: #e5eeff;
+  --db-surface-container-low: #eef4ff;
+  --db-surface-container-high: #dfe9fa;
+  --db-surface-container-lowest: #ffffff;
+  --db-surface-variant: #d9e3f4;
+
+  --db-on-surface: #121c28;
+  --db-on-surface-variant: #424750;
+
+  --db-outline: #727781;
+  --db-outline-variant: #c2c6d1;
+
+  --db-success: #16a34a;
+  --db-success-container: #dcfce7;
+  --db-error: #ba1a1a;
+  --db-error-container: #ffdad6;
+}
+
+.dashboard-page {
+  font-family: "Inter", sans-serif;
+}
+
+.dashboard-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 70, 127, 0.12);
+}
+
+.dashboard-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.dashboard-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.dashboard-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--db-primary-container);
+  border-radius: 10px;
+}

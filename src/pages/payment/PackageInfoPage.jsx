@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabaseClient";
 import { initUserProfile } from "../../services/auth/initUserProfile";
 import { updateLeaderboardConsent } from "../../services/auth/updateLeaderboardConsent";
 import LeaderboardSection from "../../components/leaderboard/LeaderboardSection";
+import LeaderboardEntryButton from "../../components/leaderboard/LeaderboardEntryButton";
 
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import TimerIcon from "@mui/icons-material/Timer";
@@ -268,6 +269,9 @@ export default function PackageInfoPage() {
 
         {/* LEADERBOARD */}
         <LeaderboardSection packageId={packageId} currentUserId={userId} />
+        <div className="flex justify-end -mt-3">
+          <LeaderboardEntryButton />
+        </div>
 
         {/* CONSENT — hanya muncul kalau belum pernah dijawab */}
         {needsConsent && (
