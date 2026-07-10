@@ -19,8 +19,9 @@ import "./bantuan-theme.css";
  * - Warna diambil dari komponen desain lewat CSS variable di
  *   ./bantuan-theme.css (pola sama dengan
  *   components/leaderboard/leaderboard-theme.css), dipakai via
- *   arbitrary value Tailwind (`bg-[var(--help-...)]`) supaya tidak
- *   bergantung pada tailwind.config.js project utama.
+ *   arbitrary value Tailwind seperti bg-[var(--help-primary)] dan
+ *   variabel --help-* lainnya, supaya tidak bergantung pada
+ *   tailwind.config.js project utama.
  * - Ikon "material-symbols-outlined" (butuh <link> Google Fonts
  *   tambahan) diganti @mui/icons-material yang sudah dipakai di
  *   FooterSection.jsx, supaya tidak perlu edit index.html.
@@ -151,8 +152,8 @@ export default function BantuanPage() {
 
             {filteredFaqs.length === 0 && (
               <div className="text-center py-10 text-[var(--help-on-surface-variant)]">
-                Tidak ada hasil untuk &quot;{query}&quot;. Coba kata kunci
-                lain atau hubungi tim support di bawah.
+                Tidak ada hasil untuk &quot;{query}&quot;. Coba kata kunci lain
+                atau hubungi tim support di bawah.
               </div>
             )}
           </div>
