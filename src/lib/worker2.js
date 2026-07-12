@@ -144,17 +144,48 @@ async function isPaymentAlreadyProcessed(env, orderId) {
 }
 
 // ----------------------------------------------------------------
+// EXTRACT PAYMENT METHOD DETAIL
+// Dipakai untuk struk/invoice di riwayat transaksi (lihat
+// DashboardTransactionDetailModal.jsx) -- Midtrans taruh info metode
+// bayar di tempat berbeda-beda tergantung payment_type:
+// - VA (bca/bni/bri/permata dst): body.va_numbers[0] = { bank, va_number }
+// - Permata VA lama: body.permata_va_number
+// - Gopay/QRIS/dst: cukup dari payment_type saja, tidak ada nomor VA
+// Sengaja defensif (optional chaining) karena field ini TIDAK
+// divalidasi di validateWebhookPayload -- boleh kosong.
+// ----------------------------------------------------------------
+function extractPaymentMethodDetail(body) {
+  const va = body.va_numbers?.[0];
+  return {
+    paymentType: body.payment_type || null,
+    bank: va?.bank || (body.permata_va_number ? "permata" : null),
+    vaNumber: va?.va_number || body.permata_va_number || null,
+    // settlement_time = kapan dana benar-benar settle (lebih akurat
+    // untuk struk dibanding transaction_time = kapan transaksi dibuat)
+    paidAt: body.settlement_time || body.transaction_time || null,
+  };
+}
+
+// ----------------------------------------------------------------
 // INSERT PAYMENT
 // ----------------------------------------------------------------
-async function insertPayment(env, { orderId, userId, packageId, amount }) {
+async function insertPayment(
+  env,
+  { orderId, transactionId, userId, packageId, amount, paymentType, bank, vaNumber, paidAt }
+) {
   return supabaseFetch(env, "/payments", {
     method: "POST",
     body: JSON.stringify({
       midtrans_order_id: orderId,
+      midtrans_transaction_id: transactionId || null,
       status: "success",
       amount: parseInt(amount, 10),
       user_id: userId,
       package_id: packageId || null,
+      payment_type: paymentType || null,
+      bank: bank || null,
+      va_number: vaNumber || null,
+      paid_at: paidAt || null,
     }),
   });
 }
@@ -351,11 +382,17 @@ async function handleMidtransWebhook(request, env) {
   });
 
   // STEP 6: Insert payment
+  const { paymentType, bank, vaNumber, paidAt } = extractPaymentMethodDetail(body);
   const paymentResult = await insertPayment(env, {
     orderId,
+    transactionId: body.transaction_id,
     userId,
     packageId: package_id,
     amount: body.gross_amount,
+    paymentType,
+    bank,
+    vaNumber,
+    paidAt,
   });
 
   if (!paymentResult.ok) {

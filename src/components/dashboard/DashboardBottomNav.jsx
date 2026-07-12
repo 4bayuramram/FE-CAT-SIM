@@ -1,12 +1,13 @@
 import SpaceDashboardRoundedIcon from "@mui/icons-material/SpaceDashboardRounded";
 import Inventory2RoundedIcon from "@mui/icons-material/Inventory2Rounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { DASHBOARD_TABS } from "./DashboardSideNav";
 
 /**
  * DashboardBottomNav — versi mobile dari tab sidebar, model TABBED
- * INTERFACE (bukan link pindah halaman) — 4 tab yang SAMA PERSIS
+ * INTERFACE (bukan link pindah halaman) — tab yang SAMA PERSIS
  * dengan DashboardSideNav (DASHBOARD_TABS), supaya perilaku desktop &
  * mobile konsisten satu sumber. Tautan "Lainnya" (try-out/leaderboard/
  * bantuan/logout) dipindah ke dalam tab "Akun" (lihat DashboardAccountTab),
@@ -20,6 +21,7 @@ const ICONS = {
   overview: SpaceDashboardRoundedIcon,
   packages: Inventory2RoundedIcon,
   scores: BarChartRoundedIcon,
+  performa: TimelineRoundedIcon,
   account: PersonRoundedIcon,
 };
 

@@ -36,6 +36,15 @@ export const MOCK_DASHBOARD_DATA = {
     attemptedPackages: 2,
     avgScore: 412,
     bestRank: 3,
+    // Rata-rata skor PER KATEGORI paket (skd/twk/tiu/tkp), dipakai
+    // DashboardCategoryScoreGrid. null = belum ada paket kategori itu
+    // yang dikerjakan.
+    categoryAverages: {
+      skd: 425,
+      twk: null,
+      tiu: 398,
+      tkp: null,
+    },
   },
 
   nextPackage: { id: "mock-3", title: "Try Out Akbar Vol. 2" },
@@ -133,4 +142,80 @@ export const MOCK_DASHBOARD_DATA = {
       variant: "current",
     },
   },
+
+  // Posisi relatif user, KHUSUS skor paket SKD, 3 cakupan sekaligus --
+  // dipakai DashboardSkdRankingSection (pengganti "Top Peserta" lama).
+  // Bentuk tiap cakupan lihat services/leaderboard/getSkdRanking.js.
+  skdRanking: {
+    national: {
+      rank: 128,
+      totalPeserta: 4820,
+      avgScore: 425,
+      percentile: 3,
+    },
+    province: {
+      name: "Bengkulu",
+      rank: 5,
+      totalPeserta: 96,
+      avgScore: 425,
+      percentile: 6,
+    },
+    city: {
+      name: "Kota Bengkulu",
+      rank: 2,
+      totalPeserta: 31,
+      avgScore: 425,
+      percentile: 7,
+    },
+  },
+
+  // Riwayat multi-percobaan untuk tab "Performa" -- lihat catatan
+  // sumber data di DashboardPerformanceTab.jsx (belum ditrack di
+  // backend, ini contoh bagaimana tampilannya nanti begitu tersedia).
+  attempts: [
+    {
+      packageId: "mock-1",
+      packageTitle: "SKD Masterclass 2024",
+      category: "skd",
+      history: [
+        { attemptNumber: 1, score: 380, date: "2024-05-01" },
+        { attemptNumber: 2, score: 425, date: "2024-05-15" },
+      ],
+    },
+  ],
+
+  // Riwayat transaksi contoh untuk menu "Riwayat Transaksi" di tab
+  // Akun -- bentuk sama persis dengan keluaran
+  // services/payment/getTransactionHistory.js (lihat DashboardAccountTab
+  // & DashboardTransactionHistoryCard).
+  transactions: [
+    {
+      id: "mock-trx-1",
+      orderId: "ORDER-ahmadsu-1715760000000",
+      transactionId: "8a3c1e2b-mock-transaction-id-1",
+      status: "success",
+      amount: 49000,
+      packageId: "mock-1",
+      packageTitle: "SKD Masterclass 2024",
+      paymentType: "bank_transfer",
+      bank: "bca",
+      vaNumber: "8808081234567890",
+      paidAt: "2024-05-15T02:03:41.000Z",
+      createdAt: "2024-05-15T02:00:00.000Z",
+    },
+    {
+      id: "mock-trx-2",
+      orderId: "ORDER-ahmadsu-1714521600000",
+      transactionId: "8a3c1e2b-mock-transaction-id-2",
+      status: "success",
+      amount: 19000,
+      packageId: "mock-2",
+      packageTitle: "TIU Drill Intensif #1",
+      paymentType: "qris",
+      bank: null,
+      vaNumber: null,
+      paidAt: "2024-05-01T03:01:12.000Z",
+      createdAt: "2024-05-01T03:00:00.000Z",
+    },
+  ],
 };

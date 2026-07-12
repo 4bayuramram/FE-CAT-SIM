@@ -7,12 +7,14 @@ import DashboardBottomNav from "./DashboardBottomNav";
 import DashboardOverviewTab from "./DashboardOverviewTab";
 import DashboardPackagesTab from "./DashboardPackagesTab";
 import DashboardScoresTab from "./DashboardScoresTab";
+import DashboardPerformanceTab from "./DashboardPerformanceTab";
 import DashboardAccountTab from "./DashboardAccountTab";
 
 const TAB_TITLES = {
   overview: "Ringkasan",
   packages: "Paket Saya",
-  scores: "Skor & Peringkat",
+  scores: "Hasil",
+  performa: "Performa",
   account: "Akun",
 };
 
@@ -41,12 +43,20 @@ const TAB_TITLES = {
  *   top bar (dashboard sedang menampilkan fallback dari
  *   mockDashboardData.js, bukan data asli user)
  * - profile: { name, email, avatarUrl, domicile }
- * - stats: { totalPackages, attemptedPackages, avgScore, bestRank }
+ * - stats: { totalPackages, attemptedPackages, avgScore, bestRank,
+ *     categoryAverages: { skd, twk, tiu, tkp } }
  * - nextPackage: { id, title } | null
  * - packages: [{ id, title, category, questionCount, durationMinutes,
  *     attempted, score, rank }]
  * - scoreSummaryRows: [{ id, title, category, score, rank }]
  * - featuredLeaderboard: { packageTitle, rows, currentUserRow } | null
+ * - skdRanking: { national, province, city } | null — lihat
+ *   DashboardSkdRankingSection untuk bentuk tiap cakupan
+ * - attempts: riwayat multi-percobaan untuk tab Performa, lihat
+ *   DashboardPerformanceTab
+ * - transactions: riwayat transaksi (pembelian paket) untuk menu
+ *   "Riwayat Transaksi" di tab Akun, lihat DashboardAccountTab &
+ *   services/payment/getTransactionHistory.js
  * - onNavigate(key): "try-out" | "leaderboard" | "bantuan"
  * - onPackageDetail(pkg), onPackageLeaderboard(pkg), onExplorePackages()
  * - onContinueStart(), onSeeFullLeaderboard(), onLogout()
@@ -59,6 +69,9 @@ export default function DashboardPageDb({
   packages = [],
   scoreSummaryRows = [],
   featuredLeaderboard = null,
+  skdRanking = null,
+  attempts = [],
+  transactions = [],
   onNavigate,
   onPackageDetail,
   onPackageLeaderboard,
@@ -105,9 +118,15 @@ export default function DashboardPageDb({
               stats={stats}
               nextPackage={nextPackage}
               hasAnyPackage={packages.length > 0}
+              packages={packages}
+              scoreSummaryRows={scoreSummaryRows}
               featuredLeaderboard={featuredLeaderboard}
+              skdRanking={skdRanking}
               onContinueStart={onContinueStart}
               onSeeFullLeaderboard={onSeeFullLeaderboard}
+              onPackageDetail={onPackageDetail}
+              onPackageLeaderboard={onPackageLeaderboard}
+              onGoToScoresTab={() => setActiveTab("scores")}
             />
           )}
 
@@ -131,9 +150,17 @@ export default function DashboardPageDb({
             />
           )}
 
+          {activeTab === "performa" && (
+            <DashboardPerformanceTab
+              attempts={attempts}
+              onExplorePackages={onExplorePackages}
+            />
+          )}
+
           {activeTab === "account" && (
             <DashboardAccountTab
               profile={profile}
+              transactions={transactions}
               onNavigate={onNavigate}
               onLogout={onLogout}
             />

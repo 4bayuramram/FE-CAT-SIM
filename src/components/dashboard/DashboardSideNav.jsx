@@ -1,6 +1,7 @@
 import SpaceDashboardRoundedIcon from "@mui/icons-material/SpaceDashboardRounded";
 import Inventory2RoundedIcon from "@mui/icons-material/Inventory2Rounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import LeaderboardRoundedIcon from "@mui/icons-material/LeaderboardRounded";
@@ -11,7 +12,8 @@ import Avatar from "../common/Avatar";
 export const DASHBOARD_TABS = [
   { key: "overview", label: "Ringkasan", icon: SpaceDashboardRoundedIcon },
   { key: "packages", label: "Paket Saya", icon: Inventory2RoundedIcon },
-  { key: "scores", label: "Skor & Peringkat", icon: BarChartRoundedIcon },
+  { key: "scores", label: "Hasil", icon: BarChartRoundedIcon },
+  { key: "performa", label: "Performa", icon: TimelineRoundedIcon },
   { key: "account", label: "Akun", icon: PersonRoundedIcon },
 ];
 

@@ -14,7 +14,7 @@ export default function DashboardScoresTab({
     <div className="flex flex-col gap-4">
       <div>
         <h2 className="text-xl md:text-2xl font-black text-[var(--db-primary)]">
-          Skor &amp; Peringkat
+           Hasil 
         </h2>
         <p className="text-sm text-[var(--db-on-surface-variant)] mt-1">
           Ringkasan skor dan posisi peringkatmu di tiap paket yang sudah

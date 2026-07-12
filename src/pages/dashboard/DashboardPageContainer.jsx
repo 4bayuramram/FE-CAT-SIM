@@ -7,6 +7,8 @@ import { MOCK_DASHBOARD_DATA } from "../../components/dashboard/mockDashboardDat
 import { initUserProfile } from "../../services/auth/initUserProfile";
 import { getPackageLeaderboard } from "../../services/leaderboard/getPackageLeaderboard";
 import { mapToLeaderboardRows } from "../../services/leaderboard/mapToLeaderboardRows";
+import { getSkdRanking } from "../../services/leaderboard/getSkdRanking";
+import { getTransactionHistory } from "../../services/payment/getTransactionHistory";
 import { resolvePackageCategory } from "../../utils/packageCategory";
 
 /**
@@ -27,6 +29,12 @@ import { resolvePackageCategory } from "../../utils/packageCategory";
  * - mapToLeaderboardRows.js: reshape entries leaderboard untuk widget
  *   mini leaderboard (sama seperti dipakai LeaderboardPageContainer)
  * - user_profile: nama, domisili (province/city) untuk kartu akun
+ * - services/payment/getTransactionHistory.js (tabel `payments`):
+ *   riwayat transaksi untuk menu "Riwayat Transaksi" di tab Akun
+ *   (DashboardAccountTab). Best-effort: kalau query gagal (mis. RLS
+ *   tabel `payments` belum dikonfigurasi), ditampilkan sebagai daftar
+ *   kosong -- TIDAK memicu fallback data contoh untuk seluruh
+ *   dashboard, karena ini section independen.
  *
  * FALLBACK KE DATA CONTOH (mockDashboardData.js):
  * Dipakai kalau (a) user belum punya paket sama sekali (packageIds
@@ -73,7 +81,7 @@ export default function DashboardPageContainer() {
       const currentUserId = currentUser.id;
 
       try {
-        const [profileRes, accessRes] = await Promise.all([
+        const [profileRes, accessRes, transactionHistoryRes] = await Promise.all([
           supabase
             .from("user_profile")
             .select("first_name, last_name, email, province, city")
@@ -84,11 +92,21 @@ export default function DashboardPageContainer() {
             .select("package_id")
             .eq("user_id", currentUserId)
             .eq("status", "active"),
+          getTransactionHistory(currentUserId),
         ]);
 
         if (cancelled) return;
 
         if (accessRes.error) throw accessRes.error;
+
+        // Riwayat transaksi ditampilkan best-effort: kalau query gagal
+        // (mis. RLS belum dikonfigurasi untuk tabel `payments`),
+        // tampilkan tab "Riwayat Transaksi" kosong, BUKAN gagalkan
+        // seluruh dashboard (lihat DashboardTransactionHistoryCard
+        // untuk state kosongnya).
+        const transactions = transactionHistoryRes.error
+          ? []
+          : transactionHistoryRes.data;
 
         const profile = profileRes.data;
         const fullName =
@@ -117,18 +135,28 @@ export default function DashboardPageContainer() {
 
         if (packageIds.length === 0) {
           // Belum punya paket sama sekali -- pakai data contoh untuk
-          // sisi paket/skor/leaderboard, tapi identitas tetap asli.
+          // sisi paket/skor/leaderboard, tapi identitas & riwayat
+          // transaksi tetap asli (mis. user pernah bayar tapi
+          // akses belum/gagal ter-provision -- lihat catatan manual
+          // recovery di worker2.js).
           if (cancelled) return;
-          setData({ ...MOCK_DASHBOARD_DATA, isMock: true, profile: realProfile });
+          setData({
+            ...MOCK_DASHBOARD_DATA,
+            isMock: true,
+            profile: realProfile,
+            transactions,
+          });
           setLoading(false);
           return;
         }
 
-        // Detail paket + jumlah soal + leaderboard tiap paket, diambil
-        // paralel (pola sama seperti PackageSim.jsx / LeaderboardPageContainer.jsx).
-        const [packagesRes, leaderboardResults] = await Promise.all([
+        // Detail paket + jumlah soal + leaderboard tiap paket + peringkat
+        // SKD (nasional/provinsi/kabupaten), diambil paralel (pola sama
+        // seperti PackageSim.jsx / LeaderboardPageContainer.jsx).
+        const [packagesRes, leaderboardResults, skdRankingRes] = await Promise.all([
           supabase.from("packages").select("*").in("id", packageIds),
           Promise.all(packageIds.map((id) => getPackageLeaderboard(id))),
+          getSkdRanking(currentUserId),
         ]);
 
         if (cancelled) return;
@@ -180,6 +208,19 @@ export default function DashboardPageContainer() {
             ? Math.min(...attemptedPackages.map((p) => p.rank).filter(Boolean))
             : null;
 
+        // Rata-rata skor PER KATEGORI (skd/twk/tiu/tkp) -- lihat catatan
+        // di DashboardCategoryScoreGrid.jsx soal makna "SKD" di sini
+        // (skor paket kategori skd, bukan rata-rata TWK/TIU/TKP satuan).
+        const categoryAverages = { skd: null, twk: null, tiu: null, tkp: null };
+        ["skd", "twk", "tiu", "tkp"].forEach((category) => {
+          const inCategory = attemptedPackages.filter((p) => p.category === category);
+          if (inCategory.length > 0) {
+            categoryAverages[category] = Math.round(
+              inCategory.reduce((sum, p) => sum + (p.score || 0), 0) / inCategory.length
+            );
+          }
+        });
+
         const nextPkg = packagesForUI.find((p) => !p.attempted) || null;
 
         // Paket "unggulan" untuk mini leaderboard: yang peringkatnya
@@ -211,6 +252,7 @@ export default function DashboardPageContainer() {
             attemptedPackages: attemptedPackages.length,
             avgScore,
             bestRank,
+            categoryAverages,
           },
           nextPackage: nextPkg ? { id: nextPkg.id, title: nextPkg.title } : null,
           packages: packagesForUI,
@@ -222,6 +264,15 @@ export default function DashboardPageContainer() {
             rank: p.rank,
           })),
           featuredLeaderboard,
+          // null kalau RPC get_skd_ranking belum ada/gagal -- UI
+          // menampilkan section ini secara graceful (lihat
+          // getSkdRanking.js & DashboardSkdRankingSection.jsx).
+          skdRanking: skdRankingRes.data,
+          // Riwayat multi-percobaan belum ditrack backend, lihat catatan
+          // di DashboardPerformanceTab.jsx -- kosong sampai backend
+          // menambah tracking attempt ke-2+.
+          attempts: [],
+          transactions,
         });
         setLoading(false);
       } catch (err) {
@@ -281,6 +332,9 @@ export default function DashboardPageContainer() {
       packages={data.packages}
       scoreSummaryRows={data.scoreSummaryRows}
       featuredLeaderboard={data.featuredLeaderboard}
+      skdRanking={data.skdRanking}
+      attempts={data.attempts}
+      transactions={data.transactions}
       onNavigate={handleNavigate}
       onPackageDetail={(pkg) => {
         if (data.isMock) return; // paket contoh tidak beneran ada di DB
