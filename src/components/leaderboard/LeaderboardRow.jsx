@@ -36,10 +36,10 @@ export default function LeaderboardRow({
     : "bg-[var(--lb-secondary-container)] text-[var(--lb-primary)]";
 
   const cardClass = isCurrent
-    ? "leaderboard-card grid grid-cols-1 md:grid-cols-12 items-center gap-4 p-4 bg-[var(--lb-surface-container-low)] border-2 border-[var(--lb-primary-container)] rounded-2xl shadow-lg relative"
+    ? "leaderboard-card flex items-center gap-3 p-3 md:grid md:grid-cols-12 md:items-center md:gap-4 md:p-4 bg-[var(--lb-surface-container-low)] border-2 border-[var(--lb-primary-container)] rounded-2xl shadow-lg relative"
     : isHidden
-    ? "leaderboard-card grid grid-cols-1 md:grid-cols-12 items-center gap-4 p-4 bg-white border border-[var(--lb-outline-variant)] rounded-2xl opacity-80"
-    : "leaderboard-card grid grid-cols-1 md:grid-cols-12 items-center gap-4 p-4 bg-white border border-[var(--lb-outline-variant)] rounded-2xl";
+    ? "leaderboard-card flex items-center gap-3 p-3 md:grid md:grid-cols-12 md:items-center md:gap-4 md:p-4 bg-white border border-[var(--lb-outline-variant)] rounded-2xl opacity-80"
+    : "leaderboard-card flex items-center gap-3 p-3 md:grid md:grid-cols-12 md:items-center md:gap-4 md:p-4 bg-white border border-[var(--lb-outline-variant)] rounded-2xl";
 
   const nameClass = isCurrent
     ? "font-black text-[var(--lb-primary-container)]"
@@ -68,37 +68,37 @@ export default function LeaderboardRow({
       )}
 
       {/* Rank */}
-      <div className="md:col-span-1 flex items-center">
+      <div className="shrink-0 md:col-span-1 flex items-center">
         <div
-          className={`w-10 h-10 flex items-center justify-center rounded-full font-black text-lg ${rankBadgeClass}`}
+          className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full font-black text-sm md:text-lg ${rankBadgeClass}`}
         >
           {rank}
         </div>
       </div>
 
       {/* Peserta (avatar + nama, lokasi tampil di sini khusus mobile) */}
-      <div className="md:col-span-5 flex items-center gap-4">
+      <div className="flex-1 min-w-0 flex items-center gap-3 md:col-span-5 md:gap-4">
         {isHidden ? (
-          <div className="w-12 h-12 rounded-full bg-[var(--lb-surface-container)] flex items-center justify-center shrink-0">
+          <div className="w-9 h-9 md:w-12 md:h-12 rounded-full bg-[var(--lb-surface-container)] flex items-center justify-center shrink-0">
             <LockRoundedIcon fontSize="small" className="text-[var(--lb-outline)]" />
           </div>
         ) : avatarUrl ? (
           <img
-            className={`w-12 h-12 rounded-full object-cover shrink-0 ${
+            className={`w-9 h-9 md:w-12 md:h-12 rounded-full object-cover shrink-0 ${
               isCurrent ? "" : "border-2 border-[var(--lb-secondary-container)]"
             }`}
             src={avatarUrl}
             alt={name}
           />
         ) : (
-          <div className="w-12 h-12 rounded-full bg-[var(--lb-primary-container)] text-white flex items-center justify-center font-black shrink-0">
+          <div className="w-9 h-9 md:w-12 md:h-12 rounded-full bg-[var(--lb-primary-container)] text-white flex items-center justify-center font-black shrink-0 text-sm md:text-base">
             {initial}
           </div>
         )}
 
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h4 className={`${nameClass} truncate`}>{name}</h4>
+            <h4 className={`${nameClass} truncate text-sm md:text-base`}>{name}</h4>
             {isCurrent && (
               <span className="bg-[var(--lb-primary)] text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase shrink-0">
                 Anda
@@ -118,14 +118,26 @@ export default function LeaderboardRow({
         {location}
       </div>
 
-      {/* Skor */}
-      <div className={`md:col-span-1 text-right font-black ${scoreClass}`}>
+      {/* Skor + Durasi: satu blok ringkas di mobile, kolom terpisah di desktop */}
+      <div className="shrink-0 text-right md:hidden">
+        <p className={`font-black text-sm ${scoreClass}`}>{score}</p>
+        <p
+          className={`text-[11px] ${
+            isCurrent ? "text-[var(--lb-primary-container)] font-bold" : "text-[var(--lb-outline)]"
+          }`}
+        >
+          {duration}
+        </p>
+      </div>
+
+      {/* Skor (desktop only) */}
+      <div className={`hidden md:block md:col-span-1 text-right font-black ${scoreClass}`}>
         {score}
       </div>
 
-      {/* Durasi */}
+      {/* Durasi (desktop only) */}
       <div
-        className={`md:col-span-2 text-right text-sm ${
+        className={`hidden md:block md:col-span-2 text-right text-sm ${
           isCurrent ? "text-[var(--lb-primary-container)] font-bold" : "text-[var(--lb-outline)]"
         }`}
       >

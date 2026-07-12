@@ -79,6 +79,7 @@ export default function DashboardPageDb({
   onContinueStart,
   onSeeFullLeaderboard,
   onLogout,
+  onLeaderboardConsentChange,
 }) {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -163,6 +164,7 @@ export default function DashboardPageDb({
               transactions={transactions}
               onNavigate={onNavigate}
               onLogout={onLogout}
+              onLeaderboardConsentChange={onLeaderboardConsentChange}
             />
           )}
         </main>

@@ -5,6 +5,7 @@ import { supabase } from "../../lib/supabaseClient";
 import { DashboardPageDb } from "../../components/dashboard";
 import { MOCK_DASHBOARD_DATA } from "../../components/dashboard/mockDashboardData";
 import { initUserProfile } from "../../services/auth/initUserProfile";
+import { updateLeaderboardConsent } from "../../services/auth/updateLeaderboardConsent";
 import { getPackageLeaderboard } from "../../services/leaderboard/getPackageLeaderboard";
 import { mapToLeaderboardRows } from "../../services/leaderboard/mapToLeaderboardRows";
 import { getSkdRanking } from "../../services/leaderboard/getSkdRanking";
@@ -81,19 +82,22 @@ export default function DashboardPageContainer() {
       const currentUserId = currentUser.id;
 
       try {
-        const [profileRes, accessRes, transactionHistoryRes] = await Promise.all([
-          supabase
-            .from("user_profile")
-            .select("first_name, last_name, email, province, city")
-            .eq("id", currentUserId)
-            .maybeSingle(),
-          supabase
-            .from("user_package_access")
-            .select("package_id")
-            .eq("user_id", currentUserId)
-            .eq("status", "active"),
-          getTransactionHistory(currentUserId),
-        ]);
+        const [profileRes, accessRes, transactionHistoryRes] =
+          await Promise.all([
+            supabase
+              .from("user_profile")
+              .select(
+                "first_name, last_name, email, province, city, leaderboard_opt_in"
+              )
+              .eq("id", currentUserId)
+              .maybeSingle(),
+            supabase
+              .from("user_package_access")
+              .select("package_id")
+              .eq("user_id", currentUserId)
+              .eq("status", "active"),
+            getTransactionHistory(currentUserId),
+          ]);
 
         if (cancelled) return;
 
@@ -110,12 +114,17 @@ export default function DashboardPageContainer() {
 
         const profile = profileRes.data;
         const fullName =
-          [profile?.first_name, profile?.last_name].filter(Boolean).join(" ").trim() ||
+          [profile?.first_name, profile?.last_name]
+            .filter(Boolean)
+            .join(" ")
+            .trim() ||
           currentUser.user_metadata?.full_name ||
           currentUser.email ||
           "Peserta";
 
-        const domicile = [profile?.city, profile?.province].filter(Boolean).join(", ");
+        const domicile = [profile?.city, profile?.province]
+          .filter(Boolean)
+          .join(", ");
 
         const avatarUrl =
           currentUser.user_metadata?.avatar_url ||
@@ -123,10 +132,15 @@ export default function DashboardPageContainer() {
           null;
 
         const realProfile = {
+          userId: currentUserId,
           name: fullName,
           email: profile?.email || currentUser.email,
           avatarUrl,
           domicile: domicile || null,
+          // null = belum pernah dijawab (belum attempt paket apa pun).
+          // Toggle di tab Akun tetap bisa dipakai untuk set eksplisit
+          // dari sini juga, lihat handleLeaderboardConsentChange().
+          leaderboardOptIn: profile?.leaderboard_opt_in ?? null,
         };
 
         const packageIds = [
@@ -153,11 +167,12 @@ export default function DashboardPageContainer() {
         // Detail paket + jumlah soal + leaderboard tiap paket + peringkat
         // SKD (nasional/provinsi/kabupaten), diambil paralel (pola sama
         // seperti PackageSim.jsx / LeaderboardPageContainer.jsx).
-        const [packagesRes, leaderboardResults, skdRankingRes] = await Promise.all([
-          supabase.from("packages").select("*").in("id", packageIds),
-          Promise.all(packageIds.map((id) => getPackageLeaderboard(id))),
-          getSkdRanking(currentUserId),
-        ]);
+        const [packagesRes, leaderboardResults, skdRankingRes] =
+          await Promise.all([
+            supabase.from("packages").select("*").in("id", packageIds),
+            Promise.all(packageIds.map((id) => getPackageLeaderboard(id))),
+            getSkdRanking(currentUserId),
+          ]);
 
         if (cancelled) return;
         if (packagesRes.error) throw packagesRes.error;
@@ -168,12 +183,17 @@ export default function DashboardPageContainer() {
               .from("questions")
               .select("id", { count: "exact", head: true })
               .eq("package_id", id);
-            return [id, !countError && typeof count === "number" ? count : null];
+            return [
+              id,
+              !countError && typeof count === "number" ? count : null,
+            ];
           })
         );
         const questionCountById = new Map(questionCounts);
 
-        const packagesById = new Map((packagesRes.data || []).map((p) => [p.id, p]));
+        const packagesById = new Map(
+          (packagesRes.data || []).map((p) => [p.id, p])
+        );
 
         const packagesForUI = packageIds.map((id, idx) => {
           const paket = packagesById.get(id);
@@ -213,10 +233,13 @@ export default function DashboardPageContainer() {
         // (skor paket kategori skd, bukan rata-rata TWK/TIU/TKP satuan).
         const categoryAverages = { skd: null, twk: null, tiu: null, tkp: null };
         ["skd", "twk", "tiu", "tkp"].forEach((category) => {
-          const inCategory = attemptedPackages.filter((p) => p.category === category);
+          const inCategory = attemptedPackages.filter(
+            (p) => p.category === category
+          );
           if (inCategory.length > 0) {
             categoryAverages[category] = Math.round(
-              inCategory.reduce((sum, p) => sum + (p.score || 0), 0) / inCategory.length
+              inCategory.reduce((sum, p) => sum + (p.score || 0), 0) /
+                inCategory.length
             );
           }
         });
@@ -228,7 +251,8 @@ export default function DashboardPageContainer() {
         const featuredPkg =
           attemptedPackages.length > 0
             ? attemptedPackages.reduce(
-                (best, p) => (!best || (p.rank && p.rank < best.rank) ? p : best),
+                (best, p) =>
+                  !best || (p.rank && p.rank < best.rank) ? p : best,
                 null
               )
             : null;
@@ -254,7 +278,9 @@ export default function DashboardPageContainer() {
             bestRank,
             categoryAverages,
           },
-          nextPackage: nextPkg ? { id: nextPkg.id, title: nextPkg.title } : null,
+          nextPackage: nextPkg
+            ? { id: nextPkg.id, title: nextPkg.title }
+            : null,
           packages: packagesForUI,
           scoreSummaryRows: attemptedPackages.map((p) => ({
             id: p.id,
@@ -279,7 +305,10 @@ export default function DashboardPageContainer() {
         // Query gagal (mis. RLS/skema belum siap saat development) --
         // fallback ke data contoh daripada layar error, lihat catatan
         // di header file ini. Tetap dilog supaya gampang di-debug.
-        console.error("DashboardPageContainer: gagal memuat data asli, pakai data contoh.", err);
+        console.error(
+          "DashboardPageContainer: gagal memuat data asli, pakai data contoh.",
+          err
+        );
         if (cancelled) return;
         setData({
           ...MOCK_DASHBOARD_DATA,
@@ -313,6 +342,37 @@ export default function DashboardPageContainer() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/home", { replace: true });
+  };
+
+  // Dipanggil dari toggle "Publikasikan identitas" di tab Akun
+  // (DashboardAccountTab). Reuse updateLeaderboardConsent.js yang sama
+  // dengan consent sekali-jalan di PackageInfoPage.jsx -- bedanya di
+  // sini bisa dipanggil berkali-kali kapan saja, bukan cuma sekali
+  // sebelum attempt pertama. Update state lokal dulu (optimistic)
+  // supaya toggle langsung responsif, baru simpan ke DB; kalau gagal,
+  // dikembalikan ke nilai semula dan kasih tau si caller (return
+  // boolean) supaya UI bisa tampilkan error.
+  const handleLeaderboardConsentChange = async (optIn) => {
+    if (!data?.profile?.userId) return false;
+
+    const previousProfile = data.profile;
+    setData((prev) => ({
+      ...prev,
+      profile: { ...prev.profile, leaderboardOptIn: optIn },
+    }));
+
+    const { error } = await updateLeaderboardConsent(
+      previousProfile.userId,
+      optIn
+    );
+
+    if (error) {
+      console.error(error);
+      setData((prev) => ({ ...prev, profile: previousProfile }));
+      return false;
+    }
+
+    return true;
   };
 
   if (loading) {
@@ -351,6 +411,7 @@ export default function DashboardPageContainer() {
         }
       }}
       onLogout={handleLogout}
+      onLeaderboardConsentChange={handleLeaderboardConsentChange}
     />
   );
 }

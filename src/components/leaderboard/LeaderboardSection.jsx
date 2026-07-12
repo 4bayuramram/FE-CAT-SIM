@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import SyncIcon from "@mui/icons-material/Sync";
+import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import Avatar from "../common/Avatar";
 import { getPackageLeaderboard } from "../../services/leaderboard/getPackageLeaderboard";
 
@@ -98,6 +99,17 @@ export default function LeaderboardSection({ packageId, currentUserId }) {
 }
 
 function LeaderboardRow({ entry, isCurrentUser }) {
+  // PATCH: sebelumnya cuma `location` yang dicek `isAnonymous` di sini --
+  // `entry.name` dan `entry.avatarUrl` tetap dirender apa adanya, jadi
+  // peserta yang memilih TIDAK mempublikasikan identitas tetap bocor
+  // nama & foto profilnya di widget ini (beda dari halaman
+  // /home/leaderboard yang sudah benar lewat mapToLeaderboardRows.js).
+  // Kalau isAnonymous & bukan baris user sendiri, nama/avatar dikunci
+  // total -- cuma rank, skor, durasi yang boleh tampil.
+  const isHidden = entry.isAnonymous && !isCurrentUser;
+
+  const displayName = isHidden ? "Peserta" : entry.name;
+
   const location = entry.isAnonymous
     ? "Lokasi formasi disembunyikan"
     : [entry.province, entry.city].filter(Boolean).join(" - ") ||
@@ -106,18 +118,32 @@ function LeaderboardRow({ entry, isCurrentUser }) {
   return (
     <div
       className={`flex items-center gap-3 rounded-2xl border p-3 ${
-        isCurrentUser ? "border-[#001f3f] bg-[#eff3ff]" : "border-gray-200"
+        isCurrentUser
+          ? "border-[#001f3f] bg-[#eff3ff]"
+          : isHidden
+          ? "border-gray-200 opacity-80"
+          : "border-gray-200"
       }`}
     >
       <div className="w-6 text-center text-sm font-bold text-[#001f3f] shrink-0">
         {entry.rank}
       </div>
 
-      <Avatar src={entry.avatarUrl} name={entry.name} size="w-9 h-9" />
+      {isHidden ? (
+        <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+          <LockRoundedIcon fontSize="small" className="text-gray-400" />
+        </div>
+      ) : (
+        <Avatar src={entry.avatarUrl} name={entry.name} size="w-9 h-9" />
+      )}
 
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-[#001f3f] truncate">
-          {entry.name}
+        <p
+          className={`text-sm font-semibold truncate ${
+            isHidden ? "text-gray-400" : "text-[#001f3f]"
+          }`}
+        >
+          {displayName}
         </p>
         <p
           className={`text-xs truncate ${

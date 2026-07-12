@@ -67,7 +67,7 @@ export default function PackageLeaderboardCard({
       ) : (
         <div className="p-2 md:p-4">
           <LeaderboardTableHeader />
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 max-h-[420px] md:max-h-[560px] overflow-y-auto pr-1 leaderboard-scrollbar">
             {rows.map((row) => (
               <LeaderboardRow key={row.id ?? row.rank} {...row} />
             ))}
