@@ -11,6 +11,7 @@ import { mapToLeaderboardRows } from "../../services/leaderboard/mapToLeaderboar
 import { getSkdRanking } from "../../services/leaderboard/getSkdRanking";
 import { getTransactionHistory } from "../../services/payment/getTransactionHistory";
 import { resolvePackageCategory } from "../../utils/packageCategory";
+import { resumeSession } from "../../engine_2/sessionEngineDb";
 
 /**
  * DashboardPageContainer — halaman "/home/dashboard".
@@ -38,12 +39,20 @@ import { resolvePackageCategory } from "../../utils/packageCategory";
  *   dashboard, karena ini section independen.
  *
  * FALLBACK KE DATA CONTOH (mockDashboardData.js):
- * Dipakai kalau (a) user belum punya paket sama sekali (packageIds
- * kosong), atau (b) query paket/leaderboard gagal (mis. RLS belum
+ * HANYA dipakai kalau query paket/leaderboard GAGAL (mis. RLS belum
  * dikonfigurasi saat development) -- supaya dashboard tetap enak
- * dilihat & dicoba, BUKAN kosong melompong atau layar error. Ditandai
- * jelas lewat prop `isMock` (badge "Data Contoh" di top bar, lihat
+ * dilihat & dicoba saat development, BUKAN layar error. Ditandai jelas
+ * lewat prop `isMock` (badge "Data Contoh" di top bar, lihat
  * DashboardPageDb.jsx) supaya tidak disalahartikan sebagai data asli.
+ *
+ * LOCK UNTUK USER TANPA PAKET (packageIds kosong):
+ * SEBELUMNYA cabang ini juga dilempar ke fallback data contoh di atas
+ * -- efeknya user yang belum pernah beli paket apa pun tetap melihat
+ * dashboard penuh (skor/ranking/leaderboard) seolah dia sudah punya
+ * progress, cuma dibedakan badge kecil "Data Contoh". FIX: dashboard
+ * dikunci sepenuhnya untuk kondisi ini -- user di-redirect ke halaman
+ * Try Out ("/home/simulasi") supaya pilih paket dulu, TIDAK pernah
+ * masuk ke DashboardPageDb sama sekali selama belum py akses paket.
  *
  * FUTURE-PROOF: begitu `packages`/`packagesRes` di Supabase sudah
  * terisi data asli untuk user tsb, cabang fallback ini otomatis tidak
@@ -148,19 +157,16 @@ export default function DashboardPageContainer() {
         ];
 
         if (packageIds.length === 0) {
-          // Belum punya paket sama sekali -- pakai data contoh untuk
-          // sisi paket/skor/leaderboard, tapi identitas & riwayat
-          // transaksi tetap asli (mis. user pernah bayar tapi
-          // akses belum/gagal ter-provision -- lihat catatan manual
-          // recovery di worker2.js).
+          // LOCK: belum pernah beli paket sama sekali -- jangan masuk
+          // dashboard sama sekali (dulu ke sini malah ditampilkan data
+          // contoh, seolah user sudah py progress). Redirect ke halaman
+          // Try Out supaya user pilih paket dulu. `replace: true` biar
+          // tombol back browser tidak nyangkut balik ke dashboard kosong.
           if (cancelled) return;
-          setData({
-            ...MOCK_DASHBOARD_DATA,
-            isMock: true,
-            profile: realProfile,
-            transactions,
+          navigate("/home/simulasi", {
+            replace: true,
+            state: { reason: "dashboard-locked-no-package" },
           });
-          setLoading(false);
           return;
         }
 
@@ -195,11 +201,49 @@ export default function DashboardPageContainer() {
           (packagesRes.data || []).map((p) => [p.id, p])
         );
 
+        // Cek attempt in-progress (belum submit) HANYA untuk paket yang
+        // belum pernah dikerjakan sampai selesai (belum attempted) --
+        // paket yang sudah attempted tetap status "Sudah Dikerjakan"
+        // walau sedang di-retry. resumeSession berasal dari
+        // sessionEngineDb.js, best-effort: kalau gagal, dianggap
+        // tidak ada sesi aktif supaya dashboard tidak ikut gagal.
+        const attemptedIdSet = new Set(
+          packageIds.filter((id, idx) => {
+            const leaderboardRes = leaderboardResults[idx];
+            const entries = leaderboardRes.error
+              ? []
+              : leaderboardRes.data || [];
+            return entries.some((row) => row.userId === currentUserId);
+          })
+        );
+        const idsToCheckActive = packageIds.filter(
+          (id) => !attemptedIdSet.has(id)
+        );
+        const activeSessionResults = await Promise.all(
+          idsToCheckActive.map((id) =>
+            resumeSession(id).catch(() => ({ kind: "not_started" }))
+          )
+        );
+        const activeIdSet = new Set(
+          idsToCheckActive.filter(
+            (id, idx) => activeSessionResults[idx]?.kind === "active"
+          )
+        );
+
         const packagesForUI = packageIds.map((id, idx) => {
           const paket = packagesById.get(id);
           const leaderboardRes = leaderboardResults[idx];
           const entries = leaderboardRes.error ? [] : leaderboardRes.data || [];
           const ownRow = entries.find((row) => row.userId === currentUserId);
+          const attempted = !!ownRow;
+
+          // status: 'completed' (sudah pernah submit) > 'in_progress'
+          // (ada sesi aktif tersimpan, belum submit) > 'not_started'.
+          const status = attempted
+            ? "completed"
+            : activeIdSet.has(id)
+            ? "in_progress"
+            : "not_started";
 
           return {
             id,
@@ -208,7 +252,8 @@ export default function DashboardPageContainer() {
             category: resolvePackageCategory(paket),
             questionCount: questionCountById.get(id),
             durationMinutes: paket?.duration_minutes,
-            attempted: !!ownRow,
+            attempted,
+            status,
             score: ownRow?.score,
             rank: ownRow?.rank,
             entries,
@@ -244,7 +289,13 @@ export default function DashboardPageContainer() {
           }
         });
 
-        const nextPkg = packagesForUI.find((p) => !p.attempted) || null;
+        // Prioritas next-action: paket yang SEDANG DIKERJAKAN dulu
+        // (paling mendesak buat diselesaikan), baru paket yang belum
+        // disentuh sama sekali.
+        const nextPkg =
+          packagesForUI.find((p) => p.status === "in_progress") ||
+          packagesForUI.find((p) => p.status === "not_started") ||
+          null;
 
         // Paket "unggulan" untuk mini leaderboard: yang peringkatnya
         // terbaik, kalau tidak ada yang dikerjakan, tidak ditampilkan.
@@ -279,7 +330,7 @@ export default function DashboardPageContainer() {
             categoryAverages,
           },
           nextPackage: nextPkg
-            ? { id: nextPkg.id, title: nextPkg.title }
+            ? { id: nextPkg.id, title: nextPkg.title, status: nextPkg.status }
             : null,
           packages: packagesForUI,
           scoreSummaryRows: attemptedPackages.map((p) => ({
@@ -342,6 +393,15 @@ export default function DashboardPageContainer() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/home", { replace: true });
+  };
+
+  // Tab "Latihan" — paket hardcode/non-DB (src/data/paket1-4.js), route
+  // beda dari paket berbayar (bukan /try-out/:id, tapi /exam-page/:paketId,
+  // ditangani ExamPage.jsx + engine/*). Tidak butuh cek akses Supabase di
+  // sini karena semua paket di data ini memang gratis (lihat
+  // ProtectedExamLayout.jsx: FREE_PACKAGES sekarang mencakup id 1-4).
+  const handleStartLatihan = (paketId) => {
+    navigate(`/exam-page/${paketId}`);
   };
 
   // Dipanggil dari toggle "Publikasikan identitas" di tab Akun
@@ -412,6 +472,7 @@ export default function DashboardPageContainer() {
       }}
       onLogout={handleLogout}
       onLeaderboardConsentChange={handleLeaderboardConsentChange}
+      onStartLatihan={handleStartLatihan}
     />
   );
 }

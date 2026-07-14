@@ -1,4 +1,5 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 import ExamTopbar from "./ExamTopbar";
@@ -13,6 +14,14 @@ import ExamGuard from "../../components/layout/ExamGuard"// ← import di sini
 export default function ExamLayout() {
   const [mobileView, setMobileView] = useState("ujian");
 
+  const session = useSelector((state) => state.exam.session);
+  const { paketId } = useParams();
+
+  // Sidebar/timer/bottom-nav ujian hanya relevan saat sesi ujian benar-benar
+  // sudah dimulai untuk paket ini. Sebelum itu (masih di panel intro),
+  // elemen-elemen ini tidak boleh tampil.
+  const examStarted = !!session && session.paketId === paketId;
+
   const handleSelectQuestion = () => {
     setMobileView("ujian"); // balik ke exam setelah klik grid
   };
@@ -22,9 +31,13 @@ export default function ExamLayout() {
       <ExamTopbar />
       <TimerPanel /> {/* floating */}
       <div className="flex pt-8">
-        <Sidebar />
+        {examStarted && <Sidebar />}
 
-        <main className="flex-1 md:ml-72 p-3 mt-[-36px] pb-20 md:pb-4">
+        <main
+          className={`flex-1 p-3 mt-[-36px] pb-20 md:pb-4 ${
+            examStarted ? "md:ml-72" : ""
+          }`}
+        >
           {/* DESKTOP */}
           <div className="hidden md:block">
             <Outlet />
@@ -38,14 +51,14 @@ export default function ExamLayout() {
             </div>
 
             {/* NAVIGASI OVERLAY */}
-            {mobileView === "navigasi" && (
+            {examStarted && mobileView === "navigasi" && (
               <div className="fixed inset-0 bg-slate-100 z-50 p-4 overflow-auto pb-28">
                 <QuestionGrid onSelect={handleSelectQuestion} />
               </div>
             )}
 
             {/* BANTUAN */}
-            {mobileView === "bantuan" && (
+            {examStarted && mobileView === "bantuan" && (
               <div className="fixed inset-0 bg-white z-50 p-4 text-sm">
                 Gunakan navigasi untuk pindah soal.
               </div>
@@ -53,7 +66,9 @@ export default function ExamLayout() {
           </div>
         </main>
       </div>
-      <BottomNav mobileView={mobileView} setMobileView={setMobileView} />
+      {examStarted && (
+        <BottomNav mobileView={mobileView} setMobileView={setMobileView} />
+      )}
       {/* PASANG EXAM GUARD DI SINI */}
       <ExamGuard />
     </div>

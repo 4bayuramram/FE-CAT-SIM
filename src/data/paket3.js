@@ -1,6 +1,12 @@
 const paket3 = {
   id: 3,
-  nama: "Paket 3 TWK",
+  nama: "Mini SKD 2",
+  // HANYA tampil di tab "Latihan" dashboard, lihat catatan di paket2.js.
+  showOnPackagesPage: false,
+  // Paket satuan, TWK saja -> "twk", lihat catatan di paket1.js.
+  category: "twk",
+  // 30 soal TWK saja, ~30 menit.
+  duration: 30 * 60 * 1000,
   questions: [
     {
       paket: 3,

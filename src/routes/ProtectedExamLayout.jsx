@@ -2,8 +2,18 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
+// Semua paket hardcode (src/data/paket1-4.js, jalur non-DB) gratis.
+// Dipindah ke luar komponen (bukan cuma di dalam checkAccess) supaya bisa
+// dipakai juga di render-time check di bawah — sebelumnya render-time
+// check masih hardcode `paketId !== "1"` sendirian, jadi begitu paket
+// 2-4 ikut dibebasin di checkAccess(), render-time check ini KETINGGALAN
+// dan malah mental ke /cpn-z/login (isLoggedIn belum sempat di-set true
+// karena checkAccess() return lebih awal untuk paket gratis).
+const FREE_PACKAGES = ["1", "2", "3", "4"];
+
 export default function ProtectedExamLayout() {
   const { paketId } = useParams();
+  const isFreePackage = FREE_PACKAGES.includes(String(paketId));
 
   const [loading, setLoading] = useState(true);
   const [allowed, setAllowed] = useState(false);
@@ -16,9 +26,7 @@ export default function ProtectedExamLayout() {
   async function checkAccess() {
     setLoading(true);
 
-    const FREE_PACKAGES = ["1"];
-
-    if (FREE_PACKAGES.includes(String(paketId))) {
+    if (isFreePackage) {
       setAllowed(true);
       setLoading(false);
       return;
@@ -64,7 +72,7 @@ export default function ProtectedExamLayout() {
     return <div>Loading...</div>;
   }
 
-  if (!isLoggedIn && String(paketId) !== "1") {
+  if (!isLoggedIn && !isFreePackage) {
     return <Navigate to="/cpn-z/login" replace />;
   }
 

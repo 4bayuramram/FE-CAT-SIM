@@ -3,6 +3,7 @@ export { default as DashboardSideNav, DASHBOARD_TABS } from "./DashboardSideNav"
 export { default as DashboardBottomNav } from "./DashboardBottomNav";
 export { default as DashboardOverviewTab } from "./DashboardOverviewTab";
 export { default as DashboardPackagesTab } from "./DashboardPackagesTab";
+export { default as DashboardLatihanTab } from "./DashboardLatihanTab";
 export { default as DashboardScoresTab } from "./DashboardScoresTab";
 export { default as DashboardPerformanceTab } from "./DashboardPerformanceTab";
 export { default as DashboardAccountTab } from "./DashboardAccountTab";

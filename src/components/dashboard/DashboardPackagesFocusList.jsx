@@ -20,9 +20,9 @@ export default function DashboardPackagesFocusList({
 }) {
   const filtered =
     filter === "done"
-      ? packages.filter((p) => p.attempted)
+      ? packages.filter((p) => p.status === "completed" || p.attempted)
       : filter === "todo"
-      ? packages.filter((p) => !p.attempted)
+      ? packages.filter((p) => (p.status ?? (p.attempted ? "completed" : "not_started")) !== "completed")
       : packages;
 
   if (filtered.length === 0) {
@@ -42,6 +42,7 @@ export default function DashboardPackagesFocusList({
           category={pkg.category}
           questionCount={pkg.questionCount}
           durationMinutes={pkg.durationMinutes}
+          status={pkg.status}
           attempted={pkg.attempted}
           score={pkg.score}
           rank={pkg.rank}

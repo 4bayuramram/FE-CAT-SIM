@@ -5,14 +5,22 @@ import { timerEngine } from "./timerEngine";
 import { scoringEngine } from "./scoringEngine";
 import { storageService } from "../services/storageService";
 
+// Fallback kalau paket belum punya field `duration` sama sekali.
+const DEFAULT_DURATION = 60 * 60 * 1000;
+
 export const examEngine = {
   // buat sesi ujian
-  createSession(paketId, duration = 60 * 60 * 1000) {
+  // `durationOverride` opsional, kalau diisi akan menang dari duration paket.
+  createSession(paketId, durationOverride) {
     const questions = questionService.getByPaket(paketId);
+    const paketMeta = questionService.getPaketMeta(paketId);
+
+    const duration = durationOverride ?? paketMeta?.duration ?? DEFAULT_DURATION;
 
     const session = sessionEngine.initSession({
       sessionId: uuidv4(),
       paketId,
+      paketNama: paketMeta?.nama,
       questions,
       duration,
     });

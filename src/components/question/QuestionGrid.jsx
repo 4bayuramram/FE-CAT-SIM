@@ -8,6 +8,7 @@ export default function QuestionGrid({ onSelect }) {
   const session = useSelector((state) => state.exam.session);
   const currentIndex = useSelector((state) => state.exam.currentIndex);
   const answers = useSelector((state) => state.exam.answers);
+  const flagged = useSelector((state) => state.exam.flagged);
 
   if (!session) return null;
 
@@ -154,13 +155,14 @@ export default function QuestionGrid({ onSelect }) {
                 {questions.map((q, i) => {
                   const isActive = currentIndex === i;
                   const isAnswered = !!answers?.[q.nomor];
+                  const isFlagged = !!flagged?.[q.nomor];
 
                   return (
                     <button
                       key={q.nomor}
                       onClick={() => handleClick(i)}
                       className={`
-            w-full h-7
+            relative w-full h-7
             rounded-md
             text-[12px]
             font-semibold
@@ -171,6 +173,8 @@ export default function QuestionGrid({ onSelect }) {
             ${
               isActive
                 ? "bg-[#fcd400] text-black border-yellow-500"
+                : isFlagged
+                ? "bg-[#ba1a1a] text-white border-red-800"
                 : isAnswered
                 ? "bg-[#00467f] text-white border-blue-700"
                 : "bg-slate-100 text-slate-700 border-slate-300"
@@ -178,6 +182,9 @@ export default function QuestionGrid({ onSelect }) {
           `}
                     >
                       {q.nomor}
+                      {isFlagged && !isActive && (
+                        <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-400 border border-white" />
+                      )}
                     </button>
                   );
                 })}
@@ -190,19 +197,23 @@ export default function QuestionGrid({ onSelect }) {
                 {questions.map((q, i) => {
                   const isActive = currentIndex === i;
                   const isAnswered = !!answers?.[q.nomor];
+                  const isFlagged = !!flagged?.[q.nomor];
 
                   return (
                     <button
                       key={`${q.nomor}-${i}`}
                       onClick={() => handleClick(i)}
+                      title={isFlagged ? "Ditandai ragu-ragu" : undefined}
                       className={`
-              w-11 h-10 rounded-lg text-[13px] font-bold border
+              relative w-11 h-10 rounded-lg text-[13px] font-bold border
               flex items-center justify-center
               transition-all duration-200 px-1
 
               ${
                 isActive
                   ? "bg-[#fcd400] text-black border-yellow-500"
+                  : isFlagged
+                  ? "bg-[#ba1a1a] text-white border-red-800 hover:opacity-90"
                   : isAnswered
                   ? "bg-[#00467f] text-white border-blue-700"
                   : "bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200"
@@ -210,6 +221,9 @@ export default function QuestionGrid({ onSelect }) {
             `}
                     >
                       {q.nomor}
+                      {isFlagged && !isActive && (
+                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 border border-white" />
+                      )}
                     </button>
                   );
                 })}

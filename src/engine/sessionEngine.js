@@ -7,10 +7,14 @@ export const sessionEngine = {
   },
 
   // buat session baru
-  initSession({ sessionId, paketId, questions, duration }) {
+  initSession({ sessionId, paketId, paketNama, questions, duration }) {
     return {
       sessionId,
       paketId,
+      // Nama asli paket (mis. "Mini SKD 1"), dipakai ExamTopbar.jsx dkk
+      // supaya tidak perlu nebak/bangun ulang teks dari paketId.
+      // Fallback null kalau pemanggil lama belum kirim ini.
+      paketNama: paketNama ?? null,
       questions,
 
       answers: {},

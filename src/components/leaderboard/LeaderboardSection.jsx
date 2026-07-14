@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import SyncIcon from "@mui/icons-material/Sync";
-import LockRoundedIcon from "@mui/icons-material/LockRounded";
-import Avatar from "../common/Avatar";
+import "./leaderboard-theme.css";
+import LeaderboardRow from "./LeaderboardRow";
 import { getPackageLeaderboard } from "../../services/leaderboard/getPackageLeaderboard";
+import { mapToLeaderboardRows } from "../../services/leaderboard/mapToLeaderboardRows";
 
 /**
  * LeaderboardSection — TODO §2 "Leaderboard Sebelum Ujian".
@@ -22,8 +23,30 @@ import { getPackageLeaderboard } from "../../services/leaderboard/getPackageLead
  *
  * currentUserId dipakai untuk menyorot baris posisi user sendiri di
  * daftar (kalau dia sudah pernah attempt perdana paket ini).
+ *
+ * FIX: widget ini sebelumnya nge-render SEMUA peserta tanpa slice dan
+ * tanpa max-height/scroll (beda "karakter" dari halaman /home/leaderboard
+ * yang sudah punya batas tinggi), dan pakai styling hex manual sendiri
+ * lewat komponen LeaderboardRow lokal alih-alih komponen shared. Sekarang:
+ * - reuse mapToLeaderboardRows.js + LeaderboardRow.jsx shared (styling &
+ *   logic masking identik dengan halaman leaderboard utama, satu sumber
+ *   kebenaran, bukan implementasi hex terpisah)
+ * - default cuma tampilkan top `maxVisible` (10) baris di widget ini,
+ *   supaya widget tetap ringkas di atas tombol "Mulai Ujian"
+ * - list dibungkus max-height + overflow-y-auto (leaderboard-scrollbar),
+ *   jadi tetap aman kalau suatu saat maxVisible dinaikkan / datanya besar
+ *
+ * Props tambahan:
+ * - maxVisible: number, default 10 -- jumlah baris teratas yang tampil
+ * - onViewAll: optional handler, kalau diisi & peserta > maxVisible,
+ *   tampil link "Lihat leaderboard lengkap" di bawah daftar
  */
-export default function LeaderboardSection({ packageId, currentUserId }) {
+export default function LeaderboardSection({
+  packageId,
+  currentUserId,
+  maxVisible = 10,
+  onViewAll,
+}) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -83,81 +106,40 @@ export default function LeaderboardSection({ packageId, currentUserId }) {
         </p>
       )}
 
-      {!loading && !error && entries.length > 0 && (
-        <div className="flex flex-col gap-2">
-          {entries.map((entry) => (
-            <LeaderboardRow
-              key={entry.userId}
-              entry={entry}
-              isCurrentUser={entry.userId === currentUserId}
-            />
-          ))}
-        </div>
-      )}
+      {!loading && !error && entries.length > 0 && (() => {
+        const rows = mapToLeaderboardRows(entries, currentUserId);
+        const visibleRows = rows.slice(0, maxVisible);
+        const hiddenCount = rows.length - visibleRows.length;
+
+        return (
+          <>
+            <div className="flex flex-col gap-2 max-h-[420px] overflow-y-auto pr-1 leaderboard-scrollbar">
+              {visibleRows.map((row) => (
+                <LeaderboardRow key={row.id ?? row.rank} {...row} />
+              ))}
+            </div>
+
+            {hiddenCount > 0 &&
+              (onViewAll ? (
+                <button
+                  type="button"
+                  onClick={onViewAll}
+                  className="w-full mt-3 text-sm font-bold text-[var(--lb-primary-container)] hover:underline"
+                >
+                  +{hiddenCount} peserta lainnya di leaderboard lengkap
+                </button>
+              ) : (
+                // Tanpa onViewAll: cukup teks info, bukan tombol -- di
+                // PackageInfoPage sudah ada <LeaderboardEntryButton />
+                // terpisah menuju /home/leaderboard, jadi tombol di sini
+                // akan dobel CTA untuk tujuan yang sama.
+                <p className="text-center text-xs text-gray-400 mt-3">
+                  +{hiddenCount} peserta lainnya di leaderboard lengkap
+                </p>
+              ))}
+          </>
+        );
+      })()}
     </section>
-  );
-}
-
-function LeaderboardRow({ entry, isCurrentUser }) {
-  // PATCH: sebelumnya cuma `location` yang dicek `isAnonymous` di sini --
-  // `entry.name` dan `entry.avatarUrl` tetap dirender apa adanya, jadi
-  // peserta yang memilih TIDAK mempublikasikan identitas tetap bocor
-  // nama & foto profilnya di widget ini (beda dari halaman
-  // /home/leaderboard yang sudah benar lewat mapToLeaderboardRows.js).
-  // Kalau isAnonymous & bukan baris user sendiri, nama/avatar dikunci
-  // total -- cuma rank, skor, durasi yang boleh tampil.
-  const isHidden = entry.isAnonymous && !isCurrentUser;
-
-  const displayName = isHidden ? "Peserta" : entry.name;
-
-  const location = entry.isAnonymous
-    ? "Lokasi formasi disembunyikan"
-    : [entry.province, entry.city].filter(Boolean).join(" - ") ||
-      "Lokasi formasi tidak diisi";
-
-  return (
-    <div
-      className={`flex items-center gap-3 rounded-2xl border p-3 ${
-        isCurrentUser
-          ? "border-[#001f3f] bg-[#eff3ff]"
-          : isHidden
-          ? "border-gray-200 opacity-80"
-          : "border-gray-200"
-      }`}
-    >
-      <div className="w-6 text-center text-sm font-bold text-[#001f3f] shrink-0">
-        {entry.rank}
-      </div>
-
-      {isHidden ? (
-        <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-          <LockRoundedIcon fontSize="small" className="text-gray-400" />
-        </div>
-      ) : (
-        <Avatar src={entry.avatarUrl} name={entry.name} size="w-9 h-9" />
-      )}
-
-      <div className="flex-1 min-w-0">
-        <p
-          className={`text-sm font-semibold truncate ${
-            isHidden ? "text-gray-400" : "text-[#001f3f]"
-          }`}
-        >
-          {displayName}
-        </p>
-        <p
-          className={`text-xs truncate ${
-            entry.isAnonymous ? "text-gray-400" : "text-gray-500"
-          }`}
-        >
-          {location}
-        </p>
-      </div>
-
-      <div className="text-right shrink-0">
-        <p className="text-sm font-bold text-[#001f3f]">{entry.score}</p>
-        <p className="text-[11px] text-gray-400">{entry.duration} menit</p>
-      </div>
-    </div>
   );
 }

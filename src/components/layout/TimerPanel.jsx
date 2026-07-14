@@ -4,15 +4,22 @@ export default function TimerPanel() {
   const remaining = useSelector((state) => state.exam.remainingTime);
   const session = useSelector((state) => state.exam.session);
 
-  if (!session) return null;
+  // Panel timer cuma relevan selama ujian benar-benar berjalan.
+  if (!session || session.status !== "running") return null;
 
   const duration = session.duration;
 
+  // Fallback: kalau remainingTime belum sempat ke-set oleh useTimer
+  // (mis. render pertama sebelum effect jalan), tampilkan durasi penuh
+  // dulu daripada "0:00" yang menyesatkan seolah waktu sudah habis.
+  const displayRemaining =
+    remaining === null || remaining === undefined ? duration : remaining;
+
   // progress sisa waktu (100% = full, 0% = habis)
-  const progress = (remaining / duration) * 100;
+  const progress = duration ? (displayRemaining / duration) * 100 : 0;
 
   // konversi ke menit
-  const remainingMinutes = Math.floor(remaining / 1000 / 60);
+  const remainingMinutes = Math.floor(displayRemaining / 1000 / 60);
 
   // warna berubah jika <= 15 menit
   const barColor = remainingMinutes <= 10 ? "#ba1a1a" : "#00467f";
@@ -29,7 +36,7 @@ export default function TimerPanel() {
       {/* HEADER */}
       <div className="flex justify-between mb-2 text-sm font-semibold text-black">
         <span>Sisa Waktu</span>
-        <span>{format(remaining || 0)}</span>
+        <span>{format(displayRemaining)}</span>
       </div>
 
       {/* BACKGROUND BAR */}

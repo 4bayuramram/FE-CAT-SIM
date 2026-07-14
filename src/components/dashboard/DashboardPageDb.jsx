@@ -6,6 +6,7 @@ import DashboardSideNav from "./DashboardSideNav";
 import DashboardBottomNav from "./DashboardBottomNav";
 import DashboardOverviewTab from "./DashboardOverviewTab";
 import DashboardPackagesTab from "./DashboardPackagesTab";
+import DashboardLatihanTab from "./DashboardLatihanTab";
 import DashboardScoresTab from "./DashboardScoresTab";
 import DashboardPerformanceTab from "./DashboardPerformanceTab";
 import DashboardAccountTab from "./DashboardAccountTab";
@@ -13,6 +14,7 @@ import DashboardAccountTab from "./DashboardAccountTab";
 const TAB_TITLES = {
   overview: "Ringkasan",
   packages: "Paket Saya",
+  latihan: "Latihan",
   scores: "Hasil",
   performa: "Performa",
   account: "Akun",
@@ -60,6 +62,9 @@ const TAB_TITLES = {
  * - onNavigate(key): "try-out" | "leaderboard" | "bantuan"
  * - onPackageDetail(pkg), onPackageLeaderboard(pkg), onExplorePackages()
  * - onContinueStart(), onSeeFullLeaderboard(), onLogout()
+ * - onStartLatihan(paketId): tab "Latihan" — paket hardcode/non-DB
+ *   (src/data/paket1-4.js), beda sumber dari `packages` di atas. Diisi
+ *   dari DashboardPageContainer, navigate ke `/exam-page/:paketId`.
  */
 export default function DashboardPageDb({
   isMock = false,
@@ -80,6 +85,7 @@ export default function DashboardPageDb({
   onSeeFullLeaderboard,
   onLogout,
   onLeaderboardConsentChange,
+  onStartLatihan,
 }) {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -138,6 +144,10 @@ export default function DashboardPageDb({
               onLeaderboardClick={onPackageLeaderboard}
               onExploreClick={onExplorePackages}
             />
+          )}
+
+          {activeTab === "latihan" && (
+            <DashboardLatihanTab onStartPackage={onStartLatihan} />
           )}
 
           {activeTab === "scores" && (

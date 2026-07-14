@@ -3,17 +3,20 @@ import RocketLaunchRoundedIcon from "@mui/icons-material/RocketLaunchRounded";
 /**
  * DashboardContinueCard — ajakan aksi utama di bagian atas dashboard.
  *
- * Tiga kondisi:
- * 1. `nextPackage` diisi (ada paket dimiliki yang belum pernah
- *    dikerjakan) -> ajak lanjut/mulai paket itu.
- * 2. `nextPackage` kosong tapi `hasAnyPackage` true (semua paket yang
+ * Empat kondisi:
+ * 1. `nextPackage.status === "in_progress"` (ada sesi ujian yang
+ *    belum diselesaikan) -> ajak LANJUTKAN paket itu, prioritas
+ *    tertinggi karena paling mendesak.
+ * 2. `nextPackage` diisi tapi belum in_progress (ada paket dimiliki
+ *    yang belum pernah disentuh) -> ajak mulai paket itu.
+ * 3. `nextPackage` kosong tapi `hasAnyPackage` true (semua paket yang
  *    dimiliki sudah pernah dikerjakan) -> ajak lihat leaderboard/eksplor
  *    paket baru.
- * 3. `hasAnyPackage` false (belum punya paket sama sekali) -> ajak ke
+ * 4. `hasAnyPackage` false (belum punya paket sama sekali) -> ajak ke
  *    halaman Try Out untuk beli paket pertama.
  *
  * Props:
- * - nextPackage: { id, title } | null
+ * - nextPackage: { id, title, status? } | null
  * - hasAnyPackage: boolean
  * - onStart(): handler tombol utama (arahkan ke /try-out/:id/info atau
  *   /home/simulasi tergantung kondisi, ditentukan oleh pemanggil)
@@ -29,7 +32,12 @@ export default function DashboardContinueCard({
     "Kamu belum memiliki paket try out. Pilih paket pertamamu dan mulai berlatih.";
   let buttonText = "Lihat Paket Try Out";
 
-  if (nextPackage) {
+  if (nextPackage?.status === "in_progress") {
+    eyebrow = "Ada yang Belum Selesai";
+    title = nextPackage.title;
+    description = "Kamu punya sesi ujian yang belum diselesaikan. Yuk lanjutkan!";
+    buttonText = "Lanjutkan Simulasi";
+  } else if (nextPackage) {
     eyebrow = "Lanjutkan Belajar";
     title = nextPackage.title;
     description = "Paket ini sudah kamu miliki dan belum pernah dikerjakan.";

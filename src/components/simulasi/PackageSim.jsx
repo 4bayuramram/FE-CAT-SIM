@@ -11,6 +11,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { supabase } from "../../lib/supabaseClient";
 import PackageCategoryTabs from "./PackageCategoryTabs";
 import { resolvePackageCategory } from "../../utils/packageCategory";
+import { questionService } from "../../services/questionService";
 
 // Format harga ke Rupiah (pola sama seperti pages/payment/PaymentPage.jsx)
 const formatRupiah = (amount) =>
@@ -188,11 +189,16 @@ const PackageSim = ({
 // paket ini" + tombol "Coba Lagi"/"Lihat Hasil Terakhir" — tidak perlu
 // logic tambahan di sini.
 //
-// Paket 1 (gratis, demo) SENGAJA TETAP hardcode ke /exam-page/1 — ini
-// memang satu-satunya paket yang benar berada di jalur hardcode sesuai
-// keputusan arsitektur ("jalur hardcode/statis dipakai khusus paket
-// free tier", Dokumen Acuan §1.3), FREE_PACKAGES di
-// ProtectedExamLayout.jsx juga men-whitelist id "1" secara eksplisit.
+// UPDATE: sekarang SEMUA paket hardcode (bukan cuma Paket 1) sengaja
+// ditampilkan di sini — src/data/paket1-4.js lewat questionService.getAll(),
+// sesuai keputusan arsitektur terbaru ("jalur hardcode/statis dipakai
+// untuk semua paket free tier", bukan cuma satu). FREE_PACKAGES di
+// ProtectedExamLayout.jsx sudah di-update jadi mencakup id "1"-"4" juga.
+//
+// questions/duration diambil LANGSUNG dari getPaketMeta() (dihitung dari
+// data asli: questions.length, duration/60000) — TIDAK ditulis manual
+// lagi, supaya angka yang ditampilkan di kartu selalu sinkron dengan yang
+// benar-benar berjalan saat ujian.
 //
 // ASUMSI yang perlu dikonfirmasi ke dev: (1) tabel `packages` punya
 // RLS SELECT yang mengizinkan dibaca publik/anon, karena halaman ini
@@ -202,17 +208,27 @@ const PackageSim = ({
 // Kolom `price`/`original_price` dipakai utk badge harga (null/0
 // dianggap gratis), disamakan dgn pola PaymentPage.jsx.
 export default function Sematkan() {
-  const paketGratis = {
-    title: "Paket 1",
-    badge: "Gratis",
-    questions: 110,
-    duration: "95 Menit",
-    description: "Try-Out SKD (TWK,TIU,TKP)",
-    linkTo: "/exam-page/1",
-    pembahasan: "koreksi-jawaban",
-    peserta: 112,
-    category: "skd",
-  };
+  // Cuma paket dengan showOnPackagesPage !== false yang tampil di sini
+  // (Mini SKD 1-3 sengaja disembunyikan dari halaman publik, cuma
+  // muncul di tab "Latihan" dashboard -- lihat DashboardLatihanTab.jsx
+  // yang tetap menampilkan SEMUA paket via questionService.getAll()).
+  const paketGratisList = questionService
+    .getAll()
+    .filter((paket) => questionService.getPaketMeta(paket.id).showOnPackagesPage)
+    .map((paket) => {
+      const meta = questionService.getPaketMeta(paket.id);
+      return {
+        title: paket.nama,
+        badge: "Gratis",
+        questions: meta.totalQuestions,
+        duration: meta.duration ? `${Math.round(meta.duration / 60000)} Menit` : "—",
+        description: "Try-Out SKD (TWK,TIU,TKP)",
+        linkTo: `/exam-page/${paket.id}`,
+        pembahasan: "koreksi-jawaban",
+        peserta: 112,
+        category: resolvePackageCategory({ title: paket.nama, category: meta.category }),
+      };
+    });
 
   const [paketBerbayar, setPaketBerbayar] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -303,10 +319,15 @@ export default function Sematkan() {
   }, []);
 
   // Satu daftar gabungan (gratis + berbayar) supaya hitungan tab dan
-  // filter tab konsisten dari satu sumber. Paket gratis selalu ikut
-  // dihitung sebagai kategori "skd".
+  // filter tab konsisten dari satu sumber. Kategori tiap paket gratis
+  // diambil dari resolvePackageCategory (lihat paketGratisList di atas),
+  // bukan di-hardcode "skd" untuk semuanya.
   const semuaPaket = [
-    { ...paketGratis, id: "gratis-1", isFree: true },
+    ...paketGratisList.map((pkg, i) => ({
+      ...pkg,
+      id: `gratis-${i + 1}`,
+      isFree: true,
+    })),
     ...paketBerbayar,
   ];
 

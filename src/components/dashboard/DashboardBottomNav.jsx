@@ -1,5 +1,6 @@
 import SpaceDashboardRoundedIcon from "@mui/icons-material/SpaceDashboardRounded";
 import Inventory2RoundedIcon from "@mui/icons-material/Inventory2Rounded";
+import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
@@ -20,6 +21,7 @@ import { DASHBOARD_TABS } from "./DashboardSideNav";
 const ICONS = {
   overview: SpaceDashboardRoundedIcon,
   packages: Inventory2RoundedIcon,
+  latihan: MenuBookRoundedIcon,
   scores: BarChartRoundedIcon,
   performa: TimelineRoundedIcon,
   account: PersonRoundedIcon,

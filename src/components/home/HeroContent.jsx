@@ -36,7 +36,7 @@ export default function HeroContent() {
         className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm"
       >
         <span className="text-xs md:text-sm font-medium tracking-wide">
-          Platform Persiapan CPNS
+          Platform Tryout SKD CPNS
         </span>
       </motion.div>
 
@@ -56,7 +56,7 @@ export default function HeroContent() {
             sesuai lebar layar. Tidak pernah berubah -> tidak ada
             reflow, jadi tombol di bawah tidak ikut bergerak. */}
         <span aria-hidden="true" className="invisible block">
-          Belajar Kapan saja dan Dimana saja...
+          Selamat bertemu di papan peringkat...
         </span>
 
         {/* Teks yang benar-benar diketik, ditumpuk di atas ghost
@@ -64,7 +64,7 @@ export default function HeroContent() {
             selama animasi tidak lagi mempengaruhi layout di luar h1 */}
         <span className="absolute inset-0">
           <TypewriterText
-            text="Belajar Kapan saja dan Dimana saja..."
+            text="Selamat bertemu di papan peringkat..."
             typingSpeed={45}
             pauseAfterTyping={1500}
           />
@@ -82,9 +82,7 @@ export default function HeroContent() {
           leading-relaxed
         "
       >
-        CPNZ menyediakan materi dan try-out SKD CPNS yang bisa diakses di semua
-        perangkat. Hasil ujian langsung dianalisis agar kamu tahu kelebihan dan
-        kekurangan, supaya belajar lebih terarah dan efektif.
+       tidak ada bimbel mahal disini, kami hanya menyediakkan tryout dan pembahsan untuk membantu kamu menyiapkan diri menghadapi SKD CPNS. Silakan tryout jika kamu sudah siap.
       </motion.p>
 
       {/* BUTTONS */}

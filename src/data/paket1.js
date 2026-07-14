@@ -1,6 +1,18 @@
 const paket1 = {
   id: 1,
   nama: "Paket 1",
+  // Tampil di halaman publik /home/simulasi DAN tab "Latihan" dashboard.
+  // Beda dari paket2-4 (Mini SKD) yang sekarang cuma di dashboard, lihat
+  // catatan showOnPackagesPage di paket2.js.
+  showOnPackagesPage: true,
+  // Paket gabungan penuh (TWK+TIU+TKP) -> "skd". Diisi eksplisit karena
+  // resolvePackageCategory (src/utils/packageCategory.js) menebak dari
+  // keyword di judul/deskripsi kalau field ini kosong, dan bisa salah
+  // untuk paket gabungan yang judulnya menyebut TWK/TIU/TKP juga.
+  category: "skd",
+  // Durasi ujian khusus paket ini (ms). Diambil oleh examEngine.createSession().
+  // 80 soal, kira-kira setara 75 menit pengerjaan.
+  duration: 1 * 60 * 1000,
   questions: [
     // no.1
     {

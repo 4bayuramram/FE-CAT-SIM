@@ -55,6 +55,7 @@ export default function DashboardPackagesSection({
               category={pkg.category}
               questionCount={pkg.questionCount}
               durationMinutes={pkg.durationMinutes}
+              status={pkg.status}
               attempted={pkg.attempted}
               score={pkg.score}
               rank={pkg.rank}

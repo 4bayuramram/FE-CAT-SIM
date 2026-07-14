@@ -1,6 +1,12 @@
 const paket4 = {
   id: 4,
-  nama: "Paket 4 CAT Simulation (TWK + TIU + TKP Dynamic)",
+  nama: "Mini SKD 3",
+  // HANYA tampil di tab "Latihan" dashboard, lihat catatan di paket2.js.
+  showOnPackagesPage: false,
+  // Paket gabungan (TWK+TIU+TKP) -> "skd", lihat catatan di paket1.js.
+  category: "skd",
+  // 6 soal contoh dinamis, ~10 menit.
+  duration: 10 * 60 * 1000,
 
   questions: [
     // ===================== TWK =====================

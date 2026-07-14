@@ -35,7 +35,13 @@ export default function ExamTopbarEngine() {
       <div className="fixed top-0 left-0 right-0 z-50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 text-white px-4 py-3 bg-[#12345b] border-b font-extrabold min-h-[72px]">
         <div className="flex items-center gap-3 flex-wrap">
           <div className="font-bold text-base sm:text-lg">
-            Paket {session.paketId}
+            {/* Nama asli paket (mis. "Mini SKD 1"), bukan "Paket {id}"
+                yang dibangun manual -- dulu top bar ini selalu nampilin
+                "Paket 2"/"Paket 3"/dst walau paketnya sudah diganti nama
+                jadi "Mini SKD" di tempat lain. Fallback ke "Paket {id}"
+                cuma buat sesi lama di localStorage yang disimpan sebelum
+                field paketNama ada. */}
+            {session.paketNama || `Paket ${session.paketId}`}
           </div>
 
           {isRunning && (
