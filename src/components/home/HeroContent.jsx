@@ -77,7 +77,7 @@ export default function HeroContent() {
         className="
           font-times
           text-sm sm:text-base md:text-lg
-          text-blue-100
+          text-blue-100n
           max-w-xl
           leading-relaxed
         "

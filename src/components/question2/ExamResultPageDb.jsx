@@ -13,10 +13,13 @@ import { supabase } from "../../lib/supabaseClient";
 
 import { transformSubmitResultToView } from "../../utils/resultTransform";
 import { downloadResultPdf } from "../../utils/generateResultPdf";
+import { checkPassingGrade } from "../../utils/checkPassingGrade";
+import { getActivePassingGrade } from "../../services/leaderboard/getActivePassingGrade";
 import { MOCK_RESULT } from "../result/mockResultData";
 import ResultTopbar from "../result/ResultTopbar";
 import ResultPageHeader from "../result/ResultPageHeader";
 import ResultHeroScore from "../result/ResultHeroScore";
+import PassingGradeBadge from "../result/PassingGradeBadge";
 import ResultStatsGrid from "../result/ResultStatsGrid";
 import ResultTkpSection from "../result/ResultTkpSection";
 import ResultCategoryGrid from "../result/ResultCategoryGrid";
@@ -56,6 +59,16 @@ export default function ExamResultPageDb() {
   const attemptCount = useSelector(selectAttemptCount);
 
   const [candidateName, setCandidateName] = useState(null);
+  const [passingGradeRule, setPassingGradeRule] = useState(null);
+
+  // Ambil rule passing grade aktif sekali saat mount. Backend:
+  // RPC get_active_passing_grade() (lihat addendum handover
+  // "FITUR PASSING GRADE SKD", 15 Jul 2026).
+  useEffect(() => {
+    getActivePassingGrade().then(({ data }) => {
+      if (data) setPassingGradeRule(data);
+    });
+  }, []);
 
   useEffect(() => {
     if (!submitResult) {
@@ -106,6 +119,14 @@ export default function ExamResultPageDb() {
 
   const transformed = transformSubmitResultToView(submitResult);
   const result = transformed ?? MOCK_RESULT; // fallback: belum ada breakdown (loading / data lama)
+
+  // Status lulus/belum passing grade — dihitung dari breakdown ASLI
+  // (submitResult.breakdown), bukan dari `result` (yang bisa MOCK_RESULT
+  // saat fallback), supaya badge tidak pernah tampil untuk data contoh.
+  const passingGradeStatus = checkPassingGrade(
+    submitResult?.breakdown,
+    passingGradeRule
+  );
 
   // Nomor percobaan: SELALU dari selectAttemptCount (sumber tunggal, sama
   // dengan yang dipakai SidebarPaid), bukan dari result.sessionLabel
@@ -159,6 +180,8 @@ export default function ExamResultPageDb() {
           passingGrade={result.passingGrade}
           percentile={result.percentile}
         />
+
+        <PassingGradeBadge status={passingGradeStatus} />
 
         <ResultStatsGrid
           correct={result.correct}
