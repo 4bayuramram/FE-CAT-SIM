@@ -42,6 +42,10 @@ const QUICK_LINKS = [
  * - onNavigate(key): untuk QUICK_LINKS (route beneran)
  * - onLogout
  * - profile: { name, avatarUrl }
+ * - badgedTabs: Set<string> — tab key yang perlu titik indikator pink
+ *   (ada notif belum dibaca terkait, mis. hasil ujian/pembayaran baru
+ *   -- lihat DashboardPageDb untuk mapping tab->notif type). Titik ini
+ *   murni sinyal "ada yang baru", hilang otomatis begitu tab dibuka.
  */
 export default function DashboardSideNav({
   activeTab = "overview",
@@ -49,6 +53,7 @@ export default function DashboardSideNav({
   onNavigate,
   onLogout,
   profile = {},
+  badgedTabs = new Set(),
 }) {
   return (
     <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-64 xl:w-72 bg-white border-r border-[var(--db-outline-variant)] py-6 px-4 z-40">
@@ -87,10 +92,18 @@ export default function DashboardSideNav({
                   : "flex items-center gap-3 px-3 py-2.5 text-[var(--db-on-surface-variant)] hover:bg-[var(--db-surface-container-high)] rounded-xl text-left transition-colors"
               }
             >
-              <Icon
-                fontSize="small"
-                style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
-              />
+              <span className="relative inline-flex">
+                <Icon
+                  fontSize="small"
+                  style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
+                />
+                {badgedTabs.has(tab.key) && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-pink-500 ring-2 ring-white"
+                  />
+                )}
+              </span>
               <span className="text-sm">{tab.label}</span>
             </button>
           );

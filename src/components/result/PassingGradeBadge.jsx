@@ -34,7 +34,15 @@ export default function PassingGradeBadge({ status }) {
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div
+        className={`grid gap-3 ${
+          Object.keys(subtests).length === 1
+            ? "grid-cols-1"
+            : Object.keys(subtests).length === 2
+            ? "grid-cols-2"
+            : "grid-cols-3"
+        }`}
+      >
         {Object.entries(subtests).map(([code, s]) => (
           <div key={code} className="text-center">
             <div className="text-xs text-white/60 mb-1">{code}</div>

@@ -48,6 +48,12 @@ const LINKS = [
  *   cuma dikunci permanen sejak jawaban pertama.
  * - onLeaderboardConsentChange(optIn): async, return true/false sukses
  *   atau tidak -- dipanggil saat toggle diklik.
+ * - initialView: "main" | "history" — dipakai untuk deep-link dari
+ *   notif pembayaran (?tab=account&view=history di DashboardPageDb),
+ *   supaya user langsung masuk ke Riwayat Transaksi tanpa klik lagi.
+ * - showTransactionBadge: boolean — titik indikator pink di baris
+ *   "Riwayat Transaksi" (ada transaksi baru yang belum dilihat, lihat
+ *   DashboardPageDb untuk sumber state-nya).
  */
 export default function DashboardAccountTab({
   profile,
@@ -55,8 +61,10 @@ export default function DashboardAccountTab({
   onNavigate,
   onLogout,
   onLeaderboardConsentChange,
+  initialView = "main",
+  showTransactionBadge = false,
 }) {
-  const [view, setView] = useState("main"); // "main" | "history"
+  const [view, setView] = useState(initialView); // "main" | "history"
   // Transaksi yang lagi dibuka struknya (klik salah satu baris di
   // riwayat) -- lihat DashboardTransactionDetailModal.jsx. null =
   // modal tertutup.
@@ -189,6 +197,12 @@ export default function DashboardAccountTab({
           <span className="flex-1 text-sm font-semibold text-[var(--db-on-surface)]">
             Riwayat Transaksi
           </span>
+          {showTransactionBadge && (
+            <span
+              aria-hidden="true"
+              className="w-2 h-2 rounded-full bg-pink-500 flex-shrink-0"
+            />
+          )}
           <ChevronRightRoundedIcon
             fontSize="small"
             className="text-[var(--db-outline)]"

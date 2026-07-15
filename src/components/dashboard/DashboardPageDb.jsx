@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import "./dashboard-theme.css";
 
-import DashboardSideNav from "./DashboardSideNav";
+import DashboardSideNav, { DASHBOARD_TABS } from "./DashboardSideNav";
 import DashboardBottomNav from "./DashboardBottomNav";
 import DashboardOverviewTab from "./DashboardOverviewTab";
 import DashboardPackagesTab from "./DashboardPackagesTab";
@@ -18,6 +19,17 @@ const TAB_TITLES = {
   scores: "Hasil",
   performa: "Performa",
   account: "Akun",
+};
+
+// Mapping tab dashboard -> tipe notifikasi terkait (lihat tabel
+// `notifications`, kolom `type`). Dipakai untuk dua hal:
+// 1. Nentuin tab mana yang perlu titik indikator pink (ada notif
+//    belum dibaca dengan type ini).
+// 2. Begitu user membuka tab tsb (klik atau deep-link dari notif),
+//    semua notif dengan type ini otomatis ditandai dibaca.
+const TAB_NOTIF_TYPE = {
+  scores: "exam_result",
+  account: "payment",
 };
 
 /**
@@ -65,6 +77,25 @@ const TAB_TITLES = {
  * - onStartLatihan(paketId): tab "Latihan" — paket hardcode/non-DB
  *   (src/data/paket1-4.js), beda sumber dari `packages` di atas. Diisi
  *   dari DashboardPageContainer, navigate ke `/exam-page/:paketId`.
+ * - unreadNotifTypes: Set<string> — tipe notif yang masih belum
+ *   dibaca (mis. {"exam_result", "payment"}), sumbernya dari tabel
+ *   `notifications` (lihat DashboardPageContainer). Dipakai untuk
+ *   badge titik pink di sidebar/bottom-nav & baris Riwayat Transaksi.
+ * - onMarkNotifTypeRead(type): tandai SEMUA notif dengan type ini
+ *   sebagai sudah dibaca. Dipanggil otomatis begitu tab terkait
+ *   dibuka (lihat TAB_NOTIF_TYPE & effect di bawah) -- baik lewat
+ *   klik manual maupun deep-link dari notif (?tab=scores dst, lihat
+ *   NotificationBell.jsx & edge function submit-exam / worker2.js).
+ *
+ * DEEP-LINK DARI NOTIFIKASI:
+ * Komponen ini sebelumnya PURE (activeTab selalu mulai dari
+ * "overview"). Sekarang initial activeTab bisa dioverride lewat query
+ * param `?tab=` (mis. link notif hasil ujian -> "/home/dashboard
+ * ?tab=scores"), dan tab "Akun" bisa langsung buka Riwayat Transaksi
+ * lewat `?view=history` (link notif payment -> "/home/dashboard
+ * ?tab=account&view=history"). Baca-sekali saat mount, TIDAK
+ * disinkron balik ke URL saat user pindah tab manual -- cukup untuk
+ * kebutuhan deep-link, tidak perlu bikin dashboard jadi routing penuh.
  */
 export default function DashboardPageDb({
   isMock = false,
@@ -86,8 +117,39 @@ export default function DashboardPageDb({
   onLogout,
   onLeaderboardConsentChange,
   onStartLatihan,
+  unreadNotifTypes = new Set(),
+  onMarkNotifTypeRead,
 }) {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [searchParams] = useSearchParams();
+
+  const tabParam = searchParams.get("tab");
+  const validTabKeys = DASHBOARD_TABS.map((t) => t.key);
+  const [activeTab, setActiveTab] = useState(
+    validTabKeys.includes(tabParam) ? tabParam : "overview"
+  );
+
+  const initialAccountView =
+    searchParams.get("view") === "history" ? "history" : "main";
+
+  // Tandai notif terkait sebagai dibaca begitu tab yang relevan
+  // dibuka -- jalan baik saat mount (deep-link dari notif) maupun
+  // saat user klik pindah tab manual. Dependency unreadNotifTypes
+  // sengaja diikutkan: kalau daftar unread baru selesai di-fetch
+  // SETELAH mount (async), effect ini re-check begitu datanya datang.
+  useEffect(() => {
+    const notifType = TAB_NOTIF_TYPE[activeTab];
+    if (notifType && unreadNotifTypes.has(notifType)) {
+      onMarkNotifTypeRead?.(notifType);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, unreadNotifTypes]);
+
+  // Tab mana saja yang perlu titik indikator pink di sidebar/bottom-nav.
+  const badgedTabs = new Set(
+    Object.entries(TAB_NOTIF_TYPE)
+      .filter(([, notifType]) => unreadNotifTypes.has(notifType))
+      .map(([tabKey]) => tabKey)
+  );
 
   return (
     <div className="dashboard-page min-h-screen bg-[var(--db-surface)] text-[var(--db-on-surface)]">
@@ -97,6 +159,7 @@ export default function DashboardPageDb({
         onNavigate={onNavigate}
         onLogout={onLogout}
         profile={profile}
+        badgedTabs={badgedTabs}
       />
 
       {/* lg:pl-64/xl:pl-72 menyisakan ruang untuk sidebar fixed di
@@ -175,12 +238,18 @@ export default function DashboardPageDb({
               onNavigate={onNavigate}
               onLogout={onLogout}
               onLeaderboardConsentChange={onLeaderboardConsentChange}
+              initialView={initialAccountView}
+              showTransactionBadge={unreadNotifTypes.has("payment")}
             />
           )}
         </main>
       </div>
 
-      <DashboardBottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+      <DashboardBottomNav
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        badgedTabs={badgedTabs}
+      />
     </div>
   );
 }

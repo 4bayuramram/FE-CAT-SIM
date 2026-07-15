@@ -17,6 +17,8 @@ import { DASHBOARD_TABS } from "./DashboardSideNav";
  * Props:
  * - activeTab (default "overview")
  * - onTabChange(key)
+ * - badgedTabs: Set<string> — sama seperti di DashboardSideNav, tab
+ *   key yang perlu titik indikator pink (notif belum dibaca terkait).
  */
 const ICONS = {
   overview: SpaceDashboardRoundedIcon,
@@ -27,7 +29,11 @@ const ICONS = {
   account: PersonRoundedIcon,
 };
 
-export default function DashboardBottomNav({ activeTab = "overview", onTabChange }) {
+export default function DashboardBottomNav({
+  activeTab = "overview",
+  onTabChange,
+  badgedTabs = new Set(),
+}) {
   return (
     <nav
       role="tablist"
@@ -50,10 +56,18 @@ export default function DashboardBottomNav({ activeTab = "overview", onTabChange
                 : "flex flex-col items-center justify-center text-[var(--db-on-surface-variant)] px-4 py-1.5 min-w-[4.5rem]"
             }
           >
-            <Icon
-              fontSize="small"
-              style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
-            />
+            <span className="relative inline-flex">
+              <Icon
+                fontSize="small"
+                style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
+              />
+              {badgedTabs.has(tab.key) && (
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-pink-500 ring-2 ring-[var(--db-surface)]"
+                />
+              )}
+            </span>
             <span className="text-[10px] mt-0.5 font-medium">{tab.label}</span>
           </button>
         );

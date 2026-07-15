@@ -65,6 +65,10 @@ export default function DashboardPageContainer() {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  // Set berisi `type` notif yang masih belum dibaca (mis. "exam_result",
+  // "payment") -- sumber badge titik pink di sidebar/bottom-nav dashboard
+  // & baris Riwayat Transaksi (lihat DashboardPageDb / DashboardAccountTab).
+  const [unreadNotifTypes, setUnreadNotifTypes] = useState(new Set());
 
   useEffect(() => {
     let cancelled = false;
@@ -91,7 +95,7 @@ export default function DashboardPageContainer() {
       const currentUserId = currentUser.id;
 
       try {
-        const [profileRes, accessRes, transactionHistoryRes] =
+        const [profileRes, accessRes, transactionHistoryRes, notifTypesRes] =
           await Promise.all([
             supabase
               .from("user_profile")
@@ -106,11 +110,24 @@ export default function DashboardPageContainer() {
               .eq("user_id", currentUserId)
               .eq("status", "active"),
             getTransactionHistory(currentUserId),
+            // Best-effort: dipakai cuma untuk badge titik pink (bukan
+            // alur inti), kalau gagal cukup dianggap "tidak ada unread".
+            supabase
+              .from("notifications")
+              .select("type")
+              .eq("user_id", currentUserId)
+              .eq("is_read", false),
           ]);
 
         if (cancelled) return;
 
         if (accessRes.error) throw accessRes.error;
+
+        if (!notifTypesRes.error) {
+          setUnreadNotifTypes(
+            new Set((notifTypesRes.data || []).map((n) => n.type))
+          );
+        }
 
         // Riwayat transaksi ditampilkan best-effort: kalau query gagal
         // (mis. RLS belum dikonfigurasi untuk tabel `payments`),
@@ -435,6 +452,31 @@ export default function DashboardPageContainer() {
     return true;
   };
 
+  // Tandai semua notif dengan `type` tertentu sebagai sudah dibaca --
+  // dipanggil dari DashboardPageDb begitu tab terkait dibuka (mis. tab
+  // "Hasil" -> type "exam_result"). Optimistic: hapus dari state lokal
+  // dulu (badge langsung hilang), baru update DB. Realtime UPDATE di
+  // NotificationBell.jsx otomatis ikut sinkron (badge count di lonceng
+  // ikut turun) karena sama-sama subscribe ke tabel `notifications`.
+  const markNotifTypeAsRead = async (type) => {
+    if (!data?.profile?.userId) return;
+    setUnreadNotifTypes((prev) => {
+      if (!prev.has(type)) return prev;
+      const next = new Set(prev);
+      next.delete(type);
+      return next;
+    });
+    const { error } = await supabase
+      .from("notifications")
+      .update({ is_read: true })
+      .eq("user_id", data.profile.userId)
+      .eq("type", type)
+      .eq("is_read", false);
+    if (error) {
+      console.error(`Gagal menandai notif type=${type} sebagai dibaca:`, error.message);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[var(--db-surface,_#f8f9ff)] text-[var(--db-on-surface-variant,_#424750)]">
@@ -473,6 +515,8 @@ export default function DashboardPageContainer() {
       onLogout={handleLogout}
       onLeaderboardConsentChange={handleLeaderboardConsentChange}
       onStartLatihan={handleStartLatihan}
+      unreadNotifTypes={unreadNotifTypes}
+      onMarkNotifTypeRead={markNotifTypeAsRead}
     />
   );
 }
