@@ -143,8 +143,16 @@ export default function LeaderboardPageContainer() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--lb-surface,_#f8f9ff)] text-[var(--lb-on-surface-variant,_#424750)]">
-        Memuat leaderboard...
+      <div className="min-h-screen bg-white text-[#00467f] flex flex-col items-center justify-center gap-3 px-5">
+        <div className="relative w-24 h-24 flex items-center justify-center">
+          <div className="absolute inset-0 border-4 border-[#00467f]/20 border-t-[#00467f] rounded-full animate-spin" />
+          <img
+            src="/cpnz2.png"
+            alt="Logo"
+            className="w-14 h-14 object-contain"
+          />
+        </div>
+        <p className="text-sm text-[#00467f]/60">Memuat leaderboard…</p>
       </div>
     );
   }

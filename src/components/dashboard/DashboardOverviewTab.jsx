@@ -71,10 +71,12 @@ export default function DashboardOverviewTab({
   hasAnyPackage,
   packages = [],
   scoreSummaryRows = [],
+  passingRule = null,
   skdRanking = null,
   onContinueStart,
   onSeeFullLeaderboard,
   onPackageDetail,
+  onScoreRowClick,
   onPackageLeaderboard,
   onGoToScoresTab,
 }) {
@@ -116,8 +118,11 @@ export default function DashboardOverviewTab({
         {focus === "scores" && (
           <DashboardScoreFocusView
             rows={scoreSummaryRows}
+            passingRule={passingRule}
             onRowClick={(row) =>
-              onPackageDetail?.(packages.find((p) => p.id === row.id) ?? row)
+              onScoreRowClick
+                ? onScoreRowClick(packages.find((p) => p.id === row.id) ?? row)
+                : onPackageDetail?.(packages.find((p) => p.id === row.id) ?? row)
             }
             onOpenScoresTab={onGoToScoresTab}
           />

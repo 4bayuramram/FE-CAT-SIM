@@ -8,17 +8,23 @@ import DashboardScoreSummaryTable from "./DashboardScoreSummaryTable";
  *
  * Props:
  * - rows: scoreSummaryRows
+ * - passingRule: diteruskan apa adanya ke DashboardScoreSummaryTable
  * - onRowClick(row)
  * - onOpenScoresTab()
  */
 export default function DashboardScoreFocusView({
   rows = [],
+  passingRule,
   onRowClick,
   onOpenScoresTab,
 }) {
   return (
     <div className="flex flex-col gap-4 max-w-2xl">
-      <DashboardScoreSummaryTable rows={rows} onRowClick={onRowClick} />
+      <DashboardScoreSummaryTable
+        rows={rows}
+        passingRule={passingRule}
+        onRowClick={onRowClick}
+      />
       {onOpenScoresTab && (
         <button
           type="button"

@@ -93,9 +93,29 @@ export const MOCK_DASHBOARD_DATA = {
   ],
 
   scoreSummaryRows: [
-    { id: "mock-1", title: "SKD Masterclass 2024", category: "skd", score: 425, rank: 3 },
-    { id: "mock-2", title: "TIU Drill Intensif #1", category: "tiu", score: 398, rank: 12 },
+    {
+      id: "mock-1",
+      title: "SKD Masterclass 2024",
+      category: "skd",
+      score: 425,
+      rank: 3,
+      breakdown: {
+        TWK: { score: 120 },
+        TIU: { score: 145 },
+        TKP: { score: 160 },
+      },
+    },
+    {
+      id: "mock-2",
+      title: "TIU Drill Intensif #1",
+      category: "tiu",
+      score: 78,
+      rank: 12,
+      breakdown: { TIU: { score: 78 } },
+    },
   ],
+
+  passingRule: { twkMin: 65, tiuMin: 80, tkpMin: 166 },
 
   featuredLeaderboard: {
     packageTitle: "SKD Masterclass 2024",

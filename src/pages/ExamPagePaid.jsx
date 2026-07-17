@@ -110,24 +110,26 @@ export default function ExamPagePaid() {
 
   // ------------------------------------------------------------------
   // STATE 1: LOADING
+  // Overlay FULLSCREEN (menutupi sidebar/topbar dari ExamLayoutPaid di
+  // sekelilingnya) -- sebelumnya cuma skeleton di area konten, jadi
+  // sidebar "Panel Informasi Peserta" & "Memuat soal..." tetap kelihatan
+  // duluan. Sekarang seluruh halaman ini disembunyikan di balik spinner
+  // senada (bg-[#00467f] + logo) sampai soal benar-benar siap, jadi
+  // transisi dari "Mulai Ujian" terasa satu tarikan napas, bukan dua
+  // layar loading berturutan.
   // ------------------------------------------------------------------
   if (status === "idle" || status === "loading") {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[530px]">
-        <div className="w-full lg:max-w-lg lg:mx-auto bg-white rounded-2xl p-8 shadow-lg border border-[#c3c6cf] animate-pulse">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="w-20 h-20 rounded-full bg-[#e6eeff]" />
-            <div className="w-3/4 h-8 rounded-lg bg-[#e6eeff]" />
-            <div className="w-1/2 h-4 rounded-lg bg-[#e6eeff]" />
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-4">
-            <div className="h-24 rounded-2xl bg-[#e6eeff]" />
-            <div className="h-24 rounded-2xl bg-[#e6eeff]" />
-          </div>
-
-          <div className="mt-8 h-12 rounded-xl bg-[#e6eeff]" />
+      <div className="fixed inset-0 z-[100] bg-[#00467f] text-white flex flex-col items-center justify-center gap-3 px-5">
+        <div className="relative w-24 h-24 flex items-center justify-center">
+          <div className="absolute inset-0 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+          <img
+            src="/cpnz.png"
+            alt="Logo"
+            className="w-14 h-14 object-contain"
+          />
         </div>
+        <p className="text-sm text-white/60">Menyiapkan soal ujianmu…</p>
       </div>
     );
   }
@@ -358,7 +360,7 @@ export default function ExamPagePaid() {
                   <span className="font-semibold text-[#121c2a]">
                     attempt pertama
                   </span>{" "}
-                  dipakai sebagai nilai resmi perangkingan dari  paket ini.
+                  dipakai sebagai nilai resmi perangkingan dari paket ini.
                 </p>
               </li>
               <li className="flex gap-3 items-start">

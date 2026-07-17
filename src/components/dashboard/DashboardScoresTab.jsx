@@ -6,6 +6,7 @@ import DashboardMiniLeaderboardCard from "./DashboardMiniLeaderboardCard";
  */
 export default function DashboardScoresTab({
   scoreSummaryRows,
+  passingRule,
   onRowClick,
   featuredLeaderboard,
   onSeeFullLeaderboard,
@@ -18,13 +19,17 @@ export default function DashboardScoresTab({
         </h2>
         <p className="text-sm text-[var(--db-on-surface-variant)] mt-1">
           Ringkasan skor dan posisi peringkatmu di tiap paket yang sudah
-          dikerjakan.
+          dikerjakan pada percobaan pertama (nilai pemeringkatan ).
         </p>
       </div>
 
       <div className="flex flex-col xl:flex-row gap-6">
         <div className="flex-1 min-w-0">
-          <DashboardScoreSummaryTable rows={scoreSummaryRows} onRowClick={onRowClick} />
+          <DashboardScoreSummaryTable
+            rows={scoreSummaryRows}
+            passingRule={passingRule}
+            onRowClick={onRowClick}
+          />
         </div>
 
         {featuredLeaderboard && (

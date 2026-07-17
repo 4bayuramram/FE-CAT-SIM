@@ -62,7 +62,12 @@ const TAB_NOTIF_TYPE = {
  * - nextPackage: { id, title } | null
  * - packages: [{ id, title, category, questionCount, durationMinutes,
  *     attempted, score, rank }]
- * - scoreSummaryRows: [{ id, title, category, score, rank }]
+ * - scoreSummaryRows: [{ id, title, score, rank, breakdown? }]
+ *   breakdown (opsional): { TWK?: {score}, TIU?: {score}, TKP?: {score} }
+ *   -- kalau kosong, kolom subtes & badge Lulus/Gagal di
+ *   DashboardScoreSummaryTable tampil graceful (lihat komponen itu)
+ * - passingRule: hasil getActivePassingGrade() -- { twkMin, tiuMin, tkpMin },
+ *   dipakai buat hitung status Lulus/Gagal di tabel ringkasan skor
  * - featuredLeaderboard: { packageTitle, rows, currentUserRow } | null
  * - skdRanking: { national, province, city } | null — lihat
  *   DashboardSkdRankingSection untuk bentuk tiap cakupan
@@ -104,12 +109,14 @@ export default function DashboardPageDb({
   nextPackage = null,
   packages = [],
   scoreSummaryRows = [],
+  passingRule = null,
   featuredLeaderboard = null,
   skdRanking = null,
   attempts = [],
   transactions = [],
   onNavigate,
   onPackageDetail,
+  onScoreRowClick,
   onPackageLeaderboard,
   onExplorePackages,
   onContinueStart,
@@ -190,11 +197,13 @@ export default function DashboardPageDb({
               hasAnyPackage={packages.length > 0}
               packages={packages}
               scoreSummaryRows={scoreSummaryRows}
+              passingRule={passingRule}
               featuredLeaderboard={featuredLeaderboard}
               skdRanking={skdRanking}
               onContinueStart={onContinueStart}
               onSeeFullLeaderboard={onSeeFullLeaderboard}
               onPackageDetail={onPackageDetail}
+              onScoreRowClick={onScoreRowClick}
               onPackageLeaderboard={onPackageLeaderboard}
               onGoToScoresTab={() => setActiveTab("scores")}
             />
@@ -216,8 +225,11 @@ export default function DashboardPageDb({
           {activeTab === "scores" && (
             <DashboardScoresTab
               scoreSummaryRows={scoreSummaryRows}
+              passingRule={passingRule}
               onRowClick={(row) =>
-                onPackageDetail?.(packages.find((p) => p.id === row.id) ?? row)
+                onScoreRowClick
+                  ? onScoreRowClick(packages.find((p) => p.id === row.id) ?? row)
+                  : onPackageDetail?.(packages.find((p) => p.id === row.id) ?? row)
               }
               featuredLeaderboard={featuredLeaderboard}
               onSeeFullLeaderboard={onSeeFullLeaderboard}

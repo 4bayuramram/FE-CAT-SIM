@@ -9,6 +9,8 @@ import { updateLeaderboardConsent } from "../../services/auth/updateLeaderboardC
 import { getPackageLeaderboard } from "../../services/leaderboard/getPackageLeaderboard";
 import { mapToLeaderboardRows } from "../../services/leaderboard/mapToLeaderboardRows";
 import { getSkdRanking } from "../../services/leaderboard/getSkdRanking";
+import { getActivePassingGrade } from "../../services/leaderboard/getActivePassingGrade";
+import { getMyExamBreakdown } from "../../services/leaderboard/getMyExamBreakdown";
 import { getTransactionHistory } from "../../services/payment/getTransactionHistory";
 import { resolvePackageCategory } from "../../utils/packageCategory";
 import { resumeSession } from "../../engine_2/sessionEngineDb";
@@ -190,12 +192,19 @@ export default function DashboardPageContainer() {
         // Detail paket + jumlah soal + leaderboard tiap paket + peringkat
         // SKD (nasional/provinsi/kabupaten), diambil paralel (pola sama
         // seperti PackageSim.jsx / LeaderboardPageContainer.jsx).
-        const [packagesRes, leaderboardResults, skdRankingRes] =
-          await Promise.all([
-            supabase.from("packages").select("*").in("id", packageIds),
-            Promise.all(packageIds.map((id) => getPackageLeaderboard(id))),
-            getSkdRanking(currentUserId),
-          ]);
+        const [
+          packagesRes,
+          leaderboardResults,
+          skdRankingRes,
+          passingRuleRes,
+          breakdownRes,
+        ] = await Promise.all([
+          supabase.from("packages").select("*").in("id", packageIds),
+          Promise.all(packageIds.map((id) => getPackageLeaderboard(id))),
+          getSkdRanking(currentUserId),
+          getActivePassingGrade(),
+          getMyExamBreakdown(),
+        ]);
 
         if (cancelled) return;
         if (packagesRes.error) throw packagesRes.error;
@@ -378,7 +387,19 @@ export default function DashboardPageContainer() {
             category: p.category,
             score: p.score,
             rank: p.rank,
+            // breakdown (TWK/TIU/TKP): dari get_my_exam_breakdown RPC
+            // (lihat getMyExamBreakdown.js). undefined kalau RPC belum
+            // ada di Supabase / paket ini belum punya baris breakdown
+            // -- DashboardScoreSummaryTable otomatis tampil graceful:
+            // kolom TWK/TIU/TKP "-", kolom Hasil "-", peringkat tetap
+            // tampil normal (tidak terpengaruh).
+            breakdown: breakdownRes.data?.get(p.id),
           })),
+          // passingRule: null kalau getActivePassingGrade gagal/belum
+          // ada rule aktif -- DashboardScoreSummaryTable sudah
+          // menangani null ini secara graceful (sama seperti pola
+          // skdRanking di bawah).
+          passingRule: passingRuleRes.data,
           featuredLeaderboard,
           // null kalau RPC get_skd_ranking belum ada/gagal -- UI
           // menampilkan section ini secara graceful (lihat
@@ -504,8 +525,16 @@ export default function DashboardPageContainer() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--db-surface,_#f8f9ff)] text-[var(--db-on-surface-variant,_#424750)]">
-        Memuat dashboard...
+      <div className="min-h-screen bg-[#00467f] text-white flex flex-col items-center justify-center gap-3 px-5">
+        <div className="relative w-24 h-24 flex items-center justify-center">
+          <div className="absolute inset-0 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+          <img
+            src="/cpnz.png"
+            alt="Logo"
+            className="w-14 h-14 object-contain"
+          />
+        </div>
+        <p className="text-sm text-white/60">Memuat dashboard…</p>
       </div>
     );
   }
@@ -518,6 +547,7 @@ export default function DashboardPageContainer() {
       nextPackage={data.nextPackage}
       packages={data.packages}
       scoreSummaryRows={data.scoreSummaryRows}
+      passingRule={data.passingRule}
       featuredLeaderboard={data.featuredLeaderboard}
       skdRanking={data.skdRanking}
       attempts={data.attempts}
@@ -526,6 +556,10 @@ export default function DashboardPageContainer() {
       onPackageDetail={(pkg) => {
         if (data.isMock) return; // paket contoh tidak beneran ada di DB
         navigate(`/try-out/${pkg.id}/info`);
+      }}
+      onScoreRowClick={(pkg) => {
+        if (data.isMock) return;
+        navigate(`/try-out/${pkg.id}/hasil`);
       }}
       onPackageLeaderboard={() => navigate("/home/leaderboard")}
       onExplorePackages={() => navigate("/home/simulasi")}

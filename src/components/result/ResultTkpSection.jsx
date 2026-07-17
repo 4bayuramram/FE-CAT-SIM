@@ -1,3 +1,5 @@
+import CountUp from "../common/CountUp";
+
 /**
  * ResultTkpSection — khusus kategori TKP (Tes Karakteristik Pribadi):
  * skema skornya beda dari kategori lain (poin +1..+5 per pilihan, tidak
@@ -10,8 +12,11 @@
  * @param {number} score
  * @param {number} maxScore
  * @param {{points:number, count:number}[]} pointDistribution - urut dari poin tertinggi ke terendah
+ * @param {boolean} [passed] - hasil checkPassingGrade().subtests.TKP.passed;
+ *   undefined kalau belum ada rule/breakdown -> tetap warna default (hijau)
  */
-export default function ResultTkpSection({ score, maxScore, pointDistribution }) {
+export default function ResultTkpSection({ score, maxScore, pointDistribution, passed }) {
+  const scoreColor = passed === false ? "text-red-500" : "text-[#4de082]";
   return (
     <section className="rounded-xl p-6 bg-white/10 backdrop-blur-xl border border-white/10 border-l-4 border-l-[#4de082]">
       <div className="flex justify-between items-start mb-6">
@@ -24,7 +29,7 @@ export default function ResultTkpSection({ score, maxScore, pointDistribution })
           </p>
         </div>
         <div className="text-right">
-          <div className="text-3xl font-bold text-[#4de082]">{score}</div>
+          <div className={`text-3xl font-bold ${scoreColor}`}><CountUp to={score} duration={1.5} /></div>
           <div className="text-[10px] font-mono text-white/40">MAX: {maxScore}</div>
         </div>
       </div>

@@ -159,11 +159,16 @@ export default function PackageInfoPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f7f9fb]">
-        <div className="flex items-center gap-3 text-[#001f3f]">
-          <SyncIcon className="animate-spin" />
-          <span className="font-semibold">Memuat informasi paket...</span>
+      <div className="min-h-screen bg-[#00467f] text-white flex flex-col items-center justify-center gap-3 px-5">
+        <div className="relative w-24 h-24 flex items-center justify-center">
+          <div className="absolute inset-0 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+          <img
+            src="/cpnz.png"
+            alt="Logo"
+            className="w-14 h-14 object-contain"
+          />
         </div>
+        <p className="text-sm text-white/60">Memuat informasi paket…</p>
       </div>
     );
   }
@@ -189,7 +194,7 @@ export default function PackageInfoPage() {
           <h1 className="text-lg sm:text-2xl font-bold text-[#001f3f]">
             Sebelum Memulai Ujian
           </h1>
-        </div> 
+        </div>
       </header>
 
       <main className="max-w-3xl mx-auto w-full px-4 sm:px-5 py-6 sm:py-10 space-y-6">
@@ -350,6 +355,23 @@ export default function PackageInfoPage() {
           </p>
         )}
       </main>
+
+      {/* Overlay fullscreen selagi handleStart berjalan (simpan consent +
+          navigate ke halaman ujian) -- senada dengan spinner loading
+          dashboard & informasi paket supaya transisi terasa konsisten. */}
+      {submitting && (
+        <div className="fixed inset-0 z-50 bg-[#00467f] text-white flex flex-col items-center justify-center gap-3 px-5">
+          <div className="relative w-24 h-24 flex items-center justify-center">
+            <div className="absolute inset-0 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+            <img
+              src="/cpnz.png"
+              alt="Logo"
+              className="w-14 h-14 object-contain"
+            />
+          </div>
+          <p className="text-sm text-white/60">Menyiapkan ujianmu…</p>
+        </div>
+      )}
     </div>
   );
 }
