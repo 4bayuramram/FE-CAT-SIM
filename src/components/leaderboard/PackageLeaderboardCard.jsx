@@ -2,6 +2,7 @@ import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import LeaderboardTableHeader from "./LeaderboardTableHeader";
 import LeaderboardRow from "./LeaderboardRow";
+import RowReveal from "./RowReveal";
 
 /**
  * Kartu leaderboard untuk satu paket. Dua mode:
@@ -68,8 +69,10 @@ export default function PackageLeaderboardCard({
         <div className="p-2 md:p-4">
           <LeaderboardTableHeader />
           <div className="flex flex-col gap-2 max-h-[420px] md:max-h-[560px] overflow-y-auto pr-1 leaderboard-scrollbar">
-            {rows.map((row) => (
-              <LeaderboardRow key={row.id ?? row.rank} {...row} />
+            {rows.map((row, i) => (
+              <RowReveal key={row.id ?? row.rank} index={i}>
+                <LeaderboardRow {...row} />
+              </RowReveal>
             ))}
           </div>
         </div>

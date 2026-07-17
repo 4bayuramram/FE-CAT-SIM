@@ -1,0 +1,68 @@
+.glare-hover {
+  width: var(--gh-width);
+  height: var(--gh-height);
+  background: var(--gh-bg);
+  border-radius: var(--gh-br);
+  overflow: hidden;
+  display: block;
+}
+.glare-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--gh-angle),
+    hsla(0, 0%, 0%, 0) 60%,
+    var(--gh-rgba) 70%,
+    hsla(0, 0%, 0%, 0),
+    hsla(0, 0%, 0%, 0) 100%
+  );
+  transition: var(--gh-duration) ease;
+  background-size:
+    var(--gh-size) var(--gh-size),
+    100% 100%;
+  background-repeat: no-repeat;
+  background-position:
+    -100% -100%,
+    0 0;
+  pointer-events: none;
+}
+.glare-hover:hover::before {
+  background-position:
+    100% 100%,
+    0 0;
+}
+.glare-hover--play-once::before {
+  transition: none;
+}
+.glare-hover--play-once:hover::before {
+  transition: var(--gh-duration) ease;
+  background-position:
+    100% 100%,
+    0 0;
+}
+
+/* Auto-play: glare menyapu sendiri berulang, dengan delay per elemen
+   (dipakai untuk efek "domino" berurutan di grid kartu) */
+.glare-hover--auto::before {
+  animation: gh-auto-sweep var(--gh-auto-duration, 3s) ease-in-out infinite;
+  animation-delay: var(--gh-delay, 0s);
+  will-change: background-position;
+}
+@keyframes gh-auto-sweep {
+  0% {
+    background-position:
+      -100% -100%,
+      0 0;
+  }
+  50% {
+    background-position:
+      100% 100%,
+      0 0;
+  }
+  100% {
+    background-position:
+      -100% -100%,
+      0 0;
+  }
+}

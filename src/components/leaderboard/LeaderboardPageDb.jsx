@@ -1,11 +1,10 @@
 import { useState } from "react";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import "./leaderboard-theme.css";
-
 
 import LeaderboardSideNav from "./LeaderboardSideNav";
 import LeaderboardCategoryTabs from "./LeaderboardCategoryTabs";
 import PackageLeaderboardCard from "./PackageLeaderboardCard";
-import LeaderboardSearchCard from "./LeaderboardSearchCard";
 import LeaderboardPersonalStatsCard from "./LeaderboardPersonalStatsCard";
 import LeaderboardLocationSearchSection from "./LeaderboardLocationSearchSection";
 import LeaderboardBottomNav from "./LeaderboardBottomNav";
@@ -30,7 +29,6 @@ import LeaderboardBottomNav from "./LeaderboardBottomNav";
  *     category: string  // dipakai untuk filter tab, samakan dengan `categories[].key`
  *   }]
  * - stats: { avgScore, percentile, comparisonPercent, totalParticipants }
- * - locations: [{ key, label }]  untuk filter di sidebar kanan
  * - showSideNav / showBottomNav: boolean, matikan kalau project sudah
  *   punya navigasi sendiri (default true)
  * - onBack, onDetailClick(packageId), onNavigate(key)
@@ -45,7 +43,6 @@ export default function LeaderboardPageDb({
   categories,
   packages = [],
   stats,
-  locations,
   showSideNav = true,
   showBottomNav = true,
   onBack,
@@ -63,27 +60,9 @@ export default function LeaderboardPageDb({
   const [activeCategory, setActiveCategory] = useState(
     categories?.[0]?.key ?? "semua"
   );
-  const [activeLocation, setActiveLocation] = useState(
-    locations?.[0]?.key ?? "semua"
-  );
-  const [search, setSearch] = useState("");
 
   const visiblePackages = packages.filter((pkg) => {
-    const matchesCategory =
-      activeCategory === "semua" || pkg.category === activeCategory;
-
-    const matchesSearch =
-      !search.trim() ||
-      pkg.name.toLowerCase().includes(search.trim().toLowerCase()) ||
-      pkg.rows?.some((row) =>
-        row.location?.toLowerCase().includes(search.trim().toLowerCase())
-      );
-
-    const matchesLocation =
-      activeLocation === "semua" ||
-      pkg.rows?.some((row) => row.locationKey === activeLocation);
-
-    return matchesCategory && matchesSearch && matchesLocation;
+    return activeCategory === "semua" || pkg.category === activeCategory;
   });
 
   // Paket info di sidebar cuma masuk akal kalau halaman ini lagi fokus
@@ -148,6 +127,50 @@ export default function LeaderboardPageDb({
             </button>
           </div>
 
+          {/* Edukasi metodologi ranking -- tampil di KEDUA tab, teks beda
+              sesuai metodologi masing-masing, supaya user paham dua
+              leaderboard ini dihitung dengan cara yang beda:
+              - "paket": ranking murni skor mentah SATU paket itu saja
+              - "wilayah": ranking pakai rata-rata tertimbang (Bayesian
+                shrinkage) lintas semua paket SKD yang pernah dikerjakan
+              Tujuannya biar user nggak bingung kenapa skor rata-ratanya
+              "ditarik" turun/naik di tab wilayah, dan nggak mengira
+              sistemnya salah hitung / tidak konsisten antar tab. */}
+          <div className="flex items-start gap-3 rounded-2xl border border-[var(--lb-outline-variant)] bg-[var(--lb-secondary-container)] px-5 py-4">
+            <InfoOutlinedIcon
+              className="text-[var(--lb-on-secondary-container)] shrink-0 mt-0.5"
+              fontSize="small"
+            />
+            <p className="text-sm text-[var(--lb-on-secondary-container)] leading-relaxed">
+              {activeView === "wilayah" ? (
+                <>
+                  <span className="font-bold">
+                    Cara kami menghitung peringkat ini:{" "}
+                  </span>
+                  skor di sini pakai metode rata-rata tertimbang, cara yang sama
+                  dipakai platform besar seperti IMDb dan Steam untuk bikin
+                  peringkat lebih adil. Baru kerjakan 1 paket dengan nilai
+                  tinggi belum otomatis bikin peringkatmu melejit &mdash; skor
+                  akan makin akurat dan makin merepresentasikan kemampuan aslimu
+                  seiring makin banyak &amp; makin konsisten paket yang kamu
+                  kerjakan.
+                </>
+              ) : (
+                <>
+                  <span className="font-bold">
+                    Cara kami menghitung peringkat ini:{" "}
+                  </span>
+                  leaderboard ini murni berdasarkan skor kamu di{" "}
+                  <span className="font-bold">satu paket itu saja</span> (bukan
+                  gabungan dari paket lain). Kalau kamu mau lihat peringkat
+                  gabungan berdasarkan rata-rata semua paket SKD yang pernah
+                  kamu kerjakan (per provinsi/kota), cek tab &quot;Cari
+                  Peringkat Wilayah&quot;.
+                </>
+              )}
+            </p>
+          </div>
+
           {activeView === "wilayah" ? (
             <LeaderboardLocationSearchSection
               onStartSkd={() => onNavigate?.("try-out")}
@@ -186,13 +209,6 @@ export default function LeaderboardPageDb({
         {activeView === "paket" && (
           <aside className="w-full lg:w-80 shrink-0">
             <div className="lg:sticky lg:top-24 flex flex-col gap-6">
-              <LeaderboardSearchCard
-                searchValue={search}
-                onSearchChange={setSearch}
-                locations={locations}
-                activeLocation={activeLocation}
-                onLocationChange={setActiveLocation}
-              />
               {stats && <LeaderboardPersonalStatsCard {...stats} />}
             </div>
           </aside>

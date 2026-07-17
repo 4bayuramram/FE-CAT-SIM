@@ -30,6 +30,7 @@ export default function Hero() {
         backgroundImage: "url('/hero.png')",
         x,
         opacity: scrollOpacity,
+        willChange: "transform, opacity",
       }}
       className="
         w-full

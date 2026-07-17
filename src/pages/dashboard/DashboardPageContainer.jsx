@@ -273,21 +273,43 @@ export default function DashboardPageContainer() {
             status,
             score: ownRow?.score,
             rank: ownRow?.rank,
+            // BARU (fix konsistensi dgn get_skd_ranking, 16 Jul 2026) --
+            // paket yang belum layak dinilai (mis. soal belum lengkap)
+            // ditandai include_in_ranking=false di tabel packages.
+            // Default true kalau kolomnya null/belum di-set, supaya
+            // paket lama yang belum py kolom ini tidak tiba-tiba
+            // hilang dari rata-rata.
+            includeInRanking: paket?.include_in_ranking ?? true,
             entries,
           };
         });
 
         const attemptedPackages = packagesForUI.filter((p) => p.attempted);
+        // Paket yang dikecualikan dari ranking (include_in_ranking=false)
+        // juga dikecualikan dari statistik rata-rata pribadi di sini --
+        // supaya "Rata-rata Skor" & "Rata-rata per Kategori" tidak
+        // ketarik turun oleh paket yang memang belum layak dinilai
+        // (konsisten dengan get_skd_ranking, yang sudah filter ini di
+        // level SQL). scoreSummaryRows di bawah TETAP menampilkan semua
+        // attempt (termasuk yang dikecualikan) -- riwayat pribadi user
+        // tidak disembunyikan, cuma tidak dihitung ke rata-rata agregat.
+        const rankingEligiblePackages = attemptedPackages.filter(
+          (p) => p.includeInRanking !== false
+        );
         const avgScore =
-          attemptedPackages.length > 0
+          rankingEligiblePackages.length > 0
             ? Math.round(
-                attemptedPackages.reduce((sum, p) => sum + (p.score || 0), 0) /
-                  attemptedPackages.length
+                rankingEligiblePackages.reduce(
+                  (sum, p) => sum + (p.score || 0),
+                  0
+                ) / rankingEligiblePackages.length
               )
             : null;
         const bestRank =
-          attemptedPackages.length > 0
-            ? Math.min(...attemptedPackages.map((p) => p.rank).filter(Boolean))
+          rankingEligiblePackages.length > 0
+            ? Math.min(
+                ...rankingEligiblePackages.map((p) => p.rank).filter(Boolean)
+              )
             : null;
 
         // Rata-rata skor PER KATEGORI (skd/twk/tiu/tkp) -- lihat catatan
@@ -295,7 +317,7 @@ export default function DashboardPageContainer() {
         // (skor paket kategori skd, bukan rata-rata TWK/TIU/TKP satuan).
         const categoryAverages = { skd: null, twk: null, tiu: null, tkp: null };
         ["skd", "twk", "tiu", "tkp"].forEach((category) => {
-          const inCategory = attemptedPackages.filter(
+          const inCategory = rankingEligiblePackages.filter(
             (p) => p.category === category
           );
           if (inCategory.length > 0) {
@@ -473,7 +495,10 @@ export default function DashboardPageContainer() {
       .eq("type", type)
       .eq("is_read", false);
     if (error) {
-      console.error(`Gagal menandai notif type=${type} sebagai dibaca:`, error.message);
+      console.error(
+        `Gagal menandai notif type=${type} sebagai dibaca:`,
+        error.message
+      );
     }
   };
 

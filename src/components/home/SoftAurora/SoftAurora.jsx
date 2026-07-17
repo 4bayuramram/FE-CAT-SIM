@@ -176,8 +176,10 @@ export default function SoftAurora({
 
     // OPTIMASI 1: cap devicePixelRatio. Tanpa ini, di layar dpr 3 kita
     // render 9x lebih banyak piksel untuk shader yang sudah berat.
-    // 1.5 masih tajam secara visual tapi jauh lebih ringan untuk GPU.
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    // Di mobile dibatasi lebih ketat lagi (1) karena shader Perlin-noise
+    // 3-oktaf ini berat untuk GPU low-end Android/iOS.
+    const isMobile = window.innerWidth < 768;
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
 
     const renderer = new Renderer({ alpha: true, dpr });
     const gl = renderer.gl;
@@ -272,10 +274,31 @@ export default function SoftAurora({
     );
     observer.observe(container);
 
+    // OPTIMASI 5: khusus mobile, jeda render shader SELAMA scroll
+    // aktif. Scroll butuh compositing tiap frame; kalau GPU juga lagi
+    // ngerender shader Perlin-noise di saat bersamaan, HP low-end
+    // gampang keteteran (FPS drop terasa di gerakan parallax Hero).
+    // Render dilanjut ~150ms setelah scroll berhenti -- jeda sesaat
+    // ini nyaris tak terlihat karena animasinya pelan.
+    let scrollPauseTimeout;
+    function handleScrollPause() {
+      if (!isMobile) return;
+      isRunning = false;
+      clearTimeout(scrollPauseTimeout);
+      scrollPauseTimeout = setTimeout(() => {
+        isRunning = document.hidden ? false : true;
+      }, 150);
+    }
+    if (isMobile) {
+      window.addEventListener("scroll", handleScrollPause, { passive: true });
+    }
+
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("scroll", handleScrollPause);
+      clearTimeout(scrollPauseTimeout);
       observer.disconnect();
       container.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();

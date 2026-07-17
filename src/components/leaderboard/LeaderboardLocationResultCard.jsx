@@ -23,7 +23,7 @@ function StatBlock({ label, value }) {
  * - locationType: 'province' | 'city'
  * - locationValue: string, nama daerah yang dicari
  * - region: { totalParticipants, avgScore, medianScore, minScore, maxScore }
- * - yourPosition: { avgScore, hypotheticalRank, hypotheticalTotal, percentile } | null
+ * - yourPosition: { avgScore, jumlahPaket, hypotheticalRank, hypotheticalTotal, percentile } | null
  *   -- null berarti user belum pernah kerjain paket SKD sama sekali
  *   (gate sama seperti widget "peringkat saya" di Dashboard).
  * - onStartSkd: opsional, CTA kalau yourPosition null
@@ -35,7 +35,8 @@ export default function LeaderboardLocationResultCard({
   yourPosition,
   onStartSkd,
 }) {
-  const Icon = locationType === "city" ? LocationOnRoundedIcon : PublicRoundedIcon;
+  const Icon =
+    locationType === "city" ? LocationOnRoundedIcon : PublicRoundedIcon;
 
   const fmtScore = (n) => (n == null ? "-" : n.toFixed(1));
 
@@ -43,7 +44,10 @@ export default function LeaderboardLocationResultCard({
     <div className="bg-white rounded-3xl border border-[var(--lb-outline-variant)] shadow-md p-6 flex flex-col gap-6">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-[var(--lb-secondary-container)] flex items-center justify-center shrink-0">
-          <Icon fontSize="small" className="text-[var(--lb-on-secondary-container)]" />
+          <Icon
+            fontSize="small"
+            className="text-[var(--lb-on-secondary-container)]"
+          />
         </div>
         <div>
           <h3 className="font-extrabold text-[var(--lb-on-surface)] leading-tight">
@@ -84,15 +88,41 @@ export default function LeaderboardLocationResultCard({
             </p>
             <p className="text-sm opacity-90 mt-1">
               Skor rata-rata kamu: {fmtScore(yourPosition.avgScore)}
-              {yourPosition.percentile != null && (
-                <> &middot; top {yourPosition.percentile}%</>
+              {yourPosition.jumlahPaket != null && (
+                <> (dari {yourPosition.jumlahPaket} paket)</>
               )}
             </p>
+            {yourPosition.percentile != null &&
+              (() => {
+                // Sama seperti DashboardSkdRankingCard: satu angka yang
+                // sama (unggulPercent), cuma beda teks & warna tergantung
+                // di atas/di bawah rata-rata peserta di daerah ini.
+                const unggulPercent = 100 - yourPosition.percentile;
+                const isAboveAverage = unggulPercent >= 50;
+                return (
+                  <span
+                    className="inline-block mt-2 text-xs font-bold px-2.5 py-1 rounded-full"
+                    style={{
+                      background: isAboveAverage
+                        ? "var(--lb-success-container)"
+                        : "var(--lb-error-container)",
+                      color: isAboveAverage
+                        ? "var(--lb-success)"
+                        : "var(--lb-error)",
+                    }}
+                  >
+                    {isAboveAverage
+                      ? `Unggul ${unggulPercent}%`
+                      : `Di bawah ${unggulPercent}%`}
+                  </span>
+                );
+              })()}
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-[var(--lb-outline-variant)] px-5 py-4 text-center">
             <p className="text-sm text-[var(--lb-on-surface-variant)] mb-3">
-              Kerjakan minimal satu paket SKD dulu untuk melihat posisi hipotetis kamu di daerah ini.
+              Kerjakan minimal satu paket SKD dulu untuk melihat posisi
+              hipotetis kamu di daerah ini.
             </p>
             {onStartSkd && (
               <button
@@ -107,10 +137,14 @@ export default function LeaderboardLocationResultCard({
         )}
 
         <p className="flex items-start gap-1.5 text-[11px] text-[var(--lb-outline)] mt-3">
-          <InfoOutlinedIcon style={{ fontSize: 14 }} className="shrink-0 mt-0.5" />
-          Peringkat ini hipotetis: skor rata-rata SKD kamu (dari paket yang sudah kamu
-          kerjakan, di mana pun domisilimu) dibandingkan ke peserta asli yang berdomisili di{" "}
-          {locationValue}, bukan berarti kamu terdaftar di daerah ini.
+          <InfoOutlinedIcon
+            style={{ fontSize: 14 }}
+            className="shrink-0 mt-0.5"
+          />
+          Peringkat ini hipotetis: skor rata-rata SKD kamu (dari paket yang
+          sudah kamu kerjakan, di mana pun domisilimu) dibandingkan ke peserta
+          asli yang berdomisili di {locationValue}, bukan berarti kamu terdaftar
+          di daerah ini.
         </p>
       </div>
     </div>

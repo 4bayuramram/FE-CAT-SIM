@@ -38,6 +38,7 @@ export default function DashboardSkdRankingSection({ skdRanking, onSeeFullLeader
         rank={national?.rank ?? null}
         totalPeserta={national?.totalPeserta ?? null}
         avgScore={national?.avgScore ?? null}
+        jumlahPaket={national?.jumlahPaket ?? null}
         percentile={national?.percentile ?? null}
       />
 
@@ -48,6 +49,7 @@ export default function DashboardSkdRankingSection({ skdRanking, onSeeFullLeader
         rank={province?.rank ?? null}
         totalPeserta={province?.totalPeserta ?? null}
         avgScore={province?.avgScore ?? null}
+        jumlahPaket={province?.jumlahPaket ?? null}
         percentile={province?.percentile ?? null}
         emptyMessage={
           province?.name
@@ -63,6 +65,7 @@ export default function DashboardSkdRankingSection({ skdRanking, onSeeFullLeader
         rank={city?.rank ?? null}
         totalPeserta={city?.totalPeserta ?? null}
         avgScore={city?.avgScore ?? null}
+        jumlahPaket={city?.jumlahPaket ?? null}
         percentile={city?.percentile ?? null}
         emptyMessage={
           city?.name

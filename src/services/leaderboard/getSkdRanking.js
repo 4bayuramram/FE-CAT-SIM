@@ -6,6 +6,14 @@ import { supabase } from "../../lib/supabaseClient";
  * nasional, provinsi (domisili user), dan kabupaten/kota (domisili
  * user). Dipakai oleh DashboardSkdRankingSection di tab Ringkasan.
  *
+ * REVISI v3 (16 Jul 2026): avgScore yang dikembalikan RPC sekarang
+ * SUDAH melalui Bayesian shrinkage (ditarik mendekati rata-rata
+ * nasional selama jumlah paket dikerjakan user masih sedikit, m=5) --
+ * BUKAN rata-rata murni lagi. Field baru `jumlahPaket` disertakan
+ * supaya FE bisa tampilkan "(dari X paket)" di sebelah skor, biar
+ * user paham kenapa posisinya bisa berubah signifikan begitu nambah
+ * paket. Lihat migration 20260716_skd_ranking_bayesian_shrinkage.sql.
+ *
  * BACKEND YANG DIBUTUHKAN (belum ada di project ini, perlu dibuat --
  * pola sama seperti get_package_leaderboard di
  * migration_leaderboard_rpc.sql): RPC SQL security-definer bernama
@@ -54,6 +62,11 @@ export async function getSkdRanking(userId) {
           rank: row.rank,
           totalPeserta: row.total_participants,
           avgScore: row.avg_score,
+          // BARU (revisi Bayesian shrinkage, 16 Jul 2026) — jumlah paket
+          // SKD yang dikerjakan user, dipakai FE untuk transparansi
+          // ("(dari X paket)") karena avgScore sekarang sudah ditarik
+          // mendekati rata-rata nasional kalau jumlah paketnya sedikit.
+          jumlahPaket: row.jumlah_paket ?? null,
           percentile:
             row.rank != null && row.total_participants
               ? Math.max(1, Math.round((row.rank / row.total_participants) * 100))

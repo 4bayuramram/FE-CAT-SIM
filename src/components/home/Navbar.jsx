@@ -222,7 +222,7 @@ export default function Navbar() {
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="md:hidden border-t border-[#12345b]/30 bg-transparent backdrop-blur-md text-[#12345b] rounded-b-2xl overflow-hidden">
+        <div className="md:hidden border-t border-[#12345b]/30 bg-white/85 backdrop-blur-md text-[#12345b] rounded-b-2xl overflow-hidden">
           <div className="px-4 py-3 flex flex-col gap-3">
             {user && (
               <div className="flex items-center gap-3 pb-3 border-b border-[#12345b]/30">

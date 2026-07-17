@@ -1,0 +1,96 @@
+/* Adaptasi PillNav (src/components/common/PillNav) untuk tab kategori
+   paket try-out di halaman /home/simulasi. Class di-prefix `pkg-`
+   supaya tidak bentrok dengan PillNav.css / LeaderboardCategoryTabs.css. */
+
+.pkg-pill-tabs {
+  --pkg-pill-h: 44px;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 4px 14px;
+  margin-bottom: 1.5rem;
+}
+
+.pkg-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--pkg-pill-h);
+  padding: 0 18px;
+  border-radius: 9999px;
+  border: 1px solid #d5dbe3;
+  background: #ffffff;
+  color: #55606e;
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Efek glow kuning khusus tab yang sedang dipilih */
+.pkg-pill.pkg-is-active {
+  border-color: #fcd401;
+  box-shadow: 0 0 0 1px #fcd401, 0 0 14px 2px rgba(252, 212, 1, 0.55);
+}
+
+.pkg-pill .pkg-hover-circle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-radius: 50%;
+  background: #00467f;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.pkg-pill .pkg-label-stack {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  z-index: 2;
+}
+
+.pkg-pill .pkg-pill-label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  line-height: 1;
+  will-change: transform;
+}
+
+.pkg-pill .pkg-pill-label-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ffffff;
+  z-index: 3;
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.pkg-pill .pkg-count-badge {
+  position: relative;
+  z-index: 2;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 2px 6px;
+  min-width: 1.25rem;
+  text-align: center;
+  line-height: 1.2;
+  background: #f1f4f8;
+  color: #55606e;
+}
+
+.pkg-pill.pkg-is-active .pkg-count-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}

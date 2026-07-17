@@ -3,6 +3,7 @@ import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import SyncIcon from "@mui/icons-material/Sync";
 import "./leaderboard-theme.css";
 import LeaderboardRow from "./LeaderboardRow";
+import RowReveal from "./RowReveal";
 import { getPackageLeaderboard } from "../../services/leaderboard/getPackageLeaderboard";
 import { mapToLeaderboardRows } from "../../services/leaderboard/mapToLeaderboardRows";
 
@@ -114,8 +115,10 @@ export default function LeaderboardSection({
         return (
           <>
             <div className="flex flex-col gap-2 max-h-[420px] overflow-y-auto pr-1 leaderboard-scrollbar">
-              {visibleRows.map((row) => (
-                <LeaderboardRow key={row.id ?? row.rank} {...row} />
+              {visibleRows.map((row, i) => (
+                <RowReveal key={row.id ?? row.rank} index={i}>
+                  <LeaderboardRow {...row} />
+                </RowReveal>
               ))}
             </div>
 

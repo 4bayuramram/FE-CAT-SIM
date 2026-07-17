@@ -4,7 +4,6 @@ export { default as LeaderboardCategoryTabs } from "./LeaderboardCategoryTabs";
 export { default as LeaderboardTableHeader } from "./LeaderboardTableHeader";
 export { default as LeaderboardRow } from "./LeaderboardRow";
 export { default as PackageLeaderboardCard } from "./PackageLeaderboardCard";
-export { default as LeaderboardSearchCard } from "./LeaderboardSearchCard";
 export { default as LeaderboardLocationSearchCard } from "./LeaderboardLocationSearchCard";
 export { default as LeaderboardLocationResultCard } from "./LeaderboardLocationResultCard";
 export { default as LeaderboardLocationSearchSection } from "./LeaderboardLocationSearchSection";

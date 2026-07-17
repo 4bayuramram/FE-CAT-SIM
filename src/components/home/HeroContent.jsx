@@ -1,5 +1,21 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 import TypewriterText from "./TypewriterText";
+
+// Deteksi mobile (breakpoint sama dengan Tailwind `md`), reaktif kalau
+// layar di-resize/rotate.
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, [breakpoint]);
+  return isMobile;
+}
 
 // Parent: mengatur jeda (stagger) antar child saat muncul
 const container = {
@@ -23,8 +39,21 @@ const item = {
 };
 
 export default function HeroContent() {
+  const isMobile = useIsMobile();
+
+  // Sama seperti Hero.jsx, tapi arah berlawanan (kiri, bukan kanan).
+  // Hanya dipakai di mobile -- di desktop x/opacity dikunci diam (0/1)
+  // karena posisinya sudah pas.
+  const { scrollY } = useScroll();
+  const xMobile = useTransform(scrollY, [0, 500], [0, -220]);
+  const opacityMobile = useTransform(scrollY, [0, 500], [1, 0]);
+
+  const x = isMobile ? xMobile : 0;
+  const scrollOpacityStyle = isMobile ? opacityMobile : 1;
+
   return (
     <motion.div
+      style={{ x, opacity: scrollOpacityStyle, willChange: "transform, opacity" }}
       className="text-white space-y-6 md:space-y-8"
       variants={container}
       initial="hidden"
@@ -82,7 +111,10 @@ export default function HeroContent() {
           leading-relaxed
         "
       >
-       tidak ada bimbel mahal disini, kami hanya menyediakkan tryout dan pembahsan untuk membantu kamu menyiapkan diri menghadapi SKD CPNS. Silakan tryout jika kamu sudah siap.
+        Tidak ada bimbel mahal di sini. Kami hanya menyediakan tryout dan pembahasan
+        lengkap, serta papan peringkat yang bantu kamu membandingkan kesiapanmu
+        dengan peserta lain di berbagai daerah di seluruh Indonesia. Sudah siap?
+        Yuk, mulai tryout sekarang.
       </motion.p>
 
       {/* BUTTONS */}

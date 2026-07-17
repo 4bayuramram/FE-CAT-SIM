@@ -100,9 +100,7 @@ async function startOrResumeExam(packageId) {
  */
 async function createFreshSession(packageId) {
   const session = await sessionEngineDb.createSession(packageId);
-  const { questions: rawQuestions } = await postDb("/get-questions", {
-    session_id: session.id,
-  });
+  const rawQuestions = await fetchQuestionsWithRetry(session.id);
   const parsedQuestions = contentParserDb.parseQuestions(rawQuestions);
   const remaining = timerEngineDb.syncTimer(session);
 
@@ -112,6 +110,33 @@ async function createFreshSession(packageId) {
     questions: parsedQuestions,
     remainingSeconds: remaining.remainingSeconds,
   };
+}
+
+/**
+ * FIX (bug "Gagal memuat ujian" di attempt pertama): sesaat setelah
+ * create-session, backend kadang belum selesai meng-assign soal ke sesi
+ * yang baru dibuat, sehingga get-questions langsung sesudahnya bisa
+ * balik kosong/tidak valid (race condition sisi backend). Daripada
+ * langsung menampilkan error ke user, coba ulang sekali dengan jeda
+ * singkat sebelum benar-benar menyerah.
+ *
+ * Tidak dipakai di jalur resume (kind 'active') karena di situ sesi
+ * sudah lama ada — soal pasti sudah ter-assign, race ini hanya relevan
+ * tepat setelah create-session.
+ */
+async function fetchQuestionsWithRetry(sessionId, attempt = 1) {
+  const { questions: rawQuestions } = await postDb("/get-questions", {
+    session_id: sessionId,
+  });
+
+  const isEmpty = !Array.isArray(rawQuestions) || rawQuestions.length === 0;
+
+  if (isEmpty && attempt < 2) {
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    return fetchQuestionsWithRetry(sessionId, attempt + 1);
+  }
+
+  return rawQuestions;
 }
 
 /**

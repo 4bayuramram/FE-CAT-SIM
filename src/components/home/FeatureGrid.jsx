@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import GlareHover from "./GlareHover";
 import {
   AccessTime,
   Leaderboard,
@@ -20,6 +21,9 @@ const item = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
+
+const GLARE_CYCLE = 3; // detik, lama 1 putaran sapuan glare per kartu
+const WAVE_STEP = 0.25; // jeda fase antar kartu (detik) — kecil = banyak overlap = terasa gelombang
 
 export default function FeaturesGrid() {
   const features = [
@@ -79,11 +83,35 @@ export default function FeaturesGrid() {
     [0.3, 1, 1, 0.3]
   );
 
+  const glareDelayFor = (index) => index * WAVE_STEP;
+
   return (
     <section
       ref={sectionRef}
       className="py-16 md:py-24 bg-[#00467f] font-merriweather font-extrabold"
     >
+      <style>{`
+        @keyframes cardWaveLift {
+          0% {
+            transform: translateY(0px);
+            filter: brightness(1);
+          }
+          50% {
+            transform: translateY(-5px);
+            filter: brightness(1.06);
+          }
+          100% {
+            transform: translateY(0px);
+            filter: brightness(1);
+          }
+        }
+        .wave-card {
+          animation-name: cardWaveLift;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
+          will-change: transform;
+        }
+      `}</style>
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Header */}
         <motion.div
@@ -120,30 +148,57 @@ export default function FeaturesGrid() {
                 variants={item}
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="
-                  p-6 md:p-8
-                  rounded-2xl
-                  border border-white/40
-                  bg-transparent
-                  text-white
-                  hover:border-white
-                  transition-colors duration-200
-                "
+                className="relative"
               >
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-xl border border-white flex items-center justify-center mb-5">
-                  <span className="text-white scale-110">{feat.icon}</span>
+                <div
+                  style={{
+                    animationDuration: `${GLARE_CYCLE}s`,
+                    animationDelay: `${glareDelayFor(index)}s`,
+                  }}
+                  className="
+                    wave-card
+                    relative
+                    p-6 md:p-8
+                    rounded-2xl
+                    border border-white/40
+                    bg-transparent
+                    text-white
+                    hover:border-white
+                    transition-colors duration-200
+                  "
+                >
+                  <GlareHover
+                    width="100%"
+                    height="100%"
+                    background="transparent"
+                    borderRadius="1rem"
+                    borderColor="transparent"
+                    glareColor="#ffffff"
+                    glareOpacity={0.3}
+                    glareAngle={-30}
+                    glareSize={300}
+                    transitionDuration={800}
+                    autoPlay
+                    autoPlayDuration={GLARE_CYCLE * 1000}
+                    autoPlayDelay={glareDelayFor(index) * 1000}
+                    className="absolute inset-0"
+                  />
+
+                  {/* Icon */}
+                  <div className="w-12 h-12 rounded-xl border border-white flex items-center justify-center mb-5">
+                    <span className="text-white scale-110">{feat.icon}</span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-lg md:text-xl font-extrabold mb-3 text-white">
+                    {feat.title}
+                  </h3>
+
+                  {/* Desc */}
+                  <p className="text-white/80 text-sm md:text-base font-semibold leading-relaxed">
+                    {feat.desc}
+                  </p>
                 </div>
-
-                {/* Title */}
-                <h3 className="text-lg md:text-xl font-extrabold mb-3 text-white">
-                  {feat.title}
-                </h3>
-
-                {/* Desc */}
-                <p className="text-white/80 text-sm md:text-base font-semibold leading-relaxed">
-                  {feat.desc}
-                </p>
               </motion.div>
             ))}
           </motion.div>

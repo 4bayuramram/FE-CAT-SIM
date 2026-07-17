@@ -9,6 +9,7 @@ import RuleRoundedIcon from "@mui/icons-material/RuleRounded";
 import {
   startOrResumeExamDb,
   startNewAttemptDb,
+  resetExamDb,
   selectStatus,
   selectFirstAttemptResult,
   selectProgressResult,
@@ -89,6 +90,11 @@ export default function ExamPagePaid() {
 
   useEffect(() => {
     if (packageId) {
+      // FIX: reset status ujian ke "idle" dulu sebelum fetch baru — tanpa
+      // ini, status lama (mis. "error" dari percobaan/paket sebelumnya)
+      // sempat kerender sekilas (<1s) sebelum startOrResumeExamDb selesai
+      // dan menggantinya dengan status yang benar.
+      dispatch(resetExamDb());
       dispatch(startOrResumeExamDb(packageId));
       setShowReview(false); // reset kalau pindah paket
     }

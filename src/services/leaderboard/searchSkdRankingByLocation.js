@@ -91,6 +91,9 @@ export async function searchSkdRankingByLocation({
         ? null
         : {
             avgScore: row.user_avg_score,
+            // BARU (revisi Bayesian shrinkage, 16 Jul 2026) — lihat
+            // catatan sama di getSkdRanking.js.
+            jumlahPaket: row.user_jumlah_paket ?? null,
             hypotheticalRank: row.user_hypothetical_rank,
             hypotheticalTotal: row.user_hypothetical_total,
             percentile:

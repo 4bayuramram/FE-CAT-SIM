@@ -77,10 +77,13 @@ export default function LeaderboardRow({
       </div>
 
       {/* Peserta (avatar + nama, lokasi tampil di sini khusus mobile) */}
-      <div className="flex-1 min-w-0 flex items-center gap-3 md:col-span-5 md:gap-4">
+      <div className="flex-1 min-w-0 flex items-center gap-3 md:col-span-4 md:gap-4">
         {isHidden ? (
           <div className="w-9 h-9 md:w-12 md:h-12 rounded-full bg-[var(--lb-surface-container)] flex items-center justify-center shrink-0">
-            <LockRoundedIcon fontSize="small" className="text-[var(--lb-outline)]" />
+            <LockRoundedIcon
+              fontSize="small"
+              className="text-[var(--lb-outline)]"
+            />
           </div>
         ) : avatarUrl ? (
           <img
@@ -98,7 +101,9 @@ export default function LeaderboardRow({
 
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h4 className={`${nameClass} truncate text-sm md:text-base`}>{name}</h4>
+            <h4 className={`${nameClass} truncate text-sm md:text-base`}>
+              {name}
+            </h4>
             {isCurrent && (
               <span className="bg-[var(--lb-primary)] text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase shrink-0">
                 Anda
@@ -113,7 +118,7 @@ export default function LeaderboardRow({
 
       {/* Lokasi formasi (desktop only) */}
       <div
-        className={`hidden md:block md:col-span-3 text-right text-sm italic truncate ${locationClass}`}
+        className={`hidden md:block md:col-span-4 text-right text-sm italic truncate ${locationClass}`}
       >
         {location}
       </div>
@@ -123,7 +128,9 @@ export default function LeaderboardRow({
         <p className={`font-black text-sm ${scoreClass}`}>{score}</p>
         <p
           className={`text-[11px] ${
-            isCurrent ? "text-[var(--lb-primary-container)] font-bold" : "text-[var(--lb-outline)]"
+            isCurrent
+              ? "text-[var(--lb-primary-container)] font-bold"
+              : "text-[var(--lb-outline)]"
           }`}
         >
           {duration}
@@ -131,14 +138,18 @@ export default function LeaderboardRow({
       </div>
 
       {/* Skor (desktop only) */}
-      <div className={`hidden md:block md:col-span-1 text-right font-black ${scoreClass}`}>
+      <div
+        className={`hidden md:block md:col-span-1 text-right font-black ${scoreClass}`}
+      >
         {score}
       </div>
 
       {/* Durasi (desktop only) */}
       <div
         className={`hidden md:block md:col-span-2 text-right text-sm ${
-          isCurrent ? "text-[var(--lb-primary-container)] font-bold" : "text-[var(--lb-outline)]"
+          isCurrent
+            ? "text-[var(--lb-primary-container)] font-bold"
+            : "text-[var(--lb-outline)]"
         }`}
       >
         {duration}

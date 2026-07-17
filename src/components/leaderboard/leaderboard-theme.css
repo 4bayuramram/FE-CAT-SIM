@@ -28,6 +28,14 @@
 
   --lb-outline: #727781;
   --lb-outline-variant: #c2c6d1;
+
+  /* Dipakai buat badge posisi hipotetis (unggul/di bawah rata-rata) --
+     sengaja disamakan dengan hex --db-success/--db-error di
+     dashboard-theme.css biar konsisten di seluruh app. */
+  --lb-success: #16a34a;
+  --lb-success-container: #dcfce7;
+  --lb-error: #ba1a1a;
+  --lb-error-container: #ffdad6;
 }
 
 /* Font khusus halaman leaderboard (desain asli pakai Hanken Grotesk).
