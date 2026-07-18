@@ -4,6 +4,7 @@ import TrustStatsSection from "../../components/home/TrustStatsSection";
 import HeroContent from "../../components/home/HeroContent";
 import FeaturesGrid from "../../components/home/FeatureGrid";
 import MultiPlatformSection from "../../components/home/MultiPlatformSection";
+import AboutUs from "../../components/home/AboutUs";
 
 export default function Home() {
   return (
@@ -50,6 +51,8 @@ export default function Home() {
       <FeaturesGrid />
       {/* section 4*/}
       <MultiPlatformSection />
+      {/* section 5 - Tentang Kami */}
+      <AboutUs />
     </div>
   );
 }
