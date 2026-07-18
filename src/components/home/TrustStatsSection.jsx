@@ -3,23 +3,23 @@ import { useRef } from "react";
 
 const stats = [
   {
-    title: "+1000 soal",
-    desc: "Berdasarkan paket ujian tahun lalu dan soal prediksi",
+    title: "latihan soal gratis",
+    desc: "Akses semua latihan soal di dasbor kamu dengan minimal pembelian 1 paket tryout.",
     borderLeft: false,
   },
   {
     title: "+Pembahasan",
-    desc: "Pembahasan yang mudah dipahami",
+    desc: "Pembahasan mendalam tiap topik materi yang diujikan.",
     borderLeft: true,
   },
   {
-    title: "Time & Scoring",
-    desc: "Penyesuain Sistem Scoring dan Durasi Ujian",
+    title: "Cari dan Bandingkan",
+    desc: "Cari dan bandingkan posisimu dengan peserta lain di tingkat nasional, provinsi, dan kabupaten/kota.",
     borderLeft: true,
   },
   {
-    title: "Performance Analysis",
-    desc: "Analisis Kemampuan Menjawabmu",
+    title: "Analisis Kemampuan Menjawab",
+    desc: "Laporan ini menyajikan evaluasi hasil ujian yang mencakup statistik serta kekuatan dan kelemahan pada tiap materi.",
     borderLeft: true,
   },
 ];
@@ -57,20 +57,20 @@ export default function TrustStatsSection() {
 
       <div className="relative max-w-6xl mx-auto px-6">
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center"
           style={{ scale, opacity }}
         >
           {stats.map((stat, index) => (
             <div
               key={index}
-              className={`p-4 ${
+              className={`p-2 sm:p-4 ${
                 stat.borderLeft ? "md:border-l border-gray-200" : ""
               }`}
             >
-              <div className="text-2xl md:text-3xl text-[#00467f] font-extrabold">
+              <div className="text-base sm:text-2xl md:text-3xl text-[#00467f] font-extrabold leading-snug">
                 {stat.title}
               </div>
-              <div className="text-sm text-gray-500 mt-1 font-times">
+              <div className="text-[11px] sm:text-sm text-gray-500 mt-1 leading-snug font-times">
                 {stat.desc}
               </div>
             </div>

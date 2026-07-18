@@ -16,11 +16,10 @@ export default function AboutUs() {
             Tentang Kami
           </h1>
           <p className="text-base sm:text-lg leading-relaxed max-w-4xl mx-auto opacity-90">
-            Platform Tryout CPNS berbasis data dan analisis kompetitif yang
-            dirancang untuk membantu peserta memahami kemampuan sebenarnya,
-            meningkatkan kesiapan menghadapi tes CPNS, serta membangun
-            kepercayaan diri melalui simulasi yang lebih menantang dan
-            terukur.
+            Platform tryout CPNS berbasis data dan analisis kompetitif.
+            Dirancang untuk membantu peserta mengukur kemampuan, meningkatkan
+            kesiapan, serta membangun kepercayaan diri melalui simulasi yang
+            menantang dan terukur.
           </p>
         </div>
       </section>
@@ -37,11 +36,10 @@ export default function AboutUs() {
               <VisibilityRoundedIcon className="text-[#12345b]" /> Visi
             </h2>
             <p className="text-base leading-relaxed text-[#0d1c2f]">
-              Menjadi platform tryout CPNS yang menghadirkan standar latihan
-              di atas tingkat kesulitan tes CPNS sesungguhnya, serta
-              menyediakan pembahasan yang mendalam untuk membangun pemahaman
-              konsep, mengenali pola soal, dan menguasai strategi
-              penyelesaian yang efektif.
+              Platform tryout CPNS yang menghadirkan standar latihan di atas tes
+              sesungguhnya. Menyediakan pembahasan mendalam untuk membangun
+              pemahaman konsep, mengenali pola soal, dan menguasai strategi
+              penyelesaian efektif.
             </p>
           </div>
 
@@ -63,10 +61,9 @@ export default function AboutUs() {
                     Meningkatkan Kesadaran Kemampuan Peserta
                   </strong>
                   <p className="text-[#43474e] text-base">
-                    Membantu peserta memahami posisi dan kemampuan mereka
-                    secara objektif melalui hasil tryout, segmentasi
-                    persaingan, serta perbandingan dengan peserta lain yang
-                    tersedia dalam sistem.
+                    Membantu peserta mengukur kompetensi dan posisi secara
+                    objektif melalui hasil tryout, segmentasi persaingan, serta
+                    analisis perbandingan berbasis sistem.
                   </p>
                 </div>
               </li>
@@ -79,10 +76,9 @@ export default function AboutUs() {
                     Membangun Kesiapan dan Kepercayaan Diri
                   </strong>
                   <p className="text-[#43474e] text-base">
-                    Membekali peserta dengan pengalaman latihan yang terukur
-                    sehingga memiliki kesiapan yang lebih matang dan rasa
-                    percaya diri yang tinggi saat menghadapi tes CPNS
-                    sesungguhnya.
+                    Membekali peserta dengan simulasi latihan yang terukur guna
+                    meningkatkan kesiapan mental dan rasa percaya diri dalam
+                    menghadapi ujian CPNS yang sesungguhnya.
                   </p>
                 </div>
               </li>
@@ -95,10 +91,10 @@ export default function AboutUs() {
                     Menciptakan Keunggulan Kompetitif
                   </strong>
                   <p className="text-[#43474e] text-base">
-                    Fokus kami bukan hanya membantu peserta memperoleh skor
-                    tinggi dalam tryout, tetapi memastikan mereka memiliki
-                    kemampuan, strategi, dan kesiapan yang lebih unggul ketika
-                    mengikuti seleksi CPNS.
+                    Bukan sekadar membantu peserta meraih skor tinggi dalam
+                    tryout, melainkan memastikan setiap individu memiliki
+                    kompetensi, strategi, dan kesiapan unggul untuk lulus
+                    seleksi CPNS.
                   </p>
                 </div>
               </li>
@@ -124,8 +120,8 @@ export default function AboutUs() {
                 <li className="flex items-start gap-2">
                   <CircleRoundedIcon className="text-[#fcd402] mt-1 !text-[10px]" />
                   <span className="text-base text-[#0d1c2f]">
-                    Statistik kemunculan materi yang sering diujikan dari
-                    tahun ke tahun.
+                    Statistik kemunculan materi yang sering diujikan dari tahun
+                    ke tahun.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -149,8 +145,8 @@ export default function AboutUs() {
                 <li className="flex items-start gap-2">
                   <CircleRoundedIcon className="text-[#fcd402] mt-1 !text-[10px]" />
                   <span className="text-base text-[#0d1c2f]">
-                    Pengembangan kemampuan berpikir logis, analitis, kritis,
-                    dan pengambilan keputusan.
+                    Pengembangan kemampuan berpikir logis, analitis, kritis, dan
+                    pengambilan keputusan.
                   </span>
                 </li>
               </ul>
@@ -206,10 +202,10 @@ export default function AboutUs() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-[#fcd402]">
-              Metode Perangkingan
+              Metode Pemeringkatan
             </h2>
             <p className="text-base opacity-80 mt-2">
-              Sistem cerdas untuk pemetaan daya saing yang akurat.
+              Fitur analisis untuk melihat gambaran daya saing.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8 mb-10">
@@ -217,15 +213,14 @@ export default function AboutUs() {
             <div className="bg-white/10 p-6 sm:p-8 rounded-xl border border-[#809dca] backdrop-blur-sm">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xl sm:text-2xl font-semibold text-[#fcd402]">
-                  Ranking Paket Tryout
+                  Peringkat Paket Tryout
                 </h3>
                 <ListAltRoundedIcon className="text-[#fcd402]" />
               </div>
               <p className="text-base leading-relaxed text-white">
                 Berlaku untuk seluruh paket tryout. Peringkat dihitung
-                berdasarkan hasil peserta pada paket tryout yang sedang
-                dikerjakan. Ranking ini hanya membandingkan peserta yang
-                mengerjakan paket yang sama.
+                berdasarkan hasil pengerjaan pada paket yang sama, jadi kamu
+                hanya dibandingkan dengan peserta di paket tersebut.
               </p>
             </div>
 
@@ -233,15 +228,15 @@ export default function AboutUs() {
             <div className="bg-white/10 p-6 sm:p-8 rounded-xl border border-[#809dca] backdrop-blur-sm">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xl sm:text-2xl font-semibold text-[#fcd402]">
-                  Ranking Akumulasi (Khusus SKD)
+                  Peringkat Akumulasi (Khusus SKD)
                 </h3>
                 <CalculateRoundedIcon className="text-[#fcd402]" />
               </div>
               <p className="text-base leading-relaxed text-white mb-6">
-                Ranking akumulasi menggunakan metode Bayesian shrinkage, yaitu
-                perhitungan yang mempertimbangkan: Total nilai dari seluruh
-                paket SKD yang telah dikerjakan, Konsistensi performa
-                peserta, Jumlah paket yang telah diselesaikan.
+                Peringkat akumulasi menggunakan metode Bayesian shrinkage, yaitu
+                perhitungan yang mempertimbangkan tiga hal: total nilai seluruh
+                paket SKD, konsistensi performa kamu, serta jumlah paket yang
+                sudah diselesaikan.
               </p>
               <div className="flex flex-wrap gap-2 items-center mt-3">
                 <span className="text-base font-semibold text-white mr-3">
@@ -262,11 +257,10 @@ export default function AboutUs() {
           <div className="bg-[#fcd402]/10 border-l-4 border-[#fcd402] p-6 sm:p-8 rounded-r-xl max-w-4xl mx-auto">
             <p className="text-base leading-relaxed italic">
               "Dengan metode ini, hasil dari satu paket tryout tidak akan
-              secara instan membuat peringkat peserta melonjak sangat tinggi
-              maupun turun drastis. Semakin banyak paket yang dikerjakan,
-              semakin akurat sistem dalam memetakan kemampuan asli peserta
-              dan posisi kompetitifnya dibandingkan seluruh peserta yang
-              mengikuti tryout di CPNZ."
+              langsung membuat peringkatmu melonjak tinggi atau turun drastis.
+              Semakin banyak paket yang kamu kerjakan, semakin akurat sistem
+              memetakan kemampuan asli dan posisi kompetitifmu dibanding seluruh
+              peserta di CPNZ."
             </p>
           </div>
         </div>
@@ -280,12 +274,10 @@ export default function AboutUs() {
           </h2>
           <blockquote className="border-l-4 border-[#fcd402] bg-[#eff4ff] p-6 sm:p-8 rounded-r-xl">
             <p className="text-xl sm:text-2xl font-semibold text-[#12345b] italic leading-relaxed">
-              "CPNZ tidak hanya mengukur siapa yang memperoleh nilai
-              tertinggi, tetapi juga siapa yang paling siap menghadapi
-              seleksi CPNS sesungguhnya. Oleh karena itu, kami mengutamakan
-              pengukuran kemampuan yang konsisten, objektif, dan
-              mencerminkan kompetensi nyata peserta dalam persaingan
-              nasional."
+              "CPNZ tidak cuma mengukur siapa yang meraih nilai tertinggi, tapi
+              juga siapa yang paling siap menghadapi seleksi CPNS asli.
+              Kami mengutamakan penilaian kemampuan yang konsisten dan objektif,
+              demi mencerminkan kompetensi nyatamu dalam persaingan nasional."
             </p>
           </blockquote>
         </div>

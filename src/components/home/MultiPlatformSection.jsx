@@ -79,8 +79,8 @@ export default function MultiPlatformSection() {
               className="text-gray-500 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0"
               style={{ fontFamily: '"Handgloves"' }}
             >
-              CPNZ dapat diakses melalui browser di desktop maupun smartphone
-              tanpa harus menginstal aplikasi tambahan. Progress Kamu
+              CPNS dapat diakses melalui browser di desktop maupun smartphone
+              tanpa harus menginstal aplikasi tambahan. Progresmu
               tersinkronisasi secara otomatis di seluruh perangkat.
             </p>
 

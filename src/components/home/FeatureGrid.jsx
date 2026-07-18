@@ -1,13 +1,13 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, cloneElement } from "react";
 import GlareHover from "./GlareHover";
 import {
-  AccessTime,
-  Leaderboard,
-  MenuBook,
-  Psychology,
-  Analytics,
-  Inventory2,
+  CardGiftcardRounded,
+  SellRounded,
+  LocalFireDepartmentRounded,
+  PhoneIphoneRounded,
+  VisibilityOffRounded,
+  PictureAsPdfRounded,
 } from "@mui/icons-material";
 
 const container = {
@@ -22,40 +22,40 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
-const GLARE_CYCLE = 3; // detik, lama 1 putaran sapuan glare per kartu
-const WAVE_STEP = 0.25; // jeda fase antar kartu (detik) — kecil = banyak overlap = terasa gelombang
+const GLARE_CYCLE = 4; // detik, lama 1 putaran sapuan glare per kartu
+const WAVE_STEP = 0.3; // jeda fase antar kartu (detik) — kecil = banyak overlap = terasa gelombang
 
 export default function FeaturesGrid() {
   const features = [
     {
-      icon: <AccessTime />,
-      title: "Simulasi Real-time",
-      desc: "Pengalaman ujian dengan timer dan sistem navigasi soal yang persis dengan CAT BKN asli.",
+      icon: <CardGiftcardRounded />,
+      title: "1 Paket Gratis",
+      desc: "paket gratis tanpa bayar sepeserpun, khusus buat kamu yang ingin coba versi gratis.",
     },
     {
-      icon: <Leaderboard />,
-      title: "Ranking Nasional",
-      desc: "Bandingkan skor Anda dengan ribuan peserta lainnya secara real-time di seluruh Indonesia.",
+      icon: <SellRounded />,
+      title: "Harga lebih terjangkau",
+      desc: ` "In this economy, kami akan memberikan kamu diskon untuk semua paket tryout di CPNZ. Buruan cek paketnya!" `,
     },
     {
-      icon: <MenuBook />,
-      title: "Pembahasan Lengkap",
-      desc: "Setiap soal dilengkapi pembahasan mendalam, tips cepat, dan konsep dasar yang mudah dipahami.",
+      icon: <LocalFireDepartmentRounded />,
+      title: "Desain Soal HOTS – Ultra HOTS",
+      desc: ` "Jujur, kalau tryout-nya saja sudah susah, kamu bakal lebih pede pas ujian beneran" `,
     },
     {
-      icon: <Psychology />,
-      title: "Tryout HOTS",
-      desc: "Bank soal dengan tingkat kesulitan HOTS sesuai tren tes terbaru.",
+      icon: <PhoneIphoneRounded />,
+      title: "Bisa Tryout Lewat HP",
+      desc: ` "Buat kamu yang mager buka laptop, kami tahu banget pasti tetap pengen bisa ngerjain tryout atau latihan soal-soal dari HP." `,
     },
     {
-      icon: <Analytics />,
-      title: "Analisis Nilai",
-      desc: "Grafik performa belajar yang menunjukkan kelemahan dan kekuatan Anda di setiap materi.",
+      icon: <VisibilityOffRounded />,
+      title: "Identitasmu Aman di Papan Peringkat",
+      desc: ` "Sembunyikan identitasmu di papan peringkat kapan saja kamu mau." `,
     },
     {
-      icon: <Inventory2 />,
-      title: "Bank Soal Terbesar",
-      desc: "Akses ribuan soal TWK, TIU, dan TKP yang terus diperbarui setiap minggu.",
+      icon: <PictureAsPdfRounded />,
+      title: "Ada Bukti PDF Kamu Udah Serius Latihan",
+      desc: `"Unduh PDF laporan ujian untuk lihat statistik serta analisis kekuatan dan kelemahan materimu."`,
     },
   ];
 
@@ -122,11 +122,11 @@ export default function FeaturesGrid() {
           className="text-center mb-12 md:mb-16 space-y-3"
         >
           <h2 className="text-2xl md:text-4xl text-white font-extrabold">
-            Fitur Unggulan Untuk Keberhasilan Anda
+            Apa yang kami persiapkan di sini buat kamu?
           </h2>
           <p className="text-white/80 max-w-2xl mx-auto text-sm md:text-base font-semibold">
-            Dirancang khusus untuk mensimulasikan lingkungan tes CPNS yang
-            kompetitif dan akurat.
+            Aman banget! Kami selalu siap mendukung semua kebutuhan kamu di masa
+            persiapan ini.
           </p>
         </motion.div>
 
@@ -136,7 +136,7 @@ export default function FeaturesGrid() {
             saat kartu pertama kali terlihat */}
         <motion.div style={{ scale: gridScale, opacity: gridOpacity }}>
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+            className="grid grid-cols-3 gap-[clamp(0.5rem,2vw,2rem)]"
             variants={container}
             initial="hidden"
             whileInView="show"
@@ -148,7 +148,7 @@ export default function FeaturesGrid() {
                 variants={item}
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="relative"
+                className="relative h-full"
               >
                 <div
                   style={{
@@ -158,8 +158,12 @@ export default function FeaturesGrid() {
                   className="
                     wave-card
                     relative
-                    p-6 md:p-8
-                    rounded-2xl
+                    flex flex-col
+                    h-full
+                    aspect-[4/5] lg:aspect-[10/9]
+                    overflow-hidden
+                    p-[clamp(0.4rem,3vw,2rem)]
+                    rounded-[clamp(0.5rem,2vw,1rem)]
                     border border-white/40
                     bg-transparent
                     text-white
@@ -185,17 +189,42 @@ export default function FeaturesGrid() {
                   />
 
                   {/* Icon */}
-                  <div className="w-12 h-12 rounded-xl border border-white flex items-center justify-center mb-5">
-                    <span className="text-white scale-110">{feat.icon}</span>
+                  <div className="flex-shrink-0 w-[clamp(1.1rem,5vw,3rem)] h-[clamp(1.1rem,5vw,3rem)] rounded-[clamp(0.25rem,1.5vw,0.75rem)] border border-white flex items-center justify-center mb-[clamp(0.25rem,1.5vw,1.25rem)]">
+                    <span className="text-white flex items-center justify-center">
+                      {cloneElement(feat.icon, {
+                        style: { fontSize: "clamp(0.5rem,2.6vw,1.5rem)" },
+                      })}
+                    </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg md:text-xl font-extrabold mb-3 text-white">
+                  <h3
+                    className="flex-shrink-0 font-extrabold text-white"
+                    style={{
+                      fontSize: "clamp(0.42rem,2vw,1.25rem)",
+                      marginBottom: "clamp(0.2rem,1vw,0.75rem)",
+                      lineHeight: 1.2,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
                     {feat.title}
                   </h3>
 
                   {/* Desc */}
-                  <p className="text-white/80 text-sm md:text-base font-semibold leading-relaxed">
+                  <p
+                    className="text-white/80 font-semibold flex-1 min-h-0"
+                    style={{
+                      fontSize: "clamp(0.34rem,1.3vw,1rem)",
+                      lineHeight: 1.35,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
                     {feat.desc}
                   </p>
                 </div>

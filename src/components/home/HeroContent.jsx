@@ -53,7 +53,11 @@ export default function HeroContent() {
 
   return (
     <motion.div
-      style={{ x, opacity: scrollOpacityStyle, willChange: "transform, opacity" }}
+      style={{
+        x,
+        opacity: scrollOpacityStyle,
+        willChange: "transform, opacity",
+      }}
       className="text-white space-y-6 md:space-y-8"
       variants={container}
       initial="hidden"
@@ -65,7 +69,7 @@ export default function HeroContent() {
         className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm"
       >
         <span className="text-xs md:text-sm font-medium tracking-wide">
-          Platform Tryout SKD CPNS
+          Platform Tryout CPNS
         </span>
       </motion.div>
 
@@ -111,10 +115,10 @@ export default function HeroContent() {
           leading-relaxed
         "
       >
-        Tidak ada bimbel mahal di sini. Kami hanya menyediakan tryout dan pembahasan
-        lengkap, serta papan peringkat yang bantu kamu membandingkan kesiapanmu
-        dengan peserta lain di berbagai daerah di seluruh Indonesia. Sudah siap?
-        Yuk, mulai tryout sekarang.
+        Tidak ada bimbel mahal di sini. Kami hanya menyediakan tryout dan
+        pembahasan lengkap, serta papan peringkat yang bantu kamu membandingkan
+        kesiapanmu dengan peserta lain di berbagai daerah di seluruh Indonesia.
+        Sudah siap? Yuk, mulai tryout sekarang!
       </motion.p>
 
       {/* BUTTONS */}
