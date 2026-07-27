@@ -37,7 +37,11 @@ export default function QuestionRendererPaid({ question }) {
     return (
       <>
         {imageUrl && (
-          <img src={imageUrl} alt="soal" className="mb-4 rounded-lg border max-w-full" />
+          <img
+            src={imageUrl}
+            alt="soal"
+            className="mb-4 rounded-lg border max-w-full"
+          />
         )}
         <p
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
@@ -53,17 +57,35 @@ export default function QuestionRendererPaid({ question }) {
     return (
       <>
         {imageUrl && (
-          <img src={imageUrl} alt="soal" className="mb-4 rounded-lg border max-w-full" />
+          <img
+            src={imageUrl}
+            alt="soal"
+            className="mb-4 rounded-lg border max-w-full"
+          />
         )}
+        {/* Header instruksi (mis. "Bacalah teks berikut ... nomor 11 dan
+            12!") -- SELALU italic, paragraf terpisah dari teks bacaan
+            supaya italic-nya tidak ikut ke teks bacaan/pertanyaan. */}
+        {parsed.textref && (
+          <p
+            className="text-lg md:text-xl italic text-slate-700 font-times text-justify mb-3"
+            style={{ lineHeight: "1.8" }}
+          >
+            {parsed.textref}
+          </p>
+        )}
+        {/* Teks bacaan -- reguler, tidak italic. */}
+        <p
+          className="text-lg md:text-xl text-slate-800 font-times text-justify mb-4"
+          style={{ lineHeight: "1.8" }}
+        >
+          {parsed.soal}
+        </p>
+        {/* Pertanyaan -- jarak wajar (mb-4 di atas), bukan baris kosong ganda. */}
         <p
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
           style={{ lineHeight: "1.8" }}
         >
-          <i>{parsed.textref}</i>
-          <br />
-          {parsed.soal}
-          <br />
-          <br />
           {parsed.ditanya}
         </p>
       </>
@@ -74,7 +96,11 @@ export default function QuestionRendererPaid({ question }) {
     return (
       <>
         {imageUrl && (
-          <img src={imageUrl} alt="soal" className="mb-4 rounded-lg border max-w-full" />
+          <img
+            src={imageUrl}
+            alt="soal"
+            className="mb-4 rounded-lg border max-w-full"
+          />
         )}
         <p
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
@@ -98,7 +124,11 @@ export default function QuestionRendererPaid({ question }) {
     return (
       <>
         {imageUrl && (
-          <img src={imageUrl} alt="soal" className="mb-4 rounded-lg border max-w-full" />
+          <img
+            src={imageUrl}
+            alt="soal"
+            className="mb-4 rounded-lg border max-w-full"
+          />
         )}
         <QuestionSequence data={parsed.soal} />
         {parsed.pertanyaan && (
