@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, cloneElement } from "react";
+import { useRef, useState, useEffect, cloneElement } from "react";
 import GlareHover from "./GlareHover";
 import {
   CardGiftcardRounded,
@@ -61,6 +61,36 @@ export default function FeaturesGrid() {
 
   const sectionRef = useRef(null);
 
+  // PERF FIX: sebelumnya animasi "wave" (filter: brightness pada
+  // 6 kartu) dan animasi "glare autoplay" (background-position pada
+  // 6 elemen GlareHover) berjalan `infinite` TERUS-MENERUS, bahkan
+  // saat section ini sudah discroll jauh keluar layar -- karena React
+  // tidak unmount section saat keluar viewport, cuma SoftAurora yang
+  // sebelumnya punya mekanisme pause. Total 12 elemen yang terus-
+  // menerus repaint (filter & background-position bukan compositor-
+  // only property, beda dari transform/opacity) inilah yang bikin FPS
+  // scroll turun makin lama makin terasa.
+  //
+  // Fix: pakai IntersectionObserver (pola sama seperti SoftAurora)
+  // untuk pause animasi via CSS `animation-play-state` begitu section
+  // keluar viewport, dan lanjut lagi persis dari state semula begitu
+  // masuk viewport lagi. Efek visualnya TIDAK berubah sama sekali saat
+  // section terlihat -- hanya "dimatikan sementara" saat tidak dilihat
+  // siapa pun, jadi tidak ada gunanya tetap jalan.
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   // Lacak posisi section relatif viewport
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -88,7 +118,9 @@ export default function FeaturesGrid() {
   return (
     <section
       ref={sectionRef}
-      className="py-16 md:py-24 bg-[#00467f] font-merriweather font-extrabold"
+      className={`py-16 md:py-24 bg-[#00467f] font-merriweather font-extrabold ${
+        isVisible ? "" : "fx-paused"
+      }`}
     >
       <style>{`
         @keyframes cardWaveLift {
@@ -110,6 +142,26 @@ export default function FeaturesGrid() {
           animation-timing-function: ease-in-out;
           animation-iteration-count: infinite;
           will-change: transform;
+        }
+
+        /* PERF FIX: pause ke-12 animasi infinite (6 wave-card +
+           6 glare-hover autoplay) begitu section keluar viewport.
+           Selector menembus GlareHover karena elemennya ada di
+           dalam .fx-paused sebagai descendant. Style/keyframe animasi
+           itu sendiri TIDAK diubah -- efeknya identik saat terlihat,
+           cuma "dijeda" saat tidak ada yang melihat. */
+        .fx-paused .wave-card,
+        .fx-paused .glare-hover--auto::before {
+          animation-play-state: paused;
+        }
+
+        /* Hormati preferensi user yang mematikan animasi, sama seperti
+           sudah diterapkan di SoftAurora. */
+        @media (prefers-reduced-motion: reduce) {
+          .wave-card,
+          .glare-hover--auto::before {
+            animation-play-state: paused;
+          }
         }
       `}</style>
       <div className="max-w-6xl mx-auto px-4 md:px-6">
