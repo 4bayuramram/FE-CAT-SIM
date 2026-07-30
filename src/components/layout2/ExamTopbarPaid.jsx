@@ -5,6 +5,7 @@ import {
   selectQuestions,
   selectAnswers,
 } from "../../features/exam/examSliceDb";
+import { getKategoriShort } from "../../utils/kategoriLabel";
 
 /**
  * ExamTopbarPaid
@@ -44,15 +45,6 @@ export default function ExamTopbarPaid() {
   const isRunning = session.status === "running";
   const isFinished = session.status === "finished" || session.status === "expired";
 
-  const getInitial = (text = "") =>
-    text
-      .trim()
-      .split(" ")
-      .slice(0, 3)
-      .map((w) => w[0])
-      .join("")
-      .toUpperCase();
-
   return (
     <>
       <div className="h-[96px] sm:h-[72px]" />
@@ -84,7 +76,7 @@ export default function ExamTopbarPaid() {
           <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm font-medium">
             {Object.entries(kategoriMap).map(([kategori, data]) => (
               <div key={kategori} className="bg-white/10 px-2 py-1 rounded-md">
-                {getInitial(kategori)}: {data.answered}/{data.total}
+                {getKategoriShort(kategori)}: {data.answered}/{data.total}
               </div>
             ))}
           </div>

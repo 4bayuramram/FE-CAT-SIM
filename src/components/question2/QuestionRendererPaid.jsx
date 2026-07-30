@@ -1,5 +1,6 @@
 import QuestionTable from "../question/QuestionTable";
 import QuestionSequence from "../question/QuestionSequence";
+import MathText from "../common/MathText"; // render teks + notasi matematika ($...$/$$...$$)
 
 /**
  * QuestionRendererPaid
@@ -47,7 +48,7 @@ export default function QuestionRendererPaid({ question }) {
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
           style={{ lineHeight: "1.8" }}
         >
-          {parsed.soal}
+          <MathText text={parsed.soal} />
         </p>
       </>
     );
@@ -71,7 +72,7 @@ export default function QuestionRendererPaid({ question }) {
             className="text-lg md:text-xl italic text-slate-700 font-times text-justify mb-3"
             style={{ lineHeight: "1.8" }}
           >
-            {parsed.textref}
+            <MathText text={parsed.textref} />
           </p>
         )}
         {/* Teks bacaan -- reguler, tidak italic. */}
@@ -79,14 +80,14 @@ export default function QuestionRendererPaid({ question }) {
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-4"
           style={{ lineHeight: "1.8" }}
         >
-          {parsed.soal}
+          <MathText text={parsed.soal} />
         </p>
         {/* Pertanyaan -- jarak wajar (mb-4 di atas), bukan baris kosong ganda. */}
         <p
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
           style={{ lineHeight: "1.8" }}
         >
-          {parsed.ditanya}
+          <MathText text={parsed.ditanya} />
         </p>
       </>
     );
@@ -106,15 +107,17 @@ export default function QuestionRendererPaid({ question }) {
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
           style={{ lineHeight: "1.8" }}
         >
-          <i>{parsed.textref}</i>
+          <i>
+            <MathText text={parsed.textref} />
+          </i>
           <br />
-          {parsed.p1}
+          <MathText text={parsed.p1} />
           <br />
           <br />
-          {parsed.p2}
+          <MathText text={parsed.p2} />
           <br />
           <br />
-          {parsed.ditanya}
+          <MathText text={parsed.ditanya} />
         </p>
       </>
     );
@@ -133,7 +136,7 @@ export default function QuestionRendererPaid({ question }) {
         <QuestionSequence data={parsed.soal} />
         {parsed.pertanyaan && (
           <p className="text-lg text-slate-800 font-times text-justify mt-4 mb-6">
-            {parsed.pertanyaan}
+            <MathText text={parsed.pertanyaan} />
           </p>
         )}
       </>
@@ -157,13 +160,13 @@ export default function QuestionRendererPaid({ question }) {
             className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
             style={{ lineHeight: "1.8" }}
           >
-            {parsed.soal}
+            <MathText text={parsed.soal} />
           </p>
         )}
         <QuestionTable table={parsed.table} />
         {parsed.pertanyaan && (
           <p className="text-lg text-slate-800 font-times text-justify mt-4 mb-6">
-            {parsed.pertanyaan}
+            <MathText text={parsed.pertanyaan} />
           </p>
         )}
       </>

@@ -17,6 +17,8 @@ import QuestionRendererPaid from "./QuestionRendererPaid";
 import QuestionOptionsPaid from "./QuestionOptionsPaid";
 import QuestionNavPaid from "./QuestionNavPaid";
 import ConfirmSubmitModal from "../question/ConfirmSubmitModal"; // reuse — presentational murni
+import MathText from "../common/MathText"; // render teks + notasi matematika ($...$/$$...$$)
+import { getKategoriFullLabel } from "../../utils/kategoriLabel";
 
 /**
  * QuestionCardPaid
@@ -78,9 +80,7 @@ export default function QuestionCardPaid() {
   }, [currentIndex]);
 
   if (!session) {
-    return (
-      <div className="bg-white p-6 rounded-xl border">Memuat soal...</div>
-    );
+    return <div className="bg-white p-6 rounded-xl border">Memuat soal...</div>;
   }
 
   // BARU: bedakan "masih loading" vs "paket ini memang belum ada
@@ -99,17 +99,15 @@ export default function QuestionCardPaid() {
           Paket ini belum memiliki soal.
         </p>
         <p className="text-sm text-gray-600">
-          Kemungkinan soal untuk paket ini belum diinput oleh admin.
-          Silakan hubungi admin, atau coba paket lain sementara waktu.
+          Kemungkinan soal untuk paket ini belum diinput oleh admin. Silakan
+          hubungi admin, atau coba paket lain sementara waktu.
         </p>
       </div>
     );
   }
 
   if (!question) {
-    return (
-      <div className="bg-white p-6 rounded-xl border">Memuat soal...</div>
-    );
+    return <div className="bg-white p-6 rounded-xl border">Memuat soal...</div>;
   }
 
   const pembahasanDetail = pembahasan?.pembahasan?.find(
@@ -121,7 +119,10 @@ export default function QuestionCardPaid() {
     // BARU (fix delay klik jawaban): tampilan pilihan langsung ganti,
     // autosave ke backend tetap jalan di background lewat answerQuestionDb.
     dispatch(
-      setAnswerOptimistic({ nomorSoal: question.nomor_soal, jawaban: choiceKey })
+      setAnswerOptimistic({
+        nomorSoal: question.nomor_soal,
+        jawaban: choiceKey,
+      })
     );
     dispatch(
       answerQuestionDb({ nomorSoal: question.nomor_soal, jawaban: choiceKey })
@@ -148,7 +149,7 @@ export default function QuestionCardPaid() {
           Soal {question.nomor_soal} dari {questions.length}
         </div>
         <div className="text-lg font-bold text-[#00467f]">
-          {question.kategori}
+          {getKategoriFullLabel(question.kategori)}
         </div>
         <div className="text-sm text-slate-600 mt-1 capitalize">
           Topik: {question.topic || "-"}
@@ -224,10 +225,12 @@ export default function QuestionCardPaid() {
                     </>
                   )}
               </div>
-              <p className="whitespace-pre-line">
-                {pembahasanDetail.pembahasan ||
-                  "Pembahasan belum tersedia untuk soal ini."}
-              </p>
+              <MathText
+                text={
+                  pembahasanDetail.pembahasan ||
+                  "Pembahasan belum tersedia untuk soal ini."
+                }
+              />
             </div>
           )}
           {/* PATCH: link "Lihat Halaman Hasil Lengkap" ke /hasil DIHAPUS —

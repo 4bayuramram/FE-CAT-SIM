@@ -36,10 +36,9 @@ export default function AboutUs() {
               <VisibilityRoundedIcon className="text-[#12345b]" /> Visi
             </h2>
             <p className="text-base leading-relaxed text-[#0d1c2f]">
-              Platform tryout CPNS yang menghadirkan standar latihan di atas tes
-              sesungguhnya. Menyediakan pembahasan mendalam untuk membangun
-              pemahaman konsep, mengenali pola soal, dan menguasai strategi
-              penyelesaian efektif.
+              Menjadi platform tryout CPNS terpercaya yang melahirkan lulusan
+              berkualitas melalui pemahaman konsep yang mendalam, penguasaan
+              pola soal, dan strategi penyelesaian ujian yang efektif.
             </p>
           </div>
 
@@ -275,9 +274,9 @@ export default function AboutUs() {
           <blockquote className="border-l-4 border-[#fcd402] bg-[#eff4ff] p-6 sm:p-8 rounded-r-xl">
             <p className="text-xl sm:text-2xl font-semibold text-[#12345b] italic leading-relaxed">
               "CPNZ tidak cuma mengukur siapa yang meraih nilai tertinggi, tapi
-              juga siapa yang paling siap menghadapi seleksi CPNS asli.
-              Kami mengutamakan penilaian kemampuan yang konsisten dan objektif,
-              demi mencerminkan kompetensi nyatamu dalam persaingan nasional."
+              juga siapa yang paling siap menghadapi seleksi CPNS asli. Kami
+              mengutamakan penilaian kemampuan yang konsisten dan objektif, demi
+              mencerminkan kompetensi nyatamu dalam persaingan nasional."
             </p>
           </blockquote>
         </div>
