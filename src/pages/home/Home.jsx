@@ -5,10 +5,16 @@ import HeroContent from "../../components/home/HeroContent";
 import FeaturesGrid from "../../components/home/FeatureGrid";
 import MultiPlatformSection from "../../components/home/MultiPlatformSection";
 import AboutUs from "../../components/home/AboutUs";
+import SEO from "../../components/seo/SEO";
 
 export default function Home() {
   return (
     <div className="flex flex-col">
+      <SEO
+        title="CPNZ - Tryout CPNS Online | Latihan Soal SKD TWK TIU TKP"
+        description="Platform tryout CPNS online dengan sistem CAT sungguhan. Latihan soal SKD (TWK, TIU, TKP), skor otomatis, dan ranking nasional. Mulai persiapan CPNS-mu sekarang."
+        path="/home"
+      />
       {/* Section 1 */}
       <section className="relative w-full min-h-screen overflow-hidden flex items-center pt-20">
         {/* Soft Aurora Background */}

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /home
+Allow: /home/bantuan
+
+Disallow: /home/simulasi
+Disallow: /home/leaderboard
+Disallow: /home/dashboard
+Disallow: /try-out
+Disallow: /exam-page
+Disallow: /cpn-z
+
+Sitemap: https://cpnz-demo.vercel.app/sitemap.xml

@@ -5,6 +5,7 @@ import ForumRoundedIcon from "@mui/icons-material/ForumRounded";
 import MailRoundedIcon from "@mui/icons-material/MailRounded";
 
 import "./bantuan-theme.css";
+import SEO from "../../components/seo/SEO";
 
 /**
  * BantuanPage — halaman Pusat Bantuan / FAQ.
@@ -100,6 +101,11 @@ export default function BantuanPage() {
 
   return (
     <div className="bantuan-page bg-[var(--help-surface)] text-[var(--help-on-surface)]">
+      <SEO
+        title="Pusat Bantuan & FAQ CPNS - CPNZ"
+        description="Pertanyaan seputar tryout CPNS, cara bayar, cara ikut simulasi SKD, dan bantuan lainnya di CPNZ."
+        path="/home/bantuan"
+      />
       <main className="pt-28 pb-20 px-4 md:px-0 max-w-5xl mx-auto flex flex-col gap-16">
         {/* Hero Section */}
         <section className="text-center flex flex-col gap-4">
