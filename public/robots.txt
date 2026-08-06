@@ -9,4 +9,4 @@ Disallow: /try-out
 Disallow: /exam-page
 Disallow: /cpn-z
 
-Sitemap: https://cpnz-demo.vercel.app/sitemap.xml
+Sitemap: https://cpnz.my.id/sitemap.xml

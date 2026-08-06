@@ -4,8 +4,7 @@
 // (custom domain, bukan lagi *.vercel.app), CUKUP UBAH satu baris
 // SITE_URL di bawah ini -- tidak perlu ubah file lain.
 
-export const SITE_URL =
-  import.meta.env.VITE_SITE_URL || "https://cpnz-demo.vercel.app";
+export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://cpnz.my.id";
 
 export const SITE_NAME = "CPNZ";
 
