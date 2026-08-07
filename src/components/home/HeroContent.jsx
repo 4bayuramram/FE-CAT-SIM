@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TypewriterText from "./TypewriterText";
 
 // Deteksi mobile (breakpoint sama dengan Tailwind `md`), reaktif kalau
@@ -39,6 +40,7 @@ const item = {
 };
 
 export default function HeroContent() {
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
 
   // Sama seperti Hero.jsx, tapi arah berlawanan (kiri, bukan kanan).
@@ -63,16 +65,6 @@ export default function HeroContent() {
       initial="hidden"
       animate="show"
     >
-      {/* Badge */}
-      <motion.div
-        variants={item}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm"
-      >
-        <span className="text-xs md:text-sm font-medium tracking-wide">
-          Platform Tryout CPNS
-        </span>
-      </motion.div>
-
       {/* HERO TITLE */}
       <motion.h1
         variants={item}
@@ -127,6 +119,7 @@ export default function HeroContent() {
         className="flex flex-col sm:flex-row gap-3 sm:gap-4"
       >
         <motion.button
+          onClick={() => navigate("/home/simulasi")}
           whileHover={{ backgroundColor: "rgba(255,255,255,0.1)" }}
           whileTap={{ scale: 0.97 }}
           className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white/30 text-white font-bold rounded-xl transition-colors duration-300 w-full sm:w-auto"

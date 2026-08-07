@@ -1,3 +1,5 @@
+import MathText from "../common/MathText"; // render teks + notasi matematika ($...$/$$...$$), sama seperti jalur paid
+
 export default function QuestionTable({ table }) {
   if (!table) return null;
 
@@ -12,7 +14,7 @@ export default function QuestionTable({ table }) {
                   key={i}
                   className="border p-2 text-center whitespace-normal"
                 >
-                  {h}
+                  <MathText text={h} />
                 </th>
               ))}
             </tr>
@@ -26,7 +28,7 @@ export default function QuestionTable({ table }) {
                     key={j}
                     className="border p-2 text-center whitespace-normal break-words max-w-[300px]"
                   >
-                    {cell}
+                    <MathText text={cell} />
                   </td>
                 ))}
               </tr>

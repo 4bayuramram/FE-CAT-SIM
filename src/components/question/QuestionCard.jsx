@@ -17,7 +17,8 @@ import { rulesEngine } from "../../engine/rulesEngine";
 import QuestionRenderer from "./QuestionRenderer";
 import QuestionOptions from "./QuestionOptions";
 import ResultDialog from "./ResultDialog";
-import ConfirmSubmitModal from "./ConfirmSubmitModal"; 
+import ConfirmSubmitModal from "./ConfirmSubmitModal";
+import MathText from "../common/MathText"; // render teks + notasi matematika ($...$/$$...$$), sama seperti jalur paid
 
 export default function QuestionCard() {
   const navigate = useNavigate();
@@ -39,14 +40,73 @@ export default function QuestionCard() {
   // NEW STATE (CONFIRM SUBMIT)
   const [openConfirmSubmit, setOpenConfirmSubmit] = useState(false);
 
-  if (!session) return null;
-
-  const question = session.questions?.[currentIndex];
+  // Dihitung dengan optional chaining supaya aman dipakai di hook di bawah
+  // SEBELUM ada pengecekan !session / !question — lihat catatan di bawah.
+  const question = session?.questions?.[currentIndex];
   const pembahasan = question?.pembahasan;
 
+  // submitExam dipindah ke sini (tidak butuh `question`, cuma `session`)
+  // supaya SELALU terdefinisi di setiap render sebelum dipakai di useEffect
+  // auto-submit di bawah — sebelumnya didefinisikan setelah early return
+  // `if (!question) return ...`, jadi ada skenario tepi (session ada,
+  // question kosong) di mana useEffect bisa memanggil submitExam sebelum
+  // ia sempat terinisialisasi di render tsb.
+  const submitExam = () => {
+    const result = examEngine.submitSession(session);
+
+    dispatch(setSession({ ...session, status: "finished" }));
+
+    setResult(result);
+    setOpenResultDialog(true);
+  };
+
+  /**
+   * FIX (rules-of-hooks): sebelumnya ada `if (!session) return null;` dan
+   * `if (!question) return (...)` DI ANTARA dua useEffect, sehingga jumlah
+   * hook yang terpanggil bisa beda-beda tiap render (kadang cuma hook
+   * pertama, kadang dua-duanya) — itu pelanggaran Rules of Hooks yang
+   * bikin eslint(react-hooks/rules-of-hooks) error. Semua hook sekarang
+   * SELALU dipanggil di urutan yang sama tiap render; guard "data belum
+   * siap" dipindah ke DALAM body effect (session?.status dll), dan early
+   * return untuk render (`!session` / `!question`) dipindah ke BAWAH,
+   * setelah semua hook selesai dideklarasikan.
+   */
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentIndex]);
+
+  /**
+   * AUTO-SUBMIT SAAT WAKTU HABIS
+   * `remainingTime` di-update tiap detik oleh useTimer(). Begitu waktu
+   * habis dan sesi masih "running", ujian otomatis di-submit (memakai
+   * rulesEngine.shouldAutoSubmit yang sudah dibenarkan, sebelumnya salah
+   * referensi ke sessionEngine sehingga tidak pernah bekerja).
+   *
+   * Dipindah ke atas (sebelum early return) + pakai session?.status di
+   * deps supaya hook ini tetap konsisten terpanggil walau session masih
+   * null di render pertama.
+   */
+  useEffect(() => {
+    if (!session) return;
+    if (session.status !== "running") return;
+    if (remainingTime === null || remainingTime === undefined) return;
+
+    if (rulesEngine.shouldAutoSubmit(session)) {
+      // FIX (eslint react-hooks/set-state-in-effect): submitExam() di atas
+      // memanggil beberapa setState (dispatch(setSession), setResult,
+      // setOpenResultDialog) SECARA SINKRON di body effect ini, yang
+      // ditandai rule baru react-hooks karena berpotensi cascading render.
+      // Kasusnya sendiri sah (subscribe ke timer eksternal `remainingTime`,
+      // baru setState begitu ambang waktu tercapai — persis pola yang
+      // disebut "diperbolehkan" di dokumentasi rule ini), cuma perlu
+      // di-defer satu microtask supaya tidak setState sinkron di dalam
+      // commit effect yang sama.
+      queueMicrotask(() => submitExam());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [remainingTime, session?.status]);
+
+  if (!session) return null;
 
   if (!question) {
     return (
@@ -85,15 +145,6 @@ export default function QuestionCard() {
     dispatch(toggleFlag(question.nomor));
   };
 
-  const submitExam = () => {
-    const result = examEngine.submitSession(session);
-
-    dispatch(setSession({ ...session, status: "finished" }));
-
-    setResult(result);
-    setOpenResultDialog(true);
-  };
-
   /**
    * KELUAR UJIAN (setelah selesai)
    * Dulu cuma bisa lewat tombol "Keluar & Hapus Sesi" DI DALAM
@@ -109,23 +160,6 @@ export default function QuestionCard() {
     setOpenResultDialog(false);
     navigate("/home/simulasi", { replace: true });
   };
-
-  /**
-   * AUTO-SUBMIT SAAT WAKTU HABIS
-   * `remainingTime` di-update tiap detik oleh useTimer(). Begitu waktu
-   * habis dan sesi masih "running", ujian otomatis di-submit (memakai
-   * rulesEngine.shouldAutoSubmit yang sudah dibenarkan, sebelumnya salah
-   * referensi ke sessionEngine sehingga tidak pernah bekerja).
-   */
-  useEffect(() => {
-    if (session.status !== "running") return;
-    if (remainingTime === null || remainingTime === undefined) return;
-
-    if (rulesEngine.shouldAutoSubmit(session)) {
-      submitExam();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [remainingTime, session.status]);
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl border shadow-sm">
@@ -159,7 +193,11 @@ export default function QuestionCard() {
       </div>
       {/* NAV */}
       <div className="flex justify-between items-center gap-2 mt-8 pt-4 border-t">
-        <button onClick={prev} className="px-4 py-2 border rounded-lg">
+        <button
+          onClick={prev}
+          disabled={currentIndex === 0}
+          className="px-4 py-2 border rounded-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+        >
           Sebelumnya
         </button>
 
@@ -174,7 +212,8 @@ export default function QuestionCard() {
 
         <button
           onClick={next}
-          className="px-4 py-2 bg-[#00467f] text-white rounded-lg"
+          disabled={currentIndex === session.questions.length - 1}
+          className="px-4 py-2 bg-[#00467f] text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Selanjutnya
         </button>
@@ -239,7 +278,7 @@ export default function QuestionCard() {
 
           {showPembahasan && pembahasan && (
             <div className="mt-4 p-5 border bg-green-50 rounded-xl">
-              <p className="whitespace-pre-line">{pembahasan}</p>
+              <MathText text={pembahasan} />
             </div>
           )}
         </div>

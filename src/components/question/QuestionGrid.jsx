@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentIndex } from "../../features/exam/examSlice";
-import ParticipantCard from "../layout/ParticipantCard";
 
 export default function QuestionGrid({ onSelect }) {
   const dispatch = useDispatch();
@@ -49,7 +48,9 @@ export default function QuestionGrid({ onSelect }) {
 
   return (
     <div>
-      <ParticipantCard />
+      {/* PATCH: kartu info peserta (avatar+nama) dihapus dari mode
+          unpaid/gratis atas permintaan -- versi gratis tidak perlu
+          menampilkan identitas peserta di sidebar navigasi soal. */}
 
       {/* LEGEND */}
       <div className="mb-4 space-y-2 border border-slate-200 rounded-2xl p-4 bg-white shadow-sm">

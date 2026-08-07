@@ -1,3 +1,5 @@
+import MathText from "../common/MathText"; // render teks + notasi matematika ($...$/$$...$$), sama seperti jalur paid
+
 export default function QuestionOptions({
   question,
   answers,
@@ -44,7 +46,7 @@ export default function QuestionOptions({
             <div className="flex-1">
               <span className="font-semibold mr-2">{key.toUpperCase()}.</span>
 
-              {!isObject && <span>{val}</span>}
+              {!isObject && <MathText text={val} />}
 
               {isObject && (
                 <div className="space-y-2">
@@ -55,7 +57,9 @@ export default function QuestionOptions({
                       className="w-full max-w-[180px] rounded border"
                     />
                   )}
-                  <div>{val.text}</div>
+                  <div>
+                    <MathText text={val.text} />
+                  </div>
                 </div>
               )}
             </div>

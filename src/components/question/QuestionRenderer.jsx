@@ -1,5 +1,6 @@
 import QuestionTable from "./QuestionTable";
 import QuestionSequence from "./QuestionSequence";
+import MathText from "../common/MathText"; // render teks + notasi matematika ($...$/$$...$$), sama seperti jalur paid
 
 export default function QuestionRenderer({ question }) {
   if (!question) return null;
@@ -20,7 +21,7 @@ export default function QuestionRenderer({ question }) {
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
           style={{ lineHeight: "1.8" }}
         >
-          {question.soal}
+          <MathText text={question.soal} />
         </p>
       </>
     );
@@ -38,17 +39,19 @@ export default function QuestionRenderer({ question }) {
           />
         )}
 
-        <p
+        <div
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
           style={{ lineHeight: "1.8" }}
         >
-          <i>{question.textref}</i>
+          <i>
+            <MathText text={question.textref} />
+          </i>
           <br />
-          {question.soal}
+          <MathText text={question.soal} />
           <br />
           <br />
-          {question.ditanya}
-        </p>
+          <MathText text={question.ditanya} />
+        </div>
       </>
     );
   }
@@ -65,20 +68,52 @@ export default function QuestionRenderer({ question }) {
           />
         )}
 
-        <p
+        <div
           className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
           style={{ lineHeight: "1.8" }}
         >
-          <i>{question.textref}</i>
+          <i>
+            <MathText text={question.textref} />
+          </i>
           <br />
-          {question.p1}
+          <MathText text={question.p1} />
           <br />
           <br />
-          {question.p2}
+          <MathText text={question.p2} />
           <br />
           <br />
-          {question.ditanya}
-        </p>
+          <MathText text={question.ditanya} />
+        </div>
+      </>
+    );
+  }
+
+  // PERNYATAAN + PERTANYAAN
+  // Type sederhana buat soal yang cukup 2 bagian: teks pernyataan/premis
+  // (field `soal`) lalu diberi jarak (baris kosong), baru kalimat
+  // pertanyaannya (field `pertanyaan`). Beda dari "bacaan": tidak perlu
+  // `textref` (tidak ada teks acuan bacaan terpisah) dan tidak dicetak
+  // miring — cocok buat soal silogisme/logika, bukan soal bacaan teks.
+  if (question.type === "pernyataan") {
+    return (
+      <>
+        {question.image && (
+          <img
+            src={question.image}
+            alt="soal"
+            className="mb-4 rounded-lg border max-w-full"
+          />
+        )}
+
+        <div
+          className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
+          style={{ lineHeight: "1.8" }}
+        >
+          <MathText text={question.soal} />
+          <br />
+          <br />
+          <MathText text={question.pertanyaan} />
+        </div>
       </>
     );
   }
@@ -99,7 +134,7 @@ export default function QuestionRenderer({ question }) {
 
         {question.pertanyaan && (
           <p className="text-lg text-slate-800 font-times text-justify mt-4 mb-6">
-            {question.pertanyaan}
+            <MathText text={question.pertanyaan} />
           </p>
         )}
       </>
@@ -125,7 +160,7 @@ export default function QuestionRenderer({ question }) {
             className="text-lg md:text-xl text-slate-800 font-times text-justify mb-6"
             style={{ lineHeight: "1.8" }}
           >
-            {question.soal}
+            <MathText text={question.soal} />
           </p>
         )}
 
@@ -133,7 +168,7 @@ export default function QuestionRenderer({ question }) {
 
         {question.pertanyaan && (
           <p className="text-lg text-slate-800 font-times text-justify mt-4 mb-6">
-            {question.pertanyaan}
+            <MathText text={question.pertanyaan} />
           </p>
         )}
       </>
