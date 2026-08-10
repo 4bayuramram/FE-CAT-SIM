@@ -56,7 +56,7 @@ export default function ParticipantCard() {
           </h2>
 
           <p className="text-sm text-[#12345b] font-medium mt-1">
-            Peserta Ujian CAT
+            Peserta
           </p>
         </div>
       </div>

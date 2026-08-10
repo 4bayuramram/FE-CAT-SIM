@@ -63,11 +63,21 @@ import {
  * PATCH (ResultDialogPaid aktif): open/close popup hasil JUGA state
  * lokal di sini (bukan Redux) — alasannya sama seperti mobileView, ini
  * murni UI transien, bukan data ujian. ExamLayoutPaid jadi satu-satunya
- * tempat yang tahu status popup, dibagikan ke dua pemicu:
+ * tempat yang tahu status popup, dibagikan ke tiga pemicu:
  *   1. ExamGuardPaid (via onSubmitted) — buka otomatis begitu status
  *      jadi 'submitted' (flash-confirmation).
  *   2. SidebarPaid (via onOpenResultDialog) — tombol re-open manual di
  *      bawah profil peserta, kapan saja setelah sesi selesai.
+ *   3. QuestionCardPaid (via Outlet context `openResultDialog`) — tombol
+ *      "Keluar" di sebelah "Lihat Pembahasan" saat mode review. BUKAN
+ *      keluar beneran (tidak reset sesi/navigate) — cuma alias yang lebih
+ *      gampang ditemukan user awam buat buka popup ringkasan hasil yang
+ *      sama persis dengan "Lihat Ringkasan Hasil" di SidebarPaid, supaya
+ *      dari situ user baru pilih mau keluar sungguhan (tombol "Keluar" di
+ *      dalam ResultDialogPaid) atau tutup lagi. QuestionCardPaid dirender
+ *      lewat Outlet (di dalam ExamPagePaid) — bukan children langsung
+ *      ExamLayoutPaid — makanya dioper lewat Outlet context, bukan props
+ *      biasa.
  *
  * Layout ini TIDAK memicu startOrResumeExamDb — itu tanggung jawab
  * ExamPagePaid (Outlet) saat mount, sesuai pola "Page = orchestrator
@@ -103,6 +113,11 @@ export default function ExamLayoutPaid() {
     window.open(`/try-out/${packageId}/hasil`, "_blank", "noopener,noreferrer");
   };
 
+  // Dioper ke Outlet context supaya QuestionCardPaid (tombol "Keluar" di
+  // sebelah "Lihat Pembahasan") bisa buka popup yang sama tanpa prop
+  // drilling lewat ExamPagePaid — lihat catatan PATCH di header file ini.
+  const openResultDialog = () => setResultDialogOpen(true);
+
   return (
     <div className="min-h-screen bg-slate-100">
       <ExamTopbarPaid />
@@ -118,7 +133,7 @@ export default function ExamLayoutPaid() {
         <main className="flex-1 md:ml-72 p-3 mt-[-36px] pb-20 md:pb-4">
           {/* DESKTOP */}
           <div className="hidden md:block">
-            <Outlet />
+            <Outlet context={{ openResultDialog }} />
           </div>
 
           {/* MOBILE */}
@@ -133,7 +148,7 @@ export default function ExamLayoutPaid() {
                   : "transition-[filter] duration-200"
               }
             >
-              <Outlet />
+              <Outlet context={{ openResultDialog }} />
             </div>
 
             {/* NAVIGASI — DRAWER DARI SAMPING (kanan), 78% lebar. Sisi

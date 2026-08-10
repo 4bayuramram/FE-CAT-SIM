@@ -205,12 +205,29 @@ const examSliceDb = createSlice({
       })
       .addCase(startOrResumeExamDb.fulfilled, (state, action) => {
         const result = action.payload;
-        if (result.mode === "resumed" || result.mode === "started") {
+        if (result.mode === "resumed") {
+          // Sesi LAMA yang masih aktif (refresh/buka lagi di tengah
+          // jalan) — attempt_count dipercaya penuh dari backend
+          // (/resume-session selalu mengirimnya), tidak perlu fallback.
           state.session = result.session;
           state.questions = result.questions;
           state.remainingSeconds = result.remainingSeconds;
           state.status = "ready";
           state.attemptCount = result.attemptCount ?? state.attemptCount;
+        } else if (result.mode === "started") {
+          // Sesi BARU (attempt pertama kali paket ini dikerjakan).
+          // FIX (badge tidak muncul saat "sedang berlangsung"):
+          // /create-session tidak selalu mengirim attempt_count (lihat
+          // catatan sessionEngineDb.createSession) — kalau kosong,
+          // hitung sendiri: attempt baru = attempt count yang sudah
+          // diketahui (attempt-attempt sebelumnya yang sudah selesai,
+          // di state.attemptCount) + 1. Untuk attempt pertama,
+          // state.attemptCount awalnya 0, jadi hasilnya 1 — tetap benar.
+          state.session = result.session;
+          state.questions = result.questions;
+          state.remainingSeconds = result.remainingSeconds;
+          state.status = "ready";
+          state.attemptCount = result.attemptCount || state.attemptCount + 1;
         } else {
           state.firstAttemptResult = result.firstAttemptResult ?? null;
           state.progressResult = result.progressResult ?? null;
@@ -253,6 +270,13 @@ const examSliceDb = createSlice({
         state.status = "ready";
         state.submitResult = null;
         state.pembahasan = null;
+        // FIX (badge "Pengerjaan ke-X" nyangkut ke attempt sebelumnya +
+        // lanjutan: tidak muncul sama sekali saat "sedang berlangsung"):
+        // sama seperti cabang "started" di startOrResumeExamDb.fulfilled
+        // di atas — /create-session tidak selalu mengirim attempt_count,
+        // fallback ke state.attemptCount (attempt-attempt sebelumnya
+        // yang sudah selesai) + 1 kalau backend tidak mengirimnya.
+        state.attemptCount = result.attemptCount || state.attemptCount + 1;
       })
       .addCase(startNewAttemptDb.rejected, (state, action) => {
         state.status = "error";

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useOutletContext } from "react-router-dom";
 
 import {
   selectSession,
@@ -44,9 +45,24 @@ import { getKategoriFullLabel } from "../../utils/kategoriLabel";
  * per-soal — /hasil (ExamResultPageDb) dinonaktifkan sementara (route-nya
  * redirect balik ke sini, lihat routes/PaidExam.jsx), sampai halaman
  * statistik-per-topik itu benar-benar dirancang & datanya siap.
+ *
+ * PATCH (tombol "Keluar" di sebelah "Lihat Pembahasan"): BUKAN keluar
+ * beneran — tidak reset sesi, tidak navigate. Cuma alias yang lebih
+ * gampang ditemukan (terutama user awam yang bingung cari cara "keluar"
+ * dari layar ujian) untuk buka popup ResultDialogPaid, persis sama
+ * seperti tombol "Lihat Ringkasan Hasil" di SidebarPaid — begitu popup
+ * kebuka, tombol "Keluar" YANG SEBENARNYA (reset sesi + navigate ke
+ * beranda) ada di dalam dialog itu. Handler-nya dioper dari
+ * ExamLayoutPaid lewat Outlet context (`openResultDialog`) karena
+ * komponen ini dirender di dalam Outlet (via ExamPagePaid), bukan
+ * children langsung ExamLayoutPaid tempat state popup-nya berada.
  */
 export default function QuestionCardPaid() {
   const dispatch = useDispatch();
+  // Opsional (`?? {}`): kalau suatu saat komponen ini dirender di luar
+  // Outlet ExamLayoutPaid (mis. dipakai ulang di tempat lain), tombol
+  // "Keluar" cukup tidak muncul, bukan crash.
+  const { openResultDialog } = useOutletContext() ?? {};
 
   const session = useSelector(selectSession);
   const questions = useSelector(selectQuestions);
@@ -58,9 +74,29 @@ export default function QuestionCardPaid() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [showPembahasan, setShowPembahasan] = useState(false);
+  // Dipakai buat deteksi "soal baru saja berganti" TANPA useEffect (lihat
+  // di bawah) — pola resmi React untuk reset state saat sebuah value
+  // berubah: https://react.dev/learn/you-might-not-need-an-effect
+  const [prevIndexForPembahasanReset, setPrevIndexForPembahasanReset] =
+    useState(currentIndex);
 
   const isFinished = session?.status !== "running";
   const question = questions?.[currentIndex];
+
+  // FIX (eslint react-hooks/set-state-in-effect): sebelumnya
+  // `setShowPembahasan(false)` dipanggil di dalam useEffect yang cuma
+  // nge-watch `currentIndex` — itu bikin cascading render (render ->
+  // effect -> setState -> render lagi) padahal ini murni "reset state
+  // saat prop/value lain berubah", kasus yang React docs sarankan
+  // ditangani LANGSUNG saat render (bukan effect). Dibandingkan dengan
+  // `prevIndexForPembahasanReset` di sini: kalau beda, langsung
+  // setState sebelum render selesai — React akan re-render segera
+  // (masih di render yang sama, browser tidak sempat commit dulu),
+  // jadi tidak ada flicker/cascading render seperti versi effect.
+  if (currentIndex !== prevIndexForPembahasanReset) {
+    setPrevIndexForPembahasanReset(currentIndex);
+    setShowPembahasan(false);
+  }
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -72,12 +108,6 @@ export default function QuestionCardPaid() {
     if (!isFinished || !session || pembahasan) return;
     dispatch(loadPembahasanDb());
   }, [isFinished, session, pembahasan, dispatch]);
-
-  // Balik ke tidak-expanded tiap ganti soal, supaya tidak "nyangkut" expand
-  // dari soal sebelumnya.
-  useEffect(() => {
-    setShowPembahasan(false);
-  }, [currentIndex]);
 
   if (!session) {
     return <div className="bg-white p-6 rounded-xl border">Memuat soal...</div>;
@@ -197,14 +227,29 @@ export default function QuestionCardPaid() {
             <p className="text-sm text-slate-400 mb-3">Memuat pembahasan...</p>
           )}
 
-          {pembahasanDetail && (
-            <button
-              onClick={() => setShowPembahasan((v) => !v)}
-              className="px-4 py-2 bg-[#12345b] text-white rounded-lg text-sm"
-            >
-              {showPembahasan ? "Tutup Pembahasan" : "Lihat Pembahasan"}
-            </button>
-          )}
+          <div className="flex flex-wrap items-center gap-3">
+            {pembahasanDetail && (
+              <button
+                onClick={() => setShowPembahasan((v) => !v)}
+                className="px-4 py-2 bg-[#12345b] text-white rounded-lg text-sm"
+              >
+                {showPembahasan ? "Tutup Pembahasan" : "Lihat Pembahasan"}
+              </button>
+            )}
+
+            {/* "Keluar" — lihat catatan PATCH di header file: cuma buka
+                ResultDialogPaid (sama seperti "Lihat Ringkasan Hasil"),
+                BUKAN keluar sungguhan. Tidak butuh pembahasanDetail,
+                cukup isFinished (sudah pasti true di blok ini). */}
+            {openResultDialog && (
+              <button
+                onClick={openResultDialog}
+                className="px-4 py-2 bg-white border border-red-600 text-red-600 rounded-lg text-sm font-medium hover:bg-red-600 hover:text-white transition-colors"
+              >
+                Keluar
+              </button>
+            )}
+          </div>
 
           {showPembahasan && pembahasanDetail && (
             <div className="mt-3 p-4 border bg-green-50 rounded-xl text-sm space-y-2">

@@ -93,6 +93,15 @@ export function transformSubmitResultToView(submitResult) {
         ? Math.round(((t.correct || 0) / total) * 100)
         : 0;
 
+      // Skema skor SKD: TWK/TIU = benar/salah biner tapi tiap soal benar
+      // bernilai 5 poin (bukan 1), TKP = per-soal 1..5 sesuai scoring_map.
+      // `correct`/`total` di bawah TETAP jumlah soal (dipakai proficiencyPct
+      // & konsumen lama yang butuh rasio soal). `scoreObtained`/`scoreMax`
+      // BARU — nilai POIN asli, dipakai tampilan skor (mis. PDF) supaya
+      // 1 soal benar TWK/TIU tampil "5", bukan "1".
+      const scoreObtained = isTkp ? t.totalSkor || 0 : (t.correct || 0) * 5;
+      const scoreMax = total * 5;
+
       topics.push({
         id: `${code}-${topicName}`.toLowerCase().replace(/\s+/g, "-"),
         name: topicName,
@@ -107,6 +116,8 @@ export function transformSubmitResultToView(submitResult) {
         // saat ini (komponen itu generik, belum ada varian TKP).
         correct: isTkp ? t.totalSkor || 0 : t.correct || 0,
         total: isTkp ? total * 5 : total,
+        scoreObtained,
+        scoreMax,
         proficiencyLabel: proficiencyLabel(pct),
         proficiencyPct: pct, // BARU — dipakai generateResultPdf untuk sortir kekuatan/kelemahan
         colorKey: proficiencyColorKey(pct),

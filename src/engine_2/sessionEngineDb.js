@@ -14,22 +14,48 @@
  * timerEngineDb. sessionEngineDb hanya menjalankan/mencatat hasil akhirnya.
  */
 
-import { postDb } from './httpClientDb';
+import { postDb } from "./httpClientDb";
 
-const VALID_STATUSES = ['running', 'finished', 'expired'];
+const VALID_STATUSES = ["running", "finished", "expired"];
 
 /**
  * Membuat sesi ujian baru untuk suatu paket.
  *
+ * PATCH (bug badge "Pengerjaan ke-X" nyangkut ke attempt sebelumnya):
+ * sebelumnya fungsi ini cuma balikin `result.session`, membuang
+ * kemungkinan `result.attempt_count` dari response /create-session.
+ * Akibatnya attemptCount di Redux tidak pernah ter-update saat sesi
+ * BARU mulai (attempt ke-2/3/4/dst via tombol "Coba Lagi"), cuma
+ * ke-update lagi setelah submit — jadi selama ujian berjalan, badge
+ * menampilkan attempt count yang LAMA (attempt sebelumnya), baru benar
+ * begitu ujian selesai. Fix: sertakan attemptCount di objek yang
+ * dikembalikan.
+ *
+ * PATCH lanjutan (badge tidak muncul sama sekali saat "sedang
+ * berlangsung"): dugaan awal — /create-session selalu ikut kirim
+ * attempt_count, sama seperti /resume-session — ternyata tidak selalu
+ * benar. /create-session TIDAK SELALU menyertakan attempt_count di
+ * responsnya (beda dengan /resume-session & /submit-session yang
+ * memang selalu ada), jadi `result.attempt_count ?? 0` sering jatuh ke
+ * 0 untuk sesi yang baru dibuat -> badge (`attemptCount >= 1`) jadi
+ * tidak pernah muncul. Diubah jadi `?? null` supaya "tidak ada di
+ * response" bisa dibedakan dari "backend sungguh-sungguh bilang 0" —
+ * reducer (examSliceDb) yang lalu memutuskan fallback-nya (hitung
+ * sendiri di client), bukan didefault ke 0 di sini yang menutupi
+ * kasusnya.
+ *
  * @param {string} packageId
- * @returns {Promise<object>} session dari backend (lihat Kontrak API create-session)
+ * @returns {Promise<{session:object, attemptCount:number|null}>}
  */
 async function createSession(packageId) {
   if (!packageId) {
-    throw new Error('sessionEngineDb.createSession: packageId wajib diisi');
+    throw new Error("sessionEngineDb.createSession: packageId wajib diisi");
   }
-  const result = await postDb('/create-session', { package_id: packageId });
-  return result.session;
+  const result = await postDb("/create-session", { package_id: packageId });
+  return {
+    session: result.session,
+    attemptCount: result.attempt_count ?? null,
+  };
 }
 
 /**
@@ -49,22 +75,22 @@ async function createSession(packageId) {
  */
 async function resumeSession(packageId) {
   if (!packageId) {
-    throw new Error('sessionEngineDb.resumeSession: packageId wajib diisi');
+    throw new Error("sessionEngineDb.resumeSession: packageId wajib diisi");
   }
-  const result = await postDb('/resume-session', { package_id: packageId });
+  const result = await postDb("/resume-session", { package_id: packageId });
 
   if (result.has_active_session) {
     return {
-      kind: 'active',
+      kind: "active",
       session: result.session,
       questions: result.questions,
       attemptCount: result.attempt_count ?? 0,
     };
   }
 
-  if (result.reason === 'expired') {
+  if (result.reason === "expired") {
     return {
-      kind: 'expired',
+      kind: "expired",
       firstAttemptResult: result.first_attempt_result ?? null,
       progressResult: result.progress_result ?? null,
       attemptCount: result.attempt_count ?? 0,
@@ -77,7 +103,7 @@ async function resumeSession(packageId) {
     // tanpa Redux state (fix refresh halaman hasil, dokumen acuan §8-2).
     const cs = result.completed_session;
     return {
-      kind: 'completed',
+      kind: "completed",
       firstAttemptResult: result.first_attempt_result ?? null,
       // BARU — hasil attempt ke-2/3/dst (dari exam_progress), TERPISAH
       // dari firstAttemptResult karena keduanya harus tetap bisa
@@ -99,7 +125,7 @@ async function resumeSession(packageId) {
   }
 
   // Tidak ada sesi aktif, belum pernah attempt sama sekali (paket belum pernah dikerjakan).
-  return { kind: 'not_started' };
+  return { kind: "not_started" };
 }
 
 /**
@@ -118,7 +144,7 @@ function setStatus(session, newStatus) {
     );
   }
   if (!session) {
-    throw new Error('sessionEngineDb.setStatus: session tidak boleh kosong');
+    throw new Error("sessionEngineDb.setStatus: session tidak boleh kosong");
   }
   return { ...session, status: newStatus };
 }

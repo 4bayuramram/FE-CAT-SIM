@@ -12,7 +12,10 @@ import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
  * 2. Skor total
  * 3. Skor per kategori (TWK/TIU/TKP)
  * 4. Skor per topik (tabel)
- * 5. Kekuatan & kelemahan (top topik tertinggi/terendah dari proficiencyPct)
+ * 5. Kekuatan & kelemahan (SEMUA topik, dikelompokkan per level
+ *    kemampuan — Tinggi/Cukup/Perlu Ditingkatkan — berdasarkan
+ *    proficiencyLabel/proficiencyPct hasil ujian asli. Tidak lagi
+ *    dipotong top-3.)
  */
 
 const styles = StyleSheet.create({
@@ -123,25 +126,31 @@ const styles = StyleSheet.create({
   tableCell: {
     fontSize: 8.5,
   },
+  cellGreen: { color: "#1a7a3d" },
+  cellNeutral: { color: "#555555" },
+  cellRed: { color: "#c0392b" },
   colTopic: { width: "34%" },
   colCategory: { width: "14%" },
   colTotal: { width: "12%", textAlign: "center" },
   colScore: { width: "14%", textAlign: "center" },
   colStatus: { width: "26%", textAlign: "right" },
   strengthWeaknessWrap: {
-    flexDirection: "row",
-    gap: 12,
     marginTop: 4,
   },
   swBox: {
-    flex: 1,
     borderRadius: 4,
     padding: 10,
+    marginBottom: 10,
   },
   swBoxStrength: {
     backgroundColor: "#eafaf0",
     borderWidth: 1,
     borderColor: "#bfe8cf",
+  },
+  swBoxNeutral: {
+    backgroundColor: "#f5f7fa",
+    borderWidth: 1,
+    borderColor: "#dde3ea",
   },
   swBoxWeakness: {
     backgroundColor: "#fdecea",
@@ -153,9 +162,17 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     marginBottom: 6,
   },
-  swItem: {
-    fontSize: 9,
+  swItemRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 3,
+  },
+  swItemName: {
+    fontSize: 9,
+  },
+  swItemPct: {
+    fontSize: 9,
+    fontFamily: "Helvetica-Bold",
   },
   footer: {
     position: "absolute",
@@ -178,8 +195,27 @@ export default function ResultPdfDocument({ result, meta }) {
   const sortedByPctDesc = [...result.topics].sort(
     (a, b) => (b.proficiencyPct ?? 0) - (a.proficiencyPct ?? 0)
   );
-  const strengths = sortedByPctDesc.slice(0, 3);
-  const weaknesses = [...sortedByPctDesc].reverse().slice(0, 3);
+  // Semua topik ditampilkan (tidak dipotong top-N lagi), dikelompokkan
+  // sesuai proficiencyLabel yang sudah dihitung dari data ujian asli
+  // (lihat proficiencyLabel() di resultTransform.js — ambang batasnya
+  // sinkron dengan tabel "Skor per Topik" di atas).
+  const tinggi = sortedByPctDesc.filter(
+    (t) => t.proficiencyLabel === "Kemampuan Tinggi"
+  );
+  const cukup = sortedByPctDesc.filter(
+    (t) => t.proficiencyLabel === "Kemampuan Cukup"
+  );
+  const perluDitingkatkan = sortedByPctDesc.filter(
+    (t) => t.proficiencyLabel === "Perlu Ditingkatkan"
+  );
+
+  // Warna teks predikat di tabel "Skor per Topik" — konsisten dengan warna
+  // box di section Kekuatan & Kelemahan (hijau/netral/merah).
+  const predikatStyle = (label) => {
+    if (label === "Kemampuan Tinggi") return styles.cellGreen;
+    if (label === "Perlu Ditingkatkan") return styles.cellRed;
+    return styles.cellNeutral;
+  };
 
   return (
     <Document>
@@ -252,12 +288,14 @@ export default function ResultPdfDocument({ result, meta }) {
             <Text style={[styles.tableHeaderCell, styles.colTotal]}>
               Total Soal
             </Text>
-            <Text style={[styles.tableHeaderCell, styles.colScore]}>Skor</Text>
+            <Text style={[styles.tableHeaderCell, styles.colScore]}>
+              Total Benar
+            </Text>
             <Text style={[styles.tableHeaderCell, styles.colStatus]}>
               Predikat
             </Text>
           </View>
-          {result.topics.map((t) => (
+          {sortedByPctDesc.map((t) => (
             <View style={styles.tableRow} key={t.id} wrap={false}>
               <Text style={[styles.tableCell, styles.colTopic]}>{t.name}</Text>
               <Text style={[styles.tableCell, styles.colCategory]}>
@@ -267,36 +305,81 @@ export default function ResultPdfDocument({ result, meta }) {
                 {t.questionCount}
               </Text>
               <Text style={[styles.tableCell, styles.colScore]}>
-                {t.correct}/{t.total}
+                {t.scoreObtained}/{t.scoreMax}
               </Text>
-              <Text style={[styles.tableCell, styles.colStatus]}>
+              <Text
+                style={[
+                  styles.tableCell,
+                  styles.colStatus,
+                  predikatStyle(t.proficiencyLabel),
+                ]}
+              >
                 {t.proficiencyLabel}
               </Text>
             </View>
           ))}
         </View>
 
-        {/* 5. Kekuatan & kelemahan */}
-        <Text style={styles.sectionTitle}>
+        {/* 5. Kekuatan & kelemahan — SEMUA topik ditampilkan, dikelompokkan
+            per level kemampuan (tidak dipotong top-3 lagi). */}
+        <Text style={styles.sectionTitle} minPresenceAhead={80}>
           Analisis Kekuatan &amp; Kelemahan
         </Text>
         <View style={styles.strengthWeaknessWrap}>
-          <View style={[styles.swBox, styles.swBoxStrength]}>
-            <Text style={styles.swTitle}>Kekuatan (skor tertinggi)</Text>
-            {strengths.map((t) => (
-              <Text style={styles.swItem} key={t.id}>
-                • {t.name} ({t.groupCode}) — {t.proficiencyPct}%
+          {tinggi.length > 0 && (
+            <View style={[styles.swBox, styles.swBoxStrength]}>
+              <Text style={styles.swTitle}>
+                Kekuatan — Kemampuan Tinggi ({tinggi.length} topik)
               </Text>
-            ))}
-          </View>
-          <View style={[styles.swBox, styles.swBoxWeakness]}>
-            <Text style={styles.swTitle}>Kelemahan (perlu ditingkatkan)</Text>
-            {weaknesses.map((t) => (
-              <Text style={styles.swItem} key={t.id}>
-                • {t.name} ({t.groupCode}) — {t.proficiencyPct}%
+              {tinggi.map((t) => (
+                <View style={styles.swItemRow} key={t.id} wrap={false}>
+                  <Text style={styles.swItemName}>
+                    {t.name} ({t.groupCode})
+                  </Text>
+                  <Text style={styles.swItemPct}>
+                    {t.scoreObtained}/{t.scoreMax} · {t.proficiencyPct}%
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {cukup.length > 0 && (
+            <View style={[styles.swBox, styles.swBoxNeutral]}>
+              <Text style={styles.swTitle}>
+                Kemampuan Cukup ({cukup.length} topik)
               </Text>
-            ))}
-          </View>
+              {cukup.map((t) => (
+                <View style={styles.swItemRow} key={t.id} wrap={false}>
+                  <Text style={styles.swItemName}>
+                    {t.name} ({t.groupCode})
+                  </Text>
+                  <Text style={styles.swItemPct}>
+                    {t.scoreObtained}/{t.scoreMax} · {t.proficiencyPct}%
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {perluDitingkatkan.length > 0 && (
+            <View style={[styles.swBox, styles.swBoxWeakness]}>
+              <Text style={styles.swTitle}>
+                Kelemahan — Perlu Ditingkatkan ({perluDitingkatkan.length}{" "}
+                topik)
+              </Text>
+              {perluDitingkatkan.map((t) => (
+                <View style={styles.swItemRow} key={t.id} wrap={false}>
+                  <Text style={styles.swItemName}>
+                    {t.name} ({t.groupCode})
+                  </Text>
+                  <Text style={styles.swItemPct}>
+                    {t.scoreObtained}/{t.scoreMax} · {t.proficiencyPct}%
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
         </View>
 
         <Text

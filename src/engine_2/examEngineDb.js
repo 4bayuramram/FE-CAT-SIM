@@ -97,9 +97,17 @@ async function startOrResumeExam(packageId) {
  * (create-session sudah otomatis menentukan attempt_type perdana/
  * non_perdana berdasarkan ada-tidaknya row exam_results, bukan dari
  * client), jadi tidak perlu endpoint terpisah.
+ *
+ * PATCH (badge "Pengerjaan ke-X", lihat sessionEngineDb.createSession):
+ * `attemptCount` sekarang ikut dibawa balik dari createSession, supaya
+ * kedua reducer pemanggil (startOrResumeExamDb & startNewAttemptDb)
+ * bisa langsung sinkronkan state.attemptCount begitu sesi BARU mulai —
+ * tidak nunggu submit dulu.
  */
 async function createFreshSession(packageId) {
-  const session = await sessionEngineDb.createSession(packageId);
+  const { session, attemptCount } = await sessionEngineDb.createSession(
+    packageId
+  );
   const rawQuestions = await fetchQuestionsWithRetry(session.id);
   const parsedQuestions = contentParserDb.parseQuestions(rawQuestions);
   const remaining = timerEngineDb.syncTimer(session);
@@ -109,6 +117,7 @@ async function createFreshSession(packageId) {
     session,
     questions: parsedQuestions,
     remainingSeconds: remaining.remainingSeconds,
+    attemptCount,
   };
 }
 

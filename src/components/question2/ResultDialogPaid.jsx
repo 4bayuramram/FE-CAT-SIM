@@ -23,13 +23,53 @@ import Divider from "@mui/material/Divider";
  * Bisa ditutup (`onClose` — dismiss saja, sesi tetap ada) dan dibuka
  * lagi kapan saja lewat tombol "Lihat Ringkasan Hasil" di SidebarPaid.
  *
+ * BUGFIX (Benar/Salah ikut menghitung TKP): `result.correct`/`result.wrong`
+ * dari backend adalah TOTAL semua kategori digabung — termasuk TKP, yang
+ * di baliknya dihitung backend berdasarkan scoring_map (poin > 0 dianggap
+ * "correct", poin 0 dianggap "wrong"), BUKAN benar/salah biner sungguhan.
+ * Konsep "Benar"/"Salah" cuma valid untuk TWK & TIU (satu kunci jawaban
+ * per soal); TKP tidak punya jawaban salah, semua opsi punya poin (1-5)
+ * jadi tidak seharusnya ada label "Benar"/"Salah" untuk soal TKP sama
+ * sekali. Fix: kalau `result.breakdown` tersedia (lihat resultTransform.js
+ * untuk shape lengkapnya), Benar/Salah di popup ini dihitung ulang di
+ * client HANYA dari topik-topik kategori TWK & TIU (skip kategori "TKP"
+ * sepenuhnya), bukan pakai `result.correct`/`result.wrong` mentah dari
+ * backend. Kalau breakdown belum ada (sesi lama sebelum migration kolom
+ * breakdown), fallback ke angka lama dari backend supaya tetap tampil
+ * sesuatu (lebih baik daripada kosong), TIDAK menghapus data.
+ *
  * @param {boolean} open
- * @param {{status:string, score:number, correct:number, wrong:number, unanswered:number, duration:number}|null} result - submitResult resmi
+ * @param {{status:string, score:number, correct:number, wrong:number, unanswered:number, duration:number, breakdown?:object}|null} result - submitResult resmi
  * @param {() => void} onExit - reset sesi + keluar ke beranda
  * @param {() => void} onReview - navigasi ke halaman /hasil (versi lebih lengkap)
  * @param {() => void} [onClose] - tutup popup saja, sesi tetap ada
  */
-export default function ResultDialogPaid({ open, result, onExit, onReview, onClose }) {
+export default function ResultDialogPaid({
+  open,
+  result,
+  onExit,
+  onReview,
+  onClose,
+}) {
+  // Benar/Salah HANYA untuk TWK & TIU — TKP sengaja dikeluarkan (lihat
+  // catatan BUGFIX di atas). Dihitung dari breakdown per topik kalau
+  // tersedia; fallback ke result.correct/result.wrong (lama, ikut TKP)
+  // kalau breakdown belum ada supaya popup tidak kosong untuk sesi lama.
+  let correctCount = result?.correct ?? 0;
+  let wrongCount = result?.wrong ?? 0;
+
+  if (result?.breakdown) {
+    correctCount = 0;
+    wrongCount = 0;
+    for (const [categoryCode, category] of Object.entries(result.breakdown)) {
+      if (categoryCode === "TKP") continue; // TKP tidak dihitung benar/salah
+      for (const topic of Object.values(category.topics || {})) {
+        correctCount += topic.correct || 0;
+        wrongCount += topic.wrong || 0;
+      }
+    }
+  }
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Hasil Ujian</DialogTitle>
@@ -45,12 +85,13 @@ export default function ResultDialogPaid({ open, result, onExit, onReview, onClo
             <Divider />
 
             <div className="text-sm space-y-1">
-              <p className="font-semibold">Benar: {result.correct ?? 0}</p>
-              <p className="font-semibold">Salah: {result.wrong ?? 0}</p>
+              <p className="font-semibold">Benar: {correctCount}</p>
+              <p className="font-semibold">Salah: {wrongCount}</p>
               <p>Tidak dijawab: {result.unanswered ?? 0}</p>
               <p>Durasi pengerjaan: {result.duration ?? 0} menit</p>
               <p className="text-slate-500">
-                Status akhir: {result.status === "expired" ? "Waktu habis" : "Selesai"}
+                Status akhir:{" "}
+                {result.status === "expired" ? "Waktu habis" : "Selesai"}
               </p>
             </div>
           </div>

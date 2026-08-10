@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import QuizIcon from "@mui/icons-material/Quiz";
 import ScheduleIcon from "@mui/icons-material/Schedule";
@@ -214,19 +214,26 @@ export default function Sematkan() {
   // yang tetap menampilkan SEMUA paket via questionService.getAll()).
   const paketGratisList = questionService
     .getAll()
-    .filter((paket) => questionService.getPaketMeta(paket.id).showOnPackagesPage)
+    .filter(
+      (paket) => questionService.getPaketMeta(paket.id).showOnPackagesPage
+    )
     .map((paket) => {
       const meta = questionService.getPaketMeta(paket.id);
       return {
         title: paket.nama,
         badge: "Gratis",
         questions: meta.totalQuestions,
-        duration: meta.duration ? `${Math.round(meta.duration / 60000)} Menit` : "—",
+        duration: meta.duration
+          ? `${Math.round(meta.duration / 60000)} Menit`
+          : "—",
         description: "Try-Out SKD (TWK,TIU,TKP)",
         linkTo: `/exam-page/${paket.id}`,
         pembahasan: "koreksi-jawaban",
         peserta: 112,
-        category: resolvePackageCategory({ title: paket.nama, category: meta.category }),
+        category: resolvePackageCategory({
+          title: paket.nama,
+          category: meta.category,
+        }),
       };
     });
 
@@ -252,11 +259,15 @@ export default function Sematkan() {
         data: { session },
       } = await supabase.auth.getSession();
 
+      // Urut berdasarkan title (bukan price) -- paket berbayar dinamai
+      // "skd-001", "skd-002", "skd-004", dst, dan urutan tampil di
+      // halaman ini memang harus ikut urutan title itu (paket lama ke
+      // baru), bukan urutan harga.
       const [packagesRes, accessRes] = await Promise.all([
         supabase
           .from("packages")
           .select("*")
-          .order("price", { ascending: true }),
+          .order("title", { ascending: true }),
         session?.user
           ? supabase
               .from("user_package_access")
@@ -287,25 +298,19 @@ export default function Sematkan() {
 
       const data = packagesRes.data;
 
-      // Ambil jumlah soal per paket (best-effort, sama seperti
-      // PackageInfoPage.jsx) — kalau RLS memblokir/gagal, tampilkan "—"
-      // daripada memaksa angka salah.
-      const withCounts = await Promise.all(
-        (data || []).map(async (pkg) => {
-          const { count, error: countError } = await supabase
-            .from("questions")
-            .select("id", { count: "exact", head: true })
-            .eq("package_id", pkg.id);
-
-          return {
-            ...pkg,
-            questionCount:
-              !countError && typeof count === "number" ? count : null,
-            owned: ownedIds.has(String(pkg.id)),
-            category: resolvePackageCategory(pkg),
-          };
-        })
-      );
+      // Jumlah soal sekarang diambil langsung dari kolom
+      // packages.question_count (di-sync otomatis via trigger DB tiap
+      // ada insert/update/delete di tabel questions -- lihat migration
+      // add_question_count_to_packages.sql). Tidak perlu lagi query
+      // terpisah ke tabel questions per paket (hindari N+1 query +
+      // masalah RLS yang bikin count keliru jadi 0 di halaman publik).
+      const withCounts = (data || []).map((pkg) => ({
+        ...pkg,
+        questionCount:
+          typeof pkg.question_count === "number" ? pkg.question_count : null,
+        owned: ownedIds.has(String(pkg.id)),
+        category: resolvePackageCategory(pkg),
+      }));
 
       if (cancelled) return;
       setPaketBerbayar(withCounts);
@@ -322,13 +327,29 @@ export default function Sematkan() {
   // filter tab konsisten dari satu sumber. Kategori tiap paket gratis
   // diambil dari resolvePackageCategory (lihat paketGratisList di atas),
   // bukan di-hardcode "skd" untuk semuanya.
+  //
+  // URUTAN tab "Semua" (sesuai keputusan produk): Paket 1 (gratis)
+  // paling atas -- otomatis, karena paketGratisList selalu ditaruh
+  // duluan -- lalu paket BERBAYAR kategori "skd" duluan (urut title:
+  // skd-001, skd-002, skd-004, dst -- lihat .order("title") di query
+  // Supabase di atas), baru paket berbayar non-skd (twk/tiu/tkp) di
+  // paling bawah. Di dalam masing-masing grup kategori, urutan title
+  // dari query Supabase tetap dipertahankan -- makanya dipakai .sort()
+  // yang stabil (bukan bikin ulang urutan dari nol), cukup kelompokkan
+  // skd vs non-skd tanpa mengacak urutan title di dalam grupnya.
+  const paketBerbayarUrut = [...paketBerbayar].sort((a, b) => {
+    const rankA = a.category === "skd" ? 0 : 1;
+    const rankB = b.category === "skd" ? 0 : 1;
+    return rankA - rankB;
+  });
+
   const semuaPaket = [
     ...paketGratisList.map((pkg, i) => ({
       ...pkg,
       id: `gratis-${i + 1}`,
       isFree: true,
     })),
-    ...paketBerbayar,
+    ...paketBerbayarUrut,
   ];
 
   const tabCounts = semuaPaket.reduce(

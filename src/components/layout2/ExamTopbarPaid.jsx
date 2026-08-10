@@ -4,6 +4,7 @@ import {
   selectSession,
   selectQuestions,
   selectAnswers,
+  selectAttemptCount,
 } from "../../features/exam/examSliceDb";
 import { getKategoriShort } from "../../utils/kategoriLabel";
 
@@ -20,11 +21,20 @@ import { getKategoriShort } from "../../utils/kategoriLabel";
  *
  * Field soal pakai `nomor_soal`/`kategori` (kontrak API get-questions),
  * bukan `nomor` seperti di data statis lama.
+ *
+ * PATCH (badge "Pengerjaan ke-X"): attemptCount sudah resmi dari backend
+ * (selectAttemptCount, lihat examSliceDb — diisi lewat
+ * startOrResumeExamDb/startNewAttemptDb, BUKAN dihitung sendiri di
+ * komponen ini). Badge sengaja hanya muncul kalau attemptCount >= 1 —
+ * 0/undefined berarti data belum sempat terhidrasi (mis. sesi baru saja
+ * dimulai sebelum response backend sampai), lebih baik badge tidak
+ * tampil sebentar daripada sempat kelihatan "Pengerjaan ke-0".
  */
 export default function ExamTopbarPaid() {
   const session = useSelector(selectSession);
   const questions = useSelector(selectQuestions);
   const answers = useSelector(selectAnswers);
+  const attemptCount = useSelector(selectAttemptCount);
 
   const kategoriMap = useMemo(() => {
     if (!questions?.length) return {};
@@ -43,7 +53,8 @@ export default function ExamTopbarPaid() {
   if (!session) return null;
 
   const isRunning = session.status === "running";
-  const isFinished = session.status === "finished" || session.status === "expired";
+  const isFinished =
+    session.status === "finished" || session.status === "expired";
 
   return (
     <>
@@ -54,6 +65,12 @@ export default function ExamTopbarPaid() {
           <div className="font-bold text-base sm:text-lg">
             Paket {session.package_id}
           </div>
+
+          {attemptCount >= 1 && (
+            <div className="px-3 py-1 rounded-full bg-white/10 text-white text-xs uppercase font-bold">
+              Pengerjaan ke-{attemptCount}
+            </div>
+          )}
 
           {isRunning && (
             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-white text-xs uppercase font-bold animate-pulse hover:scale-105 transition-transform">

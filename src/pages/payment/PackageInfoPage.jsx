@@ -30,10 +30,16 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
  * masih NULL (belum pernah dijawab). Kalau sudah pernah dijawab
  * (true/false), blok consent disembunyikan dan tombol langsung aktif.
  *
- * CATATAN ASUMSI (belum ada kolom di tabel `packages` untuk jumlah
- * soal / aturan / larangan ujian):
- * - Jumlah soal diambil via COUNT ke tabel `questions` (best-effort,
- *   fallback disembunyikan kalau query gagal/di-block RLS).
+ * CATATAN ASUMSI (belum ada kolom di tabel `packages` untuk aturan /
+ * larangan ujian):
+ * - Jumlah soal diambil dari kolom `packages.question_count`
+ *   (di-sync otomatis via trigger DB tiap ada insert/update/delete di
+ *   tabel `questions` -- lihat migration
+ *   add_question_count_to_packages.sql). PATCH: sebelumnya halaman ini
+ *   query COUNT terpisah ke tabel `questions`, yang selalu balik 0 di
+ *   sini karena diblok RLS (pola sama seperti yang sudah diperbaiki di
+ *   PackageSim.jsx/simulasi -- lihat catatan di file itu). Disamakan
+ *   supaya sumber datanya konsisten di kedua halaman.
  * - Aturan & larangan ujian masih teks generik (sama untuk semua
  *   paket) — silakan sesuaikan array RULES/PROHIBITIONS di bawah, atau
  *   nanti diganti jadi kolom di DB kalau perlu berbeda per paket.
@@ -95,17 +101,13 @@ export default function PackageInfoPage() {
       if (cancelled) return;
       setUserId(session.user.id);
 
-      const [paketRes, profileRes, countRes] = await Promise.all([
+      const [paketRes, profileRes] = await Promise.all([
         supabase.from("packages").select("*").eq("id", packageId).single(),
         supabase
           .from("user_profile")
           .select("leaderboard_opt_in")
           .eq("id", session.user.id)
           .maybeSingle(),
-        supabase
-          .from("questions")
-          .select("id", { count: "exact", head: true })
-          .eq("package_id", packageId),
       ]);
 
       if (cancelled) return;
@@ -118,8 +120,8 @@ export default function PackageInfoPage() {
 
       setPaket(paketRes.data);
 
-      if (!countRes.error && typeof countRes.count === "number") {
-        setQuestionCount(countRes.count);
+      if (typeof paketRes.data.question_count === "number") {
+        setQuestionCount(paketRes.data.question_count);
       }
 
       const optIn = profileRes.data?.leaderboard_opt_in;
