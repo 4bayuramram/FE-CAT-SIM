@@ -1,32 +1,22 @@
 import { supabase } from "../../lib/supabaseClient";
 
 /**
- * getTransactionHistory — riwayat transaksi (pembelian paket) milik
- * satu user, dipakai tab "Riwayat Transaksi" di halaman Akun
- * (DashboardAccountTab.jsx).
+ * getTransactionHistory — riwayat transaksi user, dipakai tab
+ * "Riwayat Transaksi" di Akun (DashboardAccountTab.jsx).
  *
- * Sumber data: tabel `payments`, diisi oleh Cloudflare Worker
- * (handleMidtransWebhook, lihat src/lib/worker2.js) saat pembayaran
- * Midtrans berstatus "settlement". Kolom yang dipakai di sini:
- * id, midtrans_order_id, midtrans_transaction_id, status, amount,
- * package_id, payment_type, bank, va_number, paid_at, created_at.
+ * Sumber data: tabel `payments`, diisi Cloudflare Worker
+ * (handleMidtransWebhook) saat pembayaran Midtrans "settlement".
  *
- * Kolom midtrans_transaction_id/payment_type/bank/va_number/paid_at
- * baru ada sejak migrations/2026xxxx_add_payment_invoice_fields.sql
- * -- dipakai untuk struk/invoice per transaksi (lihat
- * DashboardTransactionDetailModal.jsx), boleh NULL untuk payment lama
- * sebelum kolom ini ditambahkan (struknya cukup tampilkan yang ada).
+ * Kolom transactionId/paymentType/bank/vaNumber/paidAt bisa NULL
+ * untuk payment lama (sebelum kolom ini ditambahkan) — struk cukup
+ * tampilkan yang ada.
  *
- * package_id bisa NULL untuk transaksi akses premium (lihat
- * resolveAccessType di worker2.js) -- di-resolve ke label "Akses
- * Premium" alih-alih judul paket.
+ * packageId bisa NULL untuk transaksi akses premium — di-resolve ke
+ * label "Akses Premium".
  *
- * Query langsung ke tabel `payments` (bukan RPC), karena baris hanya
- * milik user itu sendiri (butuh policy RLS: select where auth.uid() =
- * user_id, pola sama seperti user_profile). Kalau RLS belum
- * dikonfigurasi / query gagal, dikembalikan sebagai error supaya
- * pemanggil (DashboardPageContainer) bisa fallback dengan aman
- * (mis. tampilkan state kosong) tanpa membuat dashboard error.
+ * Query langsung ke `payments` (bukan RPC), butuh RLS: select where
+ * auth.uid() = user_id. Kalau query gagal, return error supaya
+ * pemanggil bisa fallback aman (state kosong).
  */
 export async function getTransactionHistory(userId) {
   const { data: payments, error } = await supabase
@@ -67,9 +57,8 @@ export async function getTransactionHistory(userId) {
     paymentType: row.payment_type,
     bank: row.bank,
     vaNumber: row.va_number,
-    // paidAt = waktu settle sebenarnya (bisa null utk payment lama),
-    // createdAt = kapan baris masuk ke tabel kita -- struk pakai
-    // paidAt kalau ada, fallback ke createdAt.
+    // paidAt = waktu settle asli (null utk payment lama), createdAt =
+    // kapan baris masuk tabel -- struk pakai paidAt, fallback createdAt.
     paidAt: row.paid_at,
     createdAt: row.created_at,
   }));
