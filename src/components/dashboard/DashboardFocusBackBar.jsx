@@ -1,13 +1,11 @@
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
 /**
- * DashboardFocusBackBar — bar "kembali" di ATAS view fokus (dipakai
- * saat user klik salah satu section di tab Ringkasan). Murni state
- * lokal (bukan route baru) supaya dashboard tetap ringan — lihat
- * mekanisme `focus` di DashboardOverviewTab.jsx.
+ * DashboardFocusBackBar — bar "kembali" di atas view fokus (state
+ * lokal, bukan route baru — lihat `focus` di DashboardOverviewTab.jsx).
  *
  * Props:
- * - title: judul section yang sedang difokuskan
+ * - title: judul section yang difokuskan
  * - onBack(): kembali ke daftar Ringkasan penuh
  */
 export default function DashboardFocusBackBar({ title, onBack }) {

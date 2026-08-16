@@ -3,22 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabaseClient";
 
 /**
- * NotificationBell — icon lonceng + badge unread + dropdown daftar
- * notifikasi. Realtime via Supabase Realtime (subscribe INSERT ke
- * tabel `notifications` khusus user yang sedang login), jadi badge
- * langsung update tanpa refresh saat notif baru masuk (mis. selesai
- * ujian di tab lain).
+ * NotificationBell — icon lonceng + badge unread + dropdown notifikasi.
+ * Realtime via Supabase Realtime (subscribe INSERT/UPDATE tabel
+ * `notifications` khusus userId). Scope awal: exam_result, struktur
+ * generik untuk type lain tanpa ubah komponen.
  *
- * Scope awal: notif exam_result (submit-exam). Struktur sudah
- * generik untuk type lain (mis. 'payment') tanpa perlu ubah
- * komponen ini.
- *
- * @param {string|null} userId - id user yang sedang login. Kalau
- *   null, komponen tidak render apa-apa (dipakai di Navbar yang
- *   sama-sama cek `user` dulu sebelum render ini).
+ * @param {string|null} userId - kalau null, komponen tidak render apa-apa.
  */
 export default function NotificationBell({ userId }) {
   const [notifications, setNotifications] = useState([]);
+  const [prevUserId, setPrevUserId] = useState(userId);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const dropdownRef = useRef(null);
@@ -26,13 +20,17 @@ export default function NotificationBell({ userId }) {
 
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
+  // Reset list saat userId hilang (logout) — dihitung saat render,
+  // bukan di effect, supaya tidak ada extra render/cascading update.
+  if (userId !== prevUserId) {
+    setPrevUserId(userId);
+    if (!userId) setNotifications([]);
+  }
+
   // Ambil notif awal + subscribe realtime insert/update selama
   // komponen mount & userId ada.
   useEffect(() => {
-    if (!userId) {
-      setNotifications([]);
-      return;
-    }
+    if (!userId) return;
 
     let isMounted = true;
 
@@ -53,11 +51,8 @@ export default function NotificationBell({ userId }) {
     fetchInitial();
 
     // Topic diberi suffix unik per-mount (bukan cuma userId) supaya tidak
-    // bentrok dengan channel lama yang topic-nya sama tapi belum selesai
-    // di-teardown (removeChannel bersifat async). Tanpa ini, saat effect
-    // di-invoke dua kali oleh React StrictMode (dev), supabase.channel()
-    // dengan topic sama akan mengembalikan instance channel LAMA yang
-    // sudah ke-subscribe, sehingga .on() di bawah ini throw:
+    // bentrok dengan channel lama yang belum selesai di-teardown (async).
+    // Tanpa ini, StrictMode dev double-invoke effect bikin .on() throw
     // "cannot add postgres_changes callbacks ... after subscribe()".
     const channel = supabase
       .channel(`notifications:${userId}:${crypto.randomUUID()}`)
@@ -130,17 +125,15 @@ export default function NotificationBell({ userId }) {
     if (notif.link) navigate(notif.link);
   }
 
-  // Hapus satu notif. stopPropagation supaya klik tombol X tidak ikut
-  // memicu handleClickNotif (yang akan navigate).
+  // stopPropagation supaya klik X tidak ikut trigger handleClickNotif.
   async function deleteNotif(e, id) {
     e.stopPropagation();
     setNotifications((prev) => prev.filter((n) => n.id !== id));
     await supabase.from("notifications").delete().eq("id", id);
   }
 
-  // Bersihkan semua notif milik user ini. Butuh RLS policy DELETE
-  // (lihat migration notifications_delete_policy.sql) — tanpa itu,
-  // request delete ini akan diblokir RLS dan tidak menghapus apa pun.
+  // Butuh RLS policy DELETE (notifications_delete_policy.sql) — tanpa
+  // itu request diblokir RLS, tidak menghapus apa pun.
   async function clearAll() {
     if (notifications.length === 0) return;
     const prevNotifications = notifications;
@@ -151,7 +144,7 @@ export default function NotificationBell({ userId }) {
       .eq("user_id", userId);
     if (error) {
       console.error("Gagal membersihkan notifikasi:", error.message);
-      setNotifications(prevNotifications); // rollback kalau gagal
+      setNotifications(prevNotifications);
     }
   }
 

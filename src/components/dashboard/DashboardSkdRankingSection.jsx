@@ -4,28 +4,17 @@ import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import DashboardSkdRankingCard from "./DashboardSkdRankingCard";
 
 /**
- * DashboardSkdRankingSection — PENGGANTI "Top Peserta"
- * (DashboardMiniLeaderboardCard) di tab Ringkasan.
- *
- * Beda filosofi dengan Top Peserta lama: dulu menampilkan cuplikan
- * top-3 peserta lain utk 1 paket "unggulan". Sekarang murni
- * menunjukan POSISI RELATIF user, 3 cakupan sekaligus, KHUSUS skor
- * paket SKD (bukan TWK/TIU/TKP satuan -- lihat catatan di
- * DashboardCategoryScoreGrid):
- * 1. Peringkat Nasional — di antara semua peserta
- * 2. Peringkat Provinsi — di antara peserta di provinsi domisili user
- * 3. Peringkat Kabupaten/Kota — di antara peserta di kab/kota domisili user
+ * DashboardSkdRankingSection — pengganti "Top Peserta" lama di tab
+ * Ringkasan. Bukan cuplikan peserta lain, tapi posisi relatif user, 3
+ * cakupan sekaligus, berbasis skor SKD saja: Nasional, Provinsi
+ * (domisili), Kabupaten/Kota (domisili).
  *
  * Props:
- * - skdRanking: {
- *     national: { rank, totalPeserta, avgScore, percentile } | null,
- *     province: { name, rank, totalPeserta, avgScore, percentile } | null,
- *     city: { name, rank, totalPeserta, avgScore, percentile } | null,
- *   } | null — null (RPC belum ada/gagal) DITANGANI SECARA GRACEFUL:
- *   section ini TETAP tampil dengan 3 kartu kosong ("belum tersedia"),
- *   BUKAN hilang total -- supaya layout 2 kolom di tab Ringkasan tidak
- *   kolaps jadi 1 kolom cuma karena RPC belum siap di backend.
- * - onSeeFullLeaderboard: opsional, CTA di bagian bawah section
+ * - skdRanking: { national, province, city } | null — tiap cakupan:
+ *   { rank, totalPeserta, avgScore, percentile, name? } | null.
+ *   null ditangani graceful — tetap render 3 kartu kosong, biar
+ *   layout 2 kolom tidak kolaps.
+ * - onSeeFullLeaderboard: opsional, CTA bawah section
  */
 export default function DashboardSkdRankingSection({ skdRanking, onSeeFullLeaderboard }) {
   const { national, province, city } = skdRanking || {};

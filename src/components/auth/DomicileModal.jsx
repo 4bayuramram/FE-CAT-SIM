@@ -5,30 +5,19 @@ import { updateUserDomicile } from "../../services/auth/updateUserDomicile";
 import { updateUserName } from "../../services/auth/updateUserName";
 
 /**
- * DomicileModal — panel wajib lengkapi profil untuk user yang belum
- * punya data domisili dan/atau nama (utamanya login Google, lihat
- * DomicileGuard.jsx). TODO §5 "Data Domisili User Google Login".
- *
- * PATCH (nama kosong untuk user Google): sebelumnya modal ini cuma
- * urus domisili. Sekarang bisa juga minta nama depan/belakang lewat
- * prop requireName — dipakai saat first_name & last_name user_profile
- * KEDUANYA kosong (akun Google lama sebelum fix createUserProfile.js,
- * atau akun Google yang memang tidak kirim data nama). Nama ini yang
- * jadi sumber tampilan "Peserta" (masking) maupun nama asli
- * (publikasi) di leaderboard — kalau kosong, keduanya tidak bisa
- * ditampilkan dengan benar.
+ * DomicileModal — panel wajib lengkapi domisili dan/atau nama untuk
+ * user (utamanya login Google) yang datanya belum lengkap.
+ * Lihat DomicileGuard.jsx dan CHANGELOG.md untuk detail & history.
  *
  * Props:
- * - requireDomicile: boolean — tampilkan & wajibkan field provinsi/kota
- * - requireName: boolean — tampilkan & wajibkan field nama depan/belakang
+ * - requireDomicile: boolean — wajibkan field provinsi/kota
+ * - requireName: boolean — wajibkan field nama depan/belakang
  *
- * Behavior (sesuai TODO):
- * - Muncul sebagai overlay absolute menutupi seluruh layar.
- * - TIDAK BISA ditutup sebelum data diisi — sengaja tidak ada tombol
- *   close/X, tidak ada onClick di backdrop, dan Escape key tidak
- *   di-handle sama sekali.
+ * Behavior:
+ * - Overlay fullscreen, tidak bisa ditutup sebelum data lengkap
+ *   (no close button, no backdrop click, no Escape).
  * - Reuse ProvinceCityField + useRegisterLocation dari alur registrasi
- *   manual supaya konsisten (data source sama: constant/locationData.js).
+ *   manual (sumber data: constant/locationData.js).
  */
 export default function DomicileModal({
   userId,

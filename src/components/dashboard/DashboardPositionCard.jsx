@@ -1,14 +1,12 @@
 import WorkspacePremiumRoundedIcon from "@mui/icons-material/WorkspacePremiumRounded";
 
 /**
- * DashboardPositionCard — versi DETAIL dari pilar "Position", dipakai
- * di focus view (klik kartu statistik "Peringkat Terbaik" pada
- * DashboardStatsGrid). Field currentRank/totalPeserta/percentile BELUM
- * tersedia dari sumber data saat ini (hanya bestRank dari RPC
- * leaderboard per-paket) — ditampilkan best-effort, sisanya fallback
- * pesan "segera hadir" supaya UI tidak kosong/pecah. Begitu container
- * mengirim field tambahan itu, kartu ini otomatis menampilkannya,
- * tidak perlu ubah kode di sini.
+ * DashboardPositionCard — versi detail pilar "Position" (focus view
+ * dari kartu "Peringkat Terbaik" di DashboardStatsGrid).
+ *
+ * currentRank/totalPeserta/percentile belum tersedia dari sumber data
+ * (cuma bestRank dari RPC leaderboard) — fallback "segera hadir".
+ * Otomatis tampil begitu container kirim field itu, tanpa ubah komponen.
  *
  * Props:
  * - bestRank, currentRank, totalPeserta, percentile: number | null

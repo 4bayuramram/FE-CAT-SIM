@@ -1,18 +1,10 @@
-/**
- * Token warna Dashboard, disamakan persis dengan leaderboard-theme.css
- * (brand primary #002f59 / #00467f / kuning #fcd402) supaya nuansa
- * antar halaman "/home/*" konsisten. Prefix --db- (bukan --lb-) supaya
- * modul ini tetap independen dan bisa dipakai tanpa perlu import
- * leaderboard-theme.css juga.
- *
- * Dipakai lewat arbitrary value Tailwind, misal: bg-[var(--db-primary-container)]
- */
+
 :root {
   --db-primary: #002f59;
   --db-primary-container: #00467f;
   --db-on-primary-container: #ffffff;
 
-  --db-secondary-container: #fcd401; /* aksen kuning/emas */
+  --db-secondary-container: #fcd401; 
   --db-on-secondary-container: #6f5c00;
 
   --db-surface: #f8f9ff;

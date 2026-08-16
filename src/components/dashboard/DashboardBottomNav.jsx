@@ -4,21 +4,18 @@ import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import { DASHBOARD_TABS } from "./DashboardSideNav";
+import { DASHBOARD_TABS } from "../../utils/dashboardTabs";
 
 /**
- * DashboardBottomNav — versi mobile dari tab sidebar, model TABBED
- * INTERFACE (bukan link pindah halaman) — tab yang SAMA PERSIS
- * dengan DashboardSideNav (DASHBOARD_TABS), supaya perilaku desktop &
- * mobile konsisten satu sumber. Tautan "Lainnya" (try-out/leaderboard/
- * bantuan/logout) dipindah ke dalam tab "Akun" (lihat DashboardAccountTab),
- * karena ruang bottom-nav mobile terbatas.
+ * DashboardBottomNav — versi mobile dari DashboardSideNav, tab
+ * interface (bukan route), pakai DASHBOARD_TABS yang sama supaya
+ * konsisten desktop/mobile. "Lainnya" (try-out/leaderboard/bantuan/
+ * logout) dipindah ke tab "Akun" karena ruang mobile terbatas.
  *
  * Props:
  * - activeTab (default "overview")
  * - onTabChange(key)
- * - badgedTabs: Set<string> — sama seperti di DashboardSideNav, tab
- *   key yang perlu titik indikator pink (notif belum dibaca terkait).
+ * - badgedTabs: Set<string> — tab key yang perlu indikator notif belum dibaca.
  */
 const ICONS = {
   overview: SpaceDashboardRoundedIcon,

@@ -22,38 +22,23 @@ const LINKS = [
 ];
 
 /**
- * DashboardAccountTab — isi tab "Akun".
+ * DashboardAccountTab — isi tab "Akun". Satu-satunya akses ke tautan
+ * lain (try-out/leaderboard/bantuan) + logout di mobile (desktop ada
+ * di sidebar "Lainnya").
  *
- * Sengaja menampung tautan ke halaman lain (try-out/leaderboard/
- * bantuan) + tombol keluar -- di desktop tautan yang sama juga ada di
- * sidebar ("Lainnya"), tapi di MOBILE bottom-nav tidak ada ruang untuk
- * itu, jadi tab ini adalah satu-satunya tempat aksesnya di mobile.
+ * "Riwayat Transaksi" pakai state lokal `view` ("main"|"history"),
+ * bukan route baru — pola sama DashboardOverviewTab (`focus` +
+ * DashboardFocusBackBar).
  *
- * "Riwayat Transaksi" SENGAJA tidak memakai onNavigate (bukan pindah
- * halaman/route) -- dipakai state lokal `view` ("main" | "history"),
- * pola sama persis dengan mekanisme `focus` di DashboardOverviewTab
- * (DashboardFocusBackBar untuk kembali), supaya dashboard tetap
- * ringan (bukan route baru) dan konsisten dengan pola focus-view yang
- * sudah ada.
- *
- * Props tambahan:
- * - transactions: [{ id, orderId, status, amount, packageTitle,
- *     createdAt }] -- lihat services/payment/getTransactionHistory.js
- * - profile.leaderboardOptIn: true | false | null -- null berarti user
- *   belum pernah menjawab consent publikasi identitas sama sekali
- *   (belum attempt paket apa pun, lihat PackageInfoPage.jsx untuk
- *   consent sekali-jalan yang asli). Kartu "Privasi Leaderboard" di
- *   bawah ini reuse service yang sama (updateLeaderboardConsent.js)
- *   supaya user bisa UBAH pilihannya kapan saja setelahnya, bukan
- *   cuma dikunci permanen sejak jawaban pertama.
- * - onLeaderboardConsentChange(optIn): async, return true/false sukses
- *   atau tidak -- dipanggil saat toggle diklik.
- * - initialView: "main" | "history" — dipakai untuk deep-link dari
- *   notif pembayaran (?tab=account&view=history di DashboardPageDb),
- *   supaya user langsung masuk ke Riwayat Transaksi tanpa klik lagi.
- * - showTransactionBadge: boolean — titik indikator pink di baris
- *   "Riwayat Transaksi" (ada transaksi baru yang belum dilihat, lihat
- *   DashboardPageDb untuk sumber state-nya).
+ * Props:
+ * - transactions: [{ id, orderId, status, amount, packageTitle, createdAt }]
+ * - profile.leaderboardOptIn: true | false | null (null = belum pernah
+ *   consent). Kartu "Privasi Leaderboard" reuse updateLeaderboardConsent.js
+ *   agar user bisa ubah pilihan kapan saja.
+ * - onLeaderboardConsentChange(optIn): async, return boolean sukses/gagal.
+ * - initialView: "main" | "history" — deep-link dari notif pembayaran
+ *   (?tab=account&view=history).
+ * - showTransactionBadge: boolean — indikator transaksi baru belum dilihat.
  */
 export default function DashboardAccountTab({
   profile,

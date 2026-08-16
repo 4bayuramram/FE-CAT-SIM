@@ -1,32 +1,21 @@
 import { useState } from "react";
 
 /**
- * DashboardSkdRankingCard — SATU kartu peringkat murni (bukan daftar
- * top peserta lain), menunjukan posisi RELATIF user terhadap peserta
- * lain dalam cakupan tertentu (nasional / provinsi / kabupaten-kota),
- * berbasis skor paket SKD saja.
+ * DashboardSkdRankingCard — satu kartu posisi relatif user (bukan
+ * daftar peserta lain), berbasis skor SKD, per cakupan
+ * (nasional/provinsi/kabupaten-kota). Tidak tampilkan nama/skor
+ * peserta lain — beda dari DashboardMiniLeaderboardCard.
  *
- * Sengaja tidak menampilkan nama/skor peserta lain (beda dengan
- * DashboardMiniLeaderboardCard) -- kartu ini murni "keunggulan
- * relatif" milik user sendiri: peringkat, total peserta dalam
- * cakupan itu, dan persentil.
+ * avgScore sejak v3 (16 Jul 2026) pakai Bayesian shrinkage (ditarik
+ * ke rata-rata nasional kalau jumlahPaket masih sedikit) — bukan
+ * rata-rata murni. jumlahPaket wajib tampil berdampingan biar jelas.
  *
  * Props:
- * - label: judul kartu, mis. "Peringkat Nasional"
- * - scopeName: nama cakupan spesifik (nama provinsi/kabupaten), null
- *   untuk cakupan nasional
- * - icon: komponen ikon MUI
- * - rank, totalPeserta: number | null
- * - avgScore: number | null — skor SKD user yang dipakai utk ranking.
- *   SEJAK REVISI v3 (16 Jul 2026): sudah melalui Bayesian shrinkage,
- *   ditarik mendekati rata-rata nasional selama jumlahPaket masih
- *   sedikit -- BUKAN rata-rata murni lagi. Makanya jumlahPaket WAJIB
- *   ditampilkan berdampingan supaya user paham kenapa skor ini bisa
- *   beda dari ekspektasi "rata-rata polos" mereka.
- * - jumlahPaket: number | null — jumlah paket SKD yang sudah
- *   dikerjakan user, dipakai utk label transparansi "(dari X paket)"
- * - percentile: number | null — "Top N%"
- * - emptyMessage: teks kalau belum ada data (default disediakan)
+ * - label, scopeName (null = nasional), icon
+ * - rank, totalPeserta, percentile: number | null
+ * - avgScore: number | null — sudah shrinkage, lihat catatan di atas
+ * - jumlahPaket: number | null
+ * - emptyMessage: default disediakan
  */
 export default function DashboardSkdRankingCard({
   label,

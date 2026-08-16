@@ -3,7 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import "./dashboard-theme.css";
 
-import DashboardSideNav, { DASHBOARD_TABS } from "./DashboardSideNav";
+import DashboardSideNav from "./DashboardSideNav";
+import { DASHBOARD_TABS } from "../../utils/dashboardTabs";
 import DashboardBottomNav from "./DashboardBottomNav";
 import DashboardOverviewTab from "./DashboardOverviewTab";
 import DashboardPackagesTab from "./DashboardPackagesTab";
@@ -33,74 +34,20 @@ const TAB_NOTIF_TYPE = {
 };
 
 /**
- * DashboardPageDb — APP SHELL Dashboard.
+ * DashboardPageDb — app shell dashboard. Sidebar/bottom-nav cuma
+ * ganti tab (state `activeTab`, bukan route). Navigasi pindah
+ * halaman beneran (mulai ujian, Try Out, dll) lewat props onNavigate
+ * dkk, dari tab Akun/blok Lainnya. Pure/presentational — data dari
+ * props. Versi konek Supabase: DashboardPageContainer.jsx.
  *
- * Model "dashboard pada umumnya": sidebar (desktop) / bottom nav
- * (mobile) MURNI untuk berpindah TAB di konten kanan lewat state
- * `activeTab` -- bukan link yang pindah route/halaman. Sidebar fixed
- * penuh tinggi layar (h-screen dari top-0), konten utama full-width di
- * sisa layar (bukan dibatasi max-w-6xl kecil di tengah).
+ * Props utama: isMock, profile, stats, nextPackage, packages,
+ * scoreSummaryRows, passingRule, featuredLeaderboard, skdRanking,
+ * attempts, transactions, onNavigate/onPackageDetail/onContinueStart/
+ * onLogout, onStartLatihan(paketId) (paket non-DB), unreadNotifTypes +
+ * onMarkNotifTypeRead(type) (badge notif).
  *
- * Navigasi yang BENERAN pindah halaman (mis. mulai ujian, ke halaman
- * Try Out/Leaderboard/Bantuan) tetap lewat props onNavigate /
- * onPackageDetail / onContinueStart -- dipanggil dari dalam tab "Akun"
- * (mobile) atau blok "Lainnya" di sidebar (desktop), bukan dari tab
- * utama.
- *
- * Komponen ini PURE / PRESENTATIONAL -- semua data & aksi datang dari
- * props. Untuk versi yang konek ke Supabase (dengan fallback data
- * contoh kalau belum ada data asli, lihat mockDashboardData.js), lihat
- * src/pages/dashboard/DashboardPageContainer.jsx.
- *
- * Props:
- * - isMock: boolean — kalau true, tampilkan penanda "Data Contoh" di
- *   top bar (dashboard sedang menampilkan fallback dari
- *   mockDashboardData.js, bukan data asli user)
- * - profile: { name, email, avatarUrl, domicile }
- * - stats: { totalPackages, attemptedPackages, avgScore, bestRank,
- *     categoryAverages: { skd, twk, tiu, tkp } }
- * - nextPackage: { id, title } | null
- * - packages: [{ id, title, category, questionCount, durationMinutes,
- *     attempted, score, rank }]
- * - scoreSummaryRows: [{ id, title, score, rank, breakdown? }]
- *   breakdown (opsional): { TWK?: {score}, TIU?: {score}, TKP?: {score} }
- *   -- kalau kosong, kolom subtes & badge Lulus/Gagal di
- *   DashboardScoreSummaryTable tampil graceful (lihat komponen itu)
- * - passingRule: hasil getActivePassingGrade() -- { twkMin, tiuMin, tkpMin },
- *   dipakai buat hitung status Lulus/Gagal di tabel ringkasan skor
- * - featuredLeaderboard: { packageTitle, rows, currentUserRow } | null
- * - skdRanking: { national, province, city } | null — lihat
- *   DashboardSkdRankingSection untuk bentuk tiap cakupan
- * - attempts: riwayat multi-percobaan untuk tab Performa, lihat
- *   DashboardPerformanceTab
- * - transactions: riwayat transaksi (pembelian paket) untuk menu
- *   "Riwayat Transaksi" di tab Akun, lihat DashboardAccountTab &
- *   services/payment/getTransactionHistory.js
- * - onNavigate(key): "try-out" | "leaderboard" | "bantuan"
- * - onPackageDetail(pkg), onPackageLeaderboard(pkg), onExplorePackages()
- * - onContinueStart(), onSeeFullLeaderboard(), onLogout()
- * - onStartLatihan(paketId): tab "Latihan" — paket hardcode/non-DB
- *   (src/data/paket1-4.js), beda sumber dari `packages` di atas. Diisi
- *   dari DashboardPageContainer, navigate ke `/exam-page/:paketId`.
- * - unreadNotifTypes: Set<string> — tipe notif yang masih belum
- *   dibaca (mis. {"exam_result", "payment"}), sumbernya dari tabel
- *   `notifications` (lihat DashboardPageContainer). Dipakai untuk
- *   badge titik pink di sidebar/bottom-nav & baris Riwayat Transaksi.
- * - onMarkNotifTypeRead(type): tandai SEMUA notif dengan type ini
- *   sebagai sudah dibaca. Dipanggil otomatis begitu tab terkait
- *   dibuka (lihat TAB_NOTIF_TYPE & effect di bawah) -- baik lewat
- *   klik manual maupun deep-link dari notif (?tab=scores dst, lihat
- *   NotificationBell.jsx & edge function submit-exam / worker2.js).
- *
- * DEEP-LINK DARI NOTIFIKASI:
- * Komponen ini sebelumnya PURE (activeTab selalu mulai dari
- * "overview"). Sekarang initial activeTab bisa dioverride lewat query
- * param `?tab=` (mis. link notif hasil ujian -> "/home/dashboard
- * ?tab=scores"), dan tab "Akun" bisa langsung buka Riwayat Transaksi
- * lewat `?view=history` (link notif payment -> "/home/dashboard
- * ?tab=account&view=history"). Baca-sekali saat mount, TIDAK
- * disinkron balik ke URL saat user pindah tab manual -- cukup untuk
- * kebutuhan deep-link, tidak perlu bikin dashboard jadi routing penuh.
+ * Deep-link: `?tab=` override tab awal, `?view=history` buka Riwayat
+ * Transaksi di tab Akun. Dibaca sekali saat mount, tidak sync ke URL.
  */
 export default function DashboardPageDb({
   isMock = false,

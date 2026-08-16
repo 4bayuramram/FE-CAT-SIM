@@ -5,29 +5,19 @@ import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 import RocketLaunchRoundedIcon from "@mui/icons-material/RocketLaunchRounded";
 
 /**
- * DashboardPerformanceTab — isi tab "Performa".
+ * DashboardPerformanceTab — isi tab "Performa". Beda dari "Skor &
+ * Peringkat" (skor terbaru per paket), tab ini fokus perbandingan
+ * naik/turun skor antar percobaan (attempt ke-2, ke-3, dst) per paket.
  *
- * Beda dengan tab "Skor & Peringkat" (yang menampilkan skor TERBARU
- * per paket), tab ini fokus pada PROGRES ANTAR PERCOBAAN: begitu user
- * mengerjakan ulang paket yang sama (Try Out edisi ke-2, ke-3, dst),
- * di sinilah perbandingan naik/turun skornya ditampilkan per paket.
- *
- * CATATAN SUMBER DATA: exam_results saat ini hanya menyimpan attempt
- * PERTAMA per paket per user (lihat catatan di
- * services/leaderboard/getPackageLeaderboard.js & submit-exam Edge
- * Function) -- riwayat multi-attempt BELUM ditrack di backend. Karena
- * itu prop `attempts` defaultnya kosong dan tab ini akan tampil dalam
- * kondisi "belum ada data" untuk kebanyakan user, sampai backend
- * menambah tracking attempt ke-2+ (mis. tabel exam_attempts / kolom
- * attempt_number). BEGITU data itu tersedia, cukup kirim lewat prop
- * `attempts` -- tidak ada perubahan yang dibutuhkan di komponen ini.
+ * exam_results saat ini cuma simpan attempt pertama per user — prop
+ * `attempts` default kosong, tab tampil "belum ada data" sampai
+ * backend track attempt ke-2+ (exam_attempts / attempt_number). Begitu
+ * tersedia, cukup kirim lewat `attempts`, tanpa ubah komponen.
  *
  * Props:
- * - attempts: [{
- *     packageId, packageTitle, category,
- *     history: [{ attemptNumber, score, date }]  // urut attempt 1..n
- *   }]
- * - onExplorePackages(): CTA saat belum ada data sama sekali
+ * - attempts: [{ packageId, packageTitle, category,
+ *     history: [{ attemptNumber, score, date }] }]
+ * - onExplorePackages(): CTA saat belum ada data
  */
 export default function DashboardPerformanceTab({ attempts = [], onExplorePackages }) {
   const withHistory = attempts.filter((a) => (a.history?.length ?? 0) >= 2);

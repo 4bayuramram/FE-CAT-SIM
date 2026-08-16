@@ -5,7 +5,7 @@ import TransactionInvoicePdfDocument from "../components/dashboard/TransactionIn
  * downloadTransactionInvoicePdf — generate struk PDF di browser
  * (client-side, tidak lewat server) dari satu item transaksi, lalu
  * trigger download langsung. Pola sama persis dengan
- * utils/Generateresultpdf.jsx (downloadResultPdf).
+ * utils/generateResultPdf.jsx (downloadResultPdf).
  *
  * @param {object} transaction - output getTransactionHistory.js
  * @param {object} profile - { name } -- dipakai sebagai "Atas Nama" di struk

@@ -1,41 +1,18 @@
 import { checkPassingGrade } from "../../utils/checkPassingGrade";
 
 /**
- * DashboardScoreSummaryTable — ringkasan skor & peringkat per paket
- * yang sudah dikerjakan user.
+ * DashboardScoreSummaryTable — ringkasan skor & peringkat per paket.
  *
- * UPDATE: kolom "Kategori" dibuang (nama paket sudah cukup
- * merepresentasikan kategorinya). Diganti breakdown TWK/TIU/TKP +
- * 2 kolom terpisah:
- * - "Hasil": status LULUS/GAGAL passing grade (checkPassingGrade.js) --
- *   murni soal apakah semua subtes >= ambang batas, TIDAK terkait skor
- *   akhir/peringkat sama sekali. Skor akhir tinggi tetap "Gagal" kalau
- *   ada satu subtes di bawah ambang batas.
- * - "Peringkat": urutan MURNI dari skor akhir (dari getPackageLeaderboard),
- *   tidak dipengaruhi status lulus/gagal.
- * Dua kolom ini SENGAJA dipisah (sebelumnya sempat digabung jadi satu
- * kolom "Hasil" -- salah, karena bikin orang kira peringkat ikut
- * ditentukan status lulus/gagal, padahal dua metrik itu independen).
- *
- * Status Lulus/Gagal REUSE checkPassingGrade.js (sama persis dengan
- * logic di halaman Hasil Ujian) -- SEMUA subtes yang ada di paket
- * harus >= ambang batas aktif (twkMin/tiuMin/tkpMin dari
- * getActivePassingGrade RPC), skor akhir tinggi TIDAK menyelamatkan
- * kalau ada satu subtes yang di bawah ambang batas. Paket
- * single-kategori (mis. TWK-saja) otomatis hanya mengevaluasi TWK,
- * lihat catatan di checkPassingGrade.js.
+ * "Hasil" (LULUS/GAGAL) dan "Peringkat" sengaja dipisah — dua metrik
+ * independen. Hasil: semua subtes harus >= ambang batas
+ * (checkPassingGrade.js), skor akhir tinggi tetap "Gagal" kalau satu
+ * subtes kurang. Peringkat: murni urutan skor akhir, tidak terpengaruh
+ * status lulus/gagal.
  *
  * Props:
- * - rows: [{
- *     id, title, score, rank,
- *     breakdown?: { TWK?: { score }, TIU?: { score }, TKP?: { score } }
- *       -- kalau kosong/undefined (breakdown belum tersedia untuk
- *       attempt ini), kolom subtes tampil "-" & kolom Hasil tampil "-"
- *       juga (bukan nebak Lulus/Gagal), peringkat tetap tampil normal.
- *   }]
- * - passingRule: hasil getActivePassingGrade() -- { twkMin, tiuMin, tkpMin }.
- *   Kalau null (rule belum di-fetch/belum ada), kolom Hasil tampil "-"
- *   untuk semua baris.
+ * - rows: [{ id, title, score, rank, breakdown?: { TWK?, TIU?, TKP? } }]
+ *   — breakdown kosong = kolom subtes & Hasil tampil "-"
+ * - passingRule: { twkMin, tiuMin, tkpMin } | null — null = kolom Hasil "-"
  * - onRowClick(row)
  */
 const SUBTEST_COLUMNS = ["TWK", "TIU", "TKP"];

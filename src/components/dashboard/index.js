@@ -1,5 +1,6 @@
 export { default as DashboardPageDb } from "./DashboardPageDb";
-export { default as DashboardSideNav, DASHBOARD_TABS } from "./DashboardSideNav";
+export { default as DashboardSideNav } from "./DashboardSideNav";
+export { DASHBOARD_TABS } from "../../utils/dashboardTabs";
 export { default as DashboardBottomNav } from "./DashboardBottomNav";
 export { default as DashboardOverviewTab } from "./DashboardOverviewTab";
 export { default as DashboardPackagesTab } from "./DashboardPackagesTab";
@@ -9,10 +10,8 @@ export { default as DashboardPerformanceTab } from "./DashboardPerformanceTab";
 export { default as DashboardAccountTab } from "./DashboardAccountTab";
 export { default as DashboardWelcomeHeader } from "./DashboardWelcomeHeader";
 export { default as DashboardStatsGrid } from "./DashboardStatsGrid";
-export {
-  default as DashboardCategoryScoreGrid,
-  buildCategoryAverages,
-} from "./DashboardCategoryScoreGrid";
+export { default as DashboardCategoryScoreGrid } from "./DashboardCategoryScoreGrid";
+export { buildCategoryAverages } from "../../utils/categoryScoreUtils";
 export { default as DashboardSkdRankingCard } from "./DashboardSkdRankingCard";
 export { default as DashboardSkdRankingSection } from "./DashboardSkdRankingSection";
 export { default as DashboardContinueCard } from "./DashboardContinueCard";

@@ -1,23 +1,9 @@
-import SpaceDashboardRoundedIcon from "@mui/icons-material/SpaceDashboardRounded";
-import Inventory2RoundedIcon from "@mui/icons-material/Inventory2Rounded";
-import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
-import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
-import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import LeaderboardRoundedIcon from "@mui/icons-material/LeaderboardRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import Avatar from "../common/Avatar";
-
-export const DASHBOARD_TABS = [
-  { key: "overview", label: "Ringkasan", icon: SpaceDashboardRoundedIcon },
-  { key: "packages", label: "Paket Saya", icon: Inventory2RoundedIcon },
-  { key: "latihan", label: "Latihan", icon: MenuBookRoundedIcon },
-  { key: "scores", label: "Hasil", icon: BarChartRoundedIcon },
-  { key: "performa", label: "Performa", icon: TimelineRoundedIcon },
-  { key: "account", label: "Akun", icon: PersonRoundedIcon },
-];
+import { DASHBOARD_TABS } from "../../utils/dashboardTabs";
 
 const QUICK_LINKS = [
   { key: "try-out", label: "Jelajahi Try Out", icon: AssignmentRoundedIcon },

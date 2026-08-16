@@ -58,26 +58,19 @@ function CategoryCard({ category, value, onClick }) {
 }
 
 /**
- * DashboardCategoryScoreGrid — 4 kartu rata-rata skor PER KATEGORI
- * paket (SKD, TWK, TIU, TKP), pelengkap kartu "Peringkat Terbaik" &
- * "Rata-rata Skor" (gabungan semua paket) yang sudah ada di
- * DashboardStatsGrid.
+ * DashboardCategoryScoreGrid — 4 kartu rata-rata skor per kategori
+ * paket (SKD, TWK, TIU, TKP), pelengkap DashboardStatsGrid.
  *
- * PENTING soal makna "SKD" di sini: rata-rata SKD dihitung dari paket
- * berkategori `skd` (paket try out gabungan TWK+TIU+TKP), BUKAN
- * rata-rata dari nilai TWK/TIU/TKP satuan -- konsisten dengan
- * `resolvePackageCategory` & bentuk data `scoreSummaryRows` yang sudah
- * ada (tiap paket cuma py 1 kategori). Nilai TWK/TIU/TKP satuan hanya
- * dipakai untuk insight pribadi di dashboard ini -- TIDAK diranking
- * secara nasional/provinsi/kabupaten (yang diranking cuma skor paket
- * SKD, lihat DashboardSkdRankingSection).
+ * "SKD" di sini = rata-rata paket berkategori `skd` (try out gabungan
+ * TWK+TIU+TKP), BUKAN rata-rata TWK/TIU/TKP satuan — konsisten dengan
+ * resolvePackageCategory. Nilai TWK/TIU/TKP satuan cuma insight
+ * pribadi, tidak diranking nasional (yang diranking cuma skor SKD,
+ * lihat DashboardSkdRankingSection).
  *
  * Props:
- * - values: { skd, twk, tiu, tkp } — number | null tiap kategori,
- *   rata-rata skor dari paket kategori itu yang SUDAH dikerjakan user.
- *   Kategori yang belum pernah dikerjakan otomatis tampil "—".
- * - onCategoryClick(category): opsional, dipanggil saat kartu yang
- *   punya nilai diklik (mis. untuk fokus ke daftar skor kategori itu).
+ * - values: { skd, twk, tiu, tkp } — number | null, "—" kalau belum
+ *   pernah dikerjakan.
+ * - onCategoryClick(category): opsional, dipanggil saat kartu ber-nilai diklik.
  */
 export default function DashboardCategoryScoreGrid({ values = {}, onCategoryClick }) {
   const categories = ["skd", "twk", "tiu", "tkp"];
@@ -102,28 +95,4 @@ export default function DashboardCategoryScoreGrid({ values = {}, onCategoryClic
       </div>
     </section>
   );
-}
-
-/**
- * Hitung rata-rata skor per kategori dari scoreSummaryRows (bentuk
- * yang sama dipakai buildInsights() di DashboardOverviewTab). Dipakai
- * sebagai fallback ringan kalau container belum mengirim
- * stats.categoryAverages secara eksplisit.
- */
-export function buildCategoryAverages(rows = []) {
-  const byCategory = new Map();
-  rows.forEach((row) => {
-    if (!row.category || row.score == null) return;
-    const prev = byCategory.get(row.category) || { total: 0, count: 0 };
-    byCategory.set(row.category, {
-      total: prev.total + row.score,
-      count: prev.count + 1,
-    });
-  });
-
-  const result = { skd: null, twk: null, tiu: null, tkp: null };
-  byCategory.forEach(({ total, count }, category) => {
-    if (category in result) result[category] = total / count;
-  });
-  return result;
 }

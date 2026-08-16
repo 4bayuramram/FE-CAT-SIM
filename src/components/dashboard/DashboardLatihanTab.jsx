@@ -6,25 +6,16 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import { questionService } from "../../services/questionService";
 
 /**
- * DashboardLatihanTab — isi tab "Latihan".
+ * DashboardLatihanTab — isi tab "Latihan". Beda dari "Paket Saya"
+ * (Supabase), tab ini nampilin paket jalur hardcode/non-DB
+ * (src/data/paket1-4.js via src/engine/*) — gratis, tanpa login/beli,
+ * diambil langsung dari questionService.getAll().
  *
- * Beda dari tab "Paket Saya" (DashboardPackagesTab, sumber data:
- * Supabase `packages` + `user_package_access`), tab ini nampilin paket
- * dari JALUR HARDCODE/NON-DB (src/data/paket1-4.js, dieksekusi lewat
- * src/engine/*, lihat CHANGELOG-FREE-FLOW.md) — semuanya gratis, tidak
- * perlu login/beli, jadi datanya diambil langsung dari
- * questionService.getAll() (client-side, tidak ada fetch).
- *
- * questionCount & durationMinutes DIHITUNG dari data asli
- * (questions.length, duration/60000) — bukan angka hardcode terpisah —
- * supaya tidak ada lagi mismatch antara yang ditampilkan vs yang
- * benar-benar berjalan saat ujian (lihat catatan lama soal paket1: UI
- * pernah bilang "110 Soal / 95 Menit" padahal datanya 80 soal).
+ * questionCount & durationMinutes dihitung dari data asli (bukan
+ * hardcode terpisah) supaya tidak mismatch dengan yang berjalan saat ujian.
  *
  * Props:
- * - onStartPackage(paketId): dipanggil saat tombol "Mulai Latihan"
- *   diklik — pemanggil (DashboardPageContainer) yang navigate ke
- *   `/exam-page/:paketId`.
+ * - onStartPackage(paketId): navigate ke /exam-page/:paketId (oleh pemanggil).
  */
 export default function DashboardLatihanTab({ onStartPackage }) {
   const paketList = questionService.getAll();

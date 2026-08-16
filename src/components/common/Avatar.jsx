@@ -1,18 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 /**
- * Avatar — TODO §6 "Avatar Default".
- *
- * Menampilkan foto profil kalau ada (avatar_url dari Google, dsb).
- * Kalau tidak ada foto (user daftar manual) atau foto gagal dimuat,
- * fallback otomatis ke lingkaran berisi INISIAL NAMA — bukan gambar
- * placeholder statis (/default-avatar.png) seperti sebelumnya.
- *
- * Contoh: "Budi Santoso" -> "BS".
- *
- * Warna latar dibuat konsisten per nama (deterministic hash), supaya
- * user yang sama selalu dapat warna yang sama tiap kali avatar-nya
- * dirender ulang.
+ * Avatar — foto profil dengan fallback ke inisial nama (bukan gambar
+ * placeholder statis) kalau src kosong atau gagal dimuat.
+ * Warna latar konsisten per nama (deterministic hash).
  */
 
 const COLORS = [
@@ -50,15 +41,16 @@ export default function Avatar({
   className = "",
 }) {
   const [imgError, setImgError] = useState(false);
-  const showImage = !!src && !imgError;
+  const [prevSrc, setPrevSrc] = useState(src);
 
-  // Reset status error setiap kali src berubah — mencegah avatar
-  // "nyangkut" jadi inisial selamanya kalau src sebelumnya sempat gagal
-  // (mis. render pertama null lalu berubah jadi URL asli begitu sesi
-  // auth selesai dimuat).
-  useEffect(() => {
+  // Reset imgError saat src berubah — dihitung saat render (bukan di
+  // useEffect) supaya tidak ada extra render/cascading update.
+  if (src !== prevSrc) {
+    setPrevSrc(src);
     setImgError(false);
-  }, [src]);
+  }
+
+  const showImage = !!src && !imgError;
 
   if (showImage) {
     return (
@@ -66,15 +58,8 @@ export default function Avatar({
         src={src}
         alt={name || "avatar"}
         className={`${size} rounded-full object-cover border border-white ${className}`}
-        // PENTING: CDN foto profil Google (lh3.googleusercontent.com)
-        // sering menolak request (403) kalau browser mengirim header
-        // Referer standar dari domain kita — beberapa browser/adblocker
-        // juga menganggapnya request tracking dan memblokirnya duluan.
-        // Tanpa referrerPolicy="no-referrer", <img> ini diam-diam gagal
-        // load, onError langsung terpicu, dan fallback ke inisial —
-        // padahal src-nya valid. Ini penyebab avatar Google selalu jadi
-        // inisial meskipun avatar_url sudah benar diambil dari
-        // user_metadata.
+        // no-referrer: CDN Google (lh3.googleusercontent.com) sering
+        // menolak request (403) kalau ada header Referer dari domain kita.
         referrerPolicy="no-referrer"
         onError={() => setImgError(true)}
       />

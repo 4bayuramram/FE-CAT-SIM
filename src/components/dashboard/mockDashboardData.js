@@ -1,26 +1,13 @@
 /**
- * mockDashboardData.js
+ * mockDashboardData.js — data contoh, fallback DashboardPageContainer
+ * saat data Supabase belum ada. Pola sama mockResultData.js.
  *
- * Data contoh (hardcode) untuk halaman Dashboard, dipakai sebagai
- * FALLBACK oleh DashboardPageContainer ketika data asli dari Supabase
- * belum ada (mis. user belum pernah beli paket, tabel masih kosong
- * saat development, atau query gagal). Pola sama seperti
- * components/result/mockResultData.js (MOCK_RESULT) yang sudah ada di
- * project ini.
+ * Bentuk object sama persis data asli (lihat props DashboardPageDb.jsx)
+ * — begitu data asli tersedia, tidak ada perubahan di komponen manapun.
  *
- * PENTING -- future-proof: bentuk object ini SAMA PERSIS dengan bentuk
- * data asli yang disusun DashboardPageContainer (lihat komentar
- * props di DashboardPageDb.jsx). Begitu data asli tersedia, tidak ada
- * perubahan apa pun yang dibutuhkan di komponen manapun -- cukup
- * DashboardPageContainer berhenti memakai fallback ini.
- *
- * `featuredLeaderboard.rows` sengaja mengikuti bentuk keluaran
- * services/leaderboard/mapToLeaderboardRows.js (rank, id, name,
- * avatarUrl, location, score, duration, variant) supaya
- * DashboardMiniLeaderboardCard tidak perlu tahu bedanya data asli vs
- * contoh.
+ * featuredLeaderboard.rows ikut bentuk mapToLeaderboardRows.js supaya
+ * DashboardMiniLeaderboardCard tidak perlu bedakan data asli vs contoh.
  */
-
 export const MOCK_DASHBOARD_DATA = {
   isMock: true,
 

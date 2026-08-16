@@ -2,18 +2,15 @@ import MilitaryTechRoundedIcon from "@mui/icons-material/MilitaryTechRounded";
 
 /**
  * DashboardMiniLeaderboardCard — cuplikan top 3 + posisi user untuk 1
- * paket "unggulan" (biasanya paket dengan peringkat terbaik user).
+ * paket unggulan (biasanya peringkat terbaik user).
  *
- * Menerima `rows` yang SUDAH di-map lewat
- * services/leaderboard/mapToLeaderboardRows.js (reuse langsung, bukan
- * bentuk data baru) — field yang dipakai: rank, id, name, avatarUrl,
- * score, variant ("current" | "normal" | "hidden").
+ * `rows` sudah di-map lewat mapToLeaderboardRows.js (reuse langsung) —
+ * field: rank, id, name, avatarUrl, score, variant.
  *
  * Props:
  * - packageTitle: string
- * - rows: hasil mapToLeaderboardRows, akan diambil top 3-nya
- * - currentUserRow: row user sendiri (dari mapToLeaderboardRows), tetap
- *   ditampilkan terpisah di bawah kalau posisinya di luar top 3
+ * - rows: hasil mapToLeaderboardRows, diambil top 3
+ * - currentUserRow: row user sendiri, tampil terpisah kalau di luar top 3
  * - onSeeAllClick
  */
 export default function DashboardMiniLeaderboardCard({

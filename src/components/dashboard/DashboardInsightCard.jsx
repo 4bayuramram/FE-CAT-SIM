@@ -1,11 +1,9 @@
 import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
 
 /**
- * DashboardInsightCard — pilar "Insight": daftar insight singkat,
- * dihitung SEDERHANA (bukan AI, sesuai roadmap) dari scoreSummaryRows
- * yang sudah ada — lihat buildInsights() di DashboardOverviewTab.jsx.
- * Tidak interaktif / tidak punya focus click, sesuai catatan "Insight
- * cukup singkat".
+ * DashboardInsightCard — daftar insight singkat, dihitung sederhana
+ * dari scoreSummaryRows — lihat buildInsights() di
+ * DashboardOverviewTab.jsx. Tidak interaktif.
  *
  * Props:
  * - insights: string[]

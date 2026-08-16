@@ -3,9 +3,8 @@ import DashboardWelcomeHeader from "./DashboardWelcomeHeader";
 import DashboardContinueCard from "./DashboardContinueCard";
 import DashboardProgressCard from "./DashboardProgressCard";
 import DashboardStatsGrid from "./DashboardStatsGrid";
-import DashboardCategoryScoreGrid, {
-  buildCategoryAverages,
-} from "./DashboardCategoryScoreGrid";
+import DashboardCategoryScoreGrid from "./DashboardCategoryScoreGrid";
+import { buildCategoryAverages } from "../../utils/categoryScoreUtils";
 import DashboardInsightCard from "./DashboardInsightCard";
 import DashboardRecentActivityCard from "./DashboardRecentActivityCard";
 import DashboardSkdRankingSection from "./DashboardSkdRankingSection";
@@ -23,46 +22,25 @@ const FOCUS_TITLES = {
 };
 
 /**
- * DashboardOverviewTab — isi tab "Ringkasan" (Home Dashboard utama
- * peserta), v2 sesuai roadmap "dashboard optimize".
+ * DashboardOverviewTab — isi tab "Ringkasan".
  *
- * STRUKTUR HALAMAN (urutan, dari atas ke bawah — sengaja lebih
- * panjang/scroll ke bawah dibanding v1):
- * 1. Hero (DashboardWelcomeHeader) — sapaan + subtitle dinamis
- * 2. Next Action (DashboardContinueCard) — SATU CTA utama, langsung aksi
- * 3. Progress (DashboardProgressCard) — klik → focus daftar paket
- * 4. Card Statistik (DashboardStatsGrid) — tiap kartu klik → focus terkait
- * 4b. Rata-rata Skor per Kategori (DashboardCategoryScoreGrid) — 4
- *    kartu SKD/TWK/TIU/TKP, statis (tidak diklik)
- * 5. Insight (DashboardInsightCard) — statis, tidak diklik
- * 6. Aktivitas Terakhir (DashboardRecentActivityCard) — klik → focus detail
- * 7. Peringkat SKD (DashboardSkdRankingSection) — PENGGANTI "Top
- *    Peserta" lama: 3 kartu (nasional/provinsi/kabupaten-kota), murni
- *    posisi relatif user berbasis skor SKD, sudah punya CTA langsung
- *    sendiri ("Lihat Leaderboard Lengkap"), sengaja TIDAK dibuat
- *    focus-click juga supaya tidak ada 2 pola berbeda untuk aksi yang
- *    sama.
+ * Urutan halaman: Hero → Next Action (CTA utama) → Progress → Stats
+ * Grid → Rata-rata Skor per Kategori (statis) → Insight (statis) →
+ * Aktivitas Terakhir → Peringkat SKD (CTA sendiri, tidak focus-click
+ * supaya tidak dobel pola).
  *
- * MEKANISME FOCUS: klik section (kecuali Next Action & Peringkat SKD,
- * yang CTA-nya sudah final) mengganti konten tab ini ke DETAIL section
- * itu lewat state lokal `focus` (BUKAN route baru → dashboard tetap
- * ringan), dengan DashboardFocusBackBar ("Kembali") di atasnya. Dari
- * view fokus itulah baru ada aksi yang benar-benar pindah
- * halaman/tab (mulai simulasi, buka pembahasan, buka leaderboard,
- * pindah ke tab Skor & Peringkat).
+ * Klik section (kecuali Next Action & Peringkat SKD) ganti konten tab
+ * ke detail section via state lokal `focus` (bukan route baru),
+ * dengan DashboardFocusBackBar buat kembali.
  *
- * SUMBER DATA: Insight & Aktivitas Terakhir dihitung SEDERHANA (bukan
- * AI) langsung dari `scoreSummaryRows` yang SUDAH dikirim container —
- * lihat buildInsights() & pickRecentActivity() di bawah. Field yang
- * belum tersedia dari backend (peringkat real-time, total peserta,
- * tanggal pengerjaan) ditampilkan best-effort dengan fallback yang
- * jelas (lihat DashboardPositionCard), siap tersambung otomatis begitu
- * DashboardPageContainer mengirim field itu — TIDAK ADA perubahan kode
- * yang dibutuhkan di komponen manapun.
+ * Insight & Aktivitas Terakhir dihitung sederhana dari
+ * scoreSummaryRows (lihat buildInsights() & pickRecentActivity()).
+ * Field yang belum ada dari backend pakai fallback (lihat
+ * DashboardPositionCard), otomatis kepakai begitu backend kirim field
+ * itu — tanpa perlu ubah kode komponen.
  *
- * Props: sama seperti DashboardPageDb, ditambah `packages`,
- * `scoreSummaryRows`, `onPackageDetail`, `onPackageLeaderboard`,
- * `onGoToScoresTab` untuk kebutuhan focus view.
+ * Props: sama DashboardPageDb + packages, scoreSummaryRows,
+ * onPackageDetail, onPackageLeaderboard, onGoToScoresTab.
  */
 export default function DashboardOverviewTab({
   profile,

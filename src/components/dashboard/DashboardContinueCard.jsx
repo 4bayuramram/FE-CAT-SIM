@@ -1,25 +1,14 @@
 import RocketLaunchRoundedIcon from "@mui/icons-material/RocketLaunchRounded";
 
 /**
- * DashboardContinueCard — ajakan aksi utama di bagian atas dashboard.
- *
- * Empat kondisi:
- * 1. `nextPackage.status === "in_progress"` (ada sesi ujian yang
- *    belum diselesaikan) -> ajak LANJUTKAN paket itu, prioritas
- *    tertinggi karena paling mendesak.
- * 2. `nextPackage` diisi tapi belum in_progress (ada paket dimiliki
- *    yang belum pernah disentuh) -> ajak mulai paket itu.
- * 3. `nextPackage` kosong tapi `hasAnyPackage` true (semua paket yang
- *    dimiliki sudah pernah dikerjakan) -> ajak lihat leaderboard/eksplor
- *    paket baru.
- * 4. `hasAnyPackage` false (belum punya paket sama sekali) -> ajak ke
- *    halaman Try Out untuk beli paket pertama.
+ * DashboardContinueCard — ajakan aksi utama dashboard, 4 kondisi:
+ * in_progress (lanjutkan) > belum disentuh (mulai) > semua sudah
+ * dikerjakan (eksplor paket baru) > belum punya paket (ke Try Out).
  *
  * Props:
  * - nextPackage: { id, title, status? } | null
  * - hasAnyPackage: boolean
- * - onStart(): handler tombol utama (arahkan ke /try-out/:id/info atau
- *   /home/simulasi tergantung kondisi, ditentukan oleh pemanggil)
+ * - onStart(): handler tombol utama, target route ditentukan pemanggil.
  */
 export default function DashboardContinueCard({
   nextPackage,
