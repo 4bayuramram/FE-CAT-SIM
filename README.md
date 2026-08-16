@@ -4,16 +4,18 @@ CPNZ adalah platform simulasi ujian CAT (Computer Assisted Test) untuk seleksi C
 
 🔗 **Live demo:** [cpnz.my.id](https://cpnz.my.id)
 
+> Repositori ini ditampilkan sebagai portofolio teknis. Ini adalah produk bisnis aktif — lihat bagian [Lisensi](#lisensi) di bawah.
+
 ## Fitur Utama
 
 - **Simulasi Ujian CAT** — timer real-time, navigasi soal, auto-submit saat waktu habis
-- **Try Out Gratis & Berbayar** — beberapa paket latihan gratis (non-DB) tanpa perlu login, paket premium tersimpan di database dengan sistem akses per user
+- **Try Out Gratis & Berbayar** — beberapa paket latihan gratis tanpa perlu login, paket premium dengan sistem akses per user
 - **Penilaian Otomatis** — skor per subtes (TWK/TIU/TKP), status kelulusan berdasarkan passing grade aktif, dan pembahasan tiap soal
 - **Leaderboard & Peringkat** — peringkat nasional, provinsi, dan kabupaten/kota berbasis skor SKD
 - **Dashboard Peserta** — ringkasan progres, riwayat skor, performa antar percobaan, dan riwayat transaksi
-- **Pembayaran Terintegrasi** — checkout paket premium via Midtrans, webhook otomatis untuk aktivasi akses
+- **Pembayaran Terintegrasi** — checkout paket premium, webhook otomatis untuk aktivasi akses
 - **Notifikasi Real-time** — pemberitahuan hasil ujian & status pembayaran tanpa perlu refresh halaman
-- **Autentikasi** — login manual dan Google OAuth, dengan pengisian data domisili wajib untuk keperluan peringkat wilayah
+- **Autentikasi** — login manual dan Google OAuth
 
 ## Tech Stack
 
@@ -22,70 +24,36 @@ CPNZ adalah platform simulasi ujian CAT (Computer Assisted Test) untuk seleksi C
 | Frontend | React + Vite |
 | Styling | Tailwind CSS |
 | Backend / Database | Supabase (PostgreSQL, Auth, Realtime) |
-| Serverless Function | Cloudflare Workers (webhook pembayaran) |
+| Serverless Function | Cloudflare Workers |
 | Payment Gateway | Midtrans |
 | Rendering Matematika | KaTeX |
-| PDF Generation | react-pdf (struk transaksi & hasil ujian) |
+| PDF Generation | react-pdf |
 
 ## Struktur Proyek
 
 ```
 src/
-├── components/       # Komponen UI per fitur (dashboard, exam, leaderboard, dll)
-├── pages/             # Halaman utama (auth, payment, dashboard, simulasi)
-├── services/          # Fungsi query ke Supabase (auth, payment, leaderboard)
-├── engine/            # Logika eksekusi soal untuk paket try out gratis (non-DB)
-├── lib/               # Klien Supabase & util inti
-├── utils/             # Helper functions (format, validasi, transformasi data)
-├── hooks/             # Custom React hooks
-├── routes/            # Definisi routing aplikasi
-└── data/              # Data soal untuk paket try out gratis
+├── components/    # Komponen UI per fitur (dashboard, exam, leaderboard, dll)
+├── pages/         # Halaman utama (auth, payment, dashboard, simulasi)
+├── services/      # Fungsi query ke Supabase (auth, payment, leaderboard)
+├── engine/        # Logika eksekusi soal untuk paket try out gratis
+├── lib/           # Klien Supabase & util inti
+├── utils/         # Helper functions
+├── hooks/         # Custom React hooks
+└── routes/        # Definisi routing aplikasi
 ```
 
-## Menjalankan Secara Lokal
+## Keamanan
 
-### Prasyarat
-- Node.js 18+
-- Akun [Supabase](https://supabase.com) (untuk database & auth)
-- Akun [Midtrans](https://midtrans.com) sandbox (opsional, untuk fitur pembayaran)
-
-### Instalasi
-
-```bash
-git clone https://github.com/<username>/cpnz.git
-cd cpnz
-npm install
-```
-
-### Konfigurasi Environment
-
-Buat file `.env` di root project:
-
-```
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-> Anon key Supabase aman diekspos ke client selama Row Level Security (RLS) aktif di seluruh tabel. Secret key (service role, Midtrans server key) disimpan terpisah di environment Cloudflare Worker, tidak pernah masuk ke kode frontend.
-
-### Jalankan Development Server
-
-```bash
-npm run dev
-```
-
-## Skema Database (Ringkas)
-
-Beberapa tabel utama di Supabase:
-- `user_profile` — data profil & domisili peserta
-- `packages` — daftar paket try out premium
-- `user_package_access` — kepemilikan akses paket per user
-- `exam_results` — hasil ujian & skor per subtes
-- `payments` — riwayat transaksi Midtrans
-- `notifications` — notifikasi real-time per user
-
-Semua tabel dilindungi RLS policy agar user hanya bisa mengakses datanya sendiri.
+Semua tabel database dilindungi Row Level Security (RLS), sehingga setiap user hanya dapat mengakses datanya sendiri. Kredensial rahasia (service role key, payment gateway server key) disimpan di environment server-side terpisah dan tidak pernah masuk ke kode frontend.
 
 ## Lisensi
 
-Project ini dibuat untuk keperluan binsnis dan portofolio.
+**Hak cipta © 2026 Bayu Ramram. Seluruh hak dilindungi.**
+
+Kode dalam repositori ini dipublikasikan **khusus untuk tujuan portofolio dan peninjauan teknis** (misalnya oleh perekrut/recruiter). Tidak ada izin yang diberikan untuk:
+- Menyalin, memodifikasi, atau mendistribusikan kode ini
+- Menjalankan, men-deploy, atau menggunakan kode ini untuk tujuan apa pun, termasuk komersial maupun non-komersial
+- Membuat karya turunan berdasarkan kode ini
+
+Untuk pertanyaan terkait lisensi atau kolaborasi, silakan hubungi pemilik repositori.
