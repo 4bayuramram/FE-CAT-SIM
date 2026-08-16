@@ -88,4 +88,4 @@ Semua tabel dilindungi RLS policy agar user hanya bisa mengakses datanya sendiri
 
 ## Lisensi
 
-Project ini dibuat untuk keperluan portofolio pribadi.
+Project ini dibuat untuk keperluan binsnis dan portofolio.
